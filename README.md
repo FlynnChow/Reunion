@@ -1,5 +1,5 @@
 # Reunion(重逢)
-**"重逢" 客户端(Android)项目开源**
+**“Reunion”客户端(Android)项目开源**
 # Create by
 **2020-01-09**
 # 关于应用
@@ -16,6 +16,6 @@
 ****
 # 关于应用
 ## 开源许可
-[开源许可说明]()
+[开源许可说明](https://github.com/CappuccinoZero/Reunion/blob/master/LICENSE)
 ## 版权声明
 © 开发者及团队保留所有权利，未经许可不可用于商业用途
