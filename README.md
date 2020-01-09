@@ -12,6 +12,6 @@
 ****
 # 关于应用
 ## 开源许可
-[开源许可说明]()
+[开源许可说明](https://github.com/CappuccinoZero/Reunion/blob/add-license-3/LICENSE#L12)
 ## 版权声明
 © 开发者及团队保留所有权利，未经许可不可用于商业用途
