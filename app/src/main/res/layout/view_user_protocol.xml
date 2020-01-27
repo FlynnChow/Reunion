@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.reunion.viewmodel.LoginViewModel" />
+        <variable
+            name="activity"
+            type="com.example.reunion.view.LoginActivity" />
+    </data>
+
+    <LinearLayout
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="100dp"
+        android:id="@+id/loginProtocolLayout"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <CheckBox
+            style="@style/CircleCheckBox"
+            android:checked="@={viewModel.checked}"
+            android:gravity="center"
+            android:background="@null"
+            android:id="@+id/loginAgree"
+            android:layout_width="22dp"
+            android:layout_height="22dp" />
+
+        <TextView
+            android:onClick="@{activity::onCheckBoxClick}"
+            android:layout_marginStart="4dp"
+            android:textSize="@dimen/loginAgree"
+            android:text="@string/login_proto_agree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/loginAgreeProtocol"
+            android:textSize="@dimen/userProto"
+            android:text="@string/login_user_proto"
+            android:textColor="@color/userProto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/loginAgreePrivacy"
+            android:textSize="@dimen/userProto"
+            android:text="@string/login_privacy_proto"
+            android:textColor="@color/userProto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</layout>

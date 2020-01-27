@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.lang.Exception
 
 abstract class BaseViewModel:ViewModel() {
@@ -20,6 +21,7 @@ abstract class BaseViewModel:ViewModel() {
         }catch (e:Exception){
             error.value = e
         }
+        runBlocking {  }
     }
 
     protected fun launchIO(block:suspend ()->Unit) = viewModelScope.launch(Dispatchers.IO) {

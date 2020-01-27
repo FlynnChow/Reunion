@@ -3,4 +3,25 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="mainColor">#FF6868</color>
+    <color name="spaceColor">#FFFFFF</color>
+    <color name="iconColor">#757575</color>
+    
+    <color name="firstTitle">#2A2A2A</color>
+    <color name="secondTitle">#757575</color>
+
+    <color name="loginAgree">#929292</color>
+    <color name="userProto">#007AFF</color>
+    
+    <color name="phoneLoginOK">#FF6868</color>
+    <color name="phoneLoginNo">#80FF6868</color>
+
+    <color name="authorizeLoginOK">#01BF67</color>
+    <color name="authorizeLoginNo">#8001BF67</color>
+
+    <color name="retryOK">#007AFF</color>
+    <color name="retryNo">#B7B7B7</color>
+
+    <color name="login_phone">#FFFFFF</color>
 </resources>

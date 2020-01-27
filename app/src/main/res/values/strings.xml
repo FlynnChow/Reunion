@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">Reunion</string>
+
+    <string name="login_text">Reunion</string>
+    <string name="login_phone">手机号登录</string>
+    <string name="login_authorize">微信登录</string>
+    <string name="login_code">获取验证码</string>
+    <string name="login_phone_edit">请输入您的手机号</string>
+    <string name="login_proto_agree">登录即代表您同意</string>
+    <string name="login_user_proto">《用户协议》</string>
+    <string name="login_privacy_proto">《隐私政策》</string>
+
+    <string name="log_code_edit">输入验证码</string>
+    <string name="log_phone_title">请输入验证码</string>
+    <string name="log_phone_text">验证码已通过短信发送至</string>
+    <string name="log_phone_login">登录</string>
+    <string name="log_phone_fail">收不到验证码？</string>
+
+    <string-array name="phoneSpinner">
+        <item>+86</item>
+    </string-array>
 </resources>

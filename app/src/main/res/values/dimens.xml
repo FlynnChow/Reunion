@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="firstTitle">14sp</dimen>
+    <dimen name="secondTitle">12sp</dimen>
+
+    <dimen name="loginAgree">10sp</dimen>
+    <dimen name="userProto">10sp</dimen>
+
+    <dimen name="login_phone">14dp</dimen>
+    <dimen name="login_authorize">14dp</dimen>
+</resources>

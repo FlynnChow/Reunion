@@ -4,13 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.example.reunion.viewmodel.LoginViewModel" />
+        <variable
+            name="activity"
+            type="com.example.reunion.view.LoginActivity" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.LoginActivity">
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/loginBack"
+            android:onClick="@{activity::onBackClick}"
+            android:clickable="true"
+            android:src="@drawable/temp_icon"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"/>
+        <FrameLayout
+            android:id="@+id/loginFragment"
+            android:layout_above="@+id/loginProtocolLayout"
+            android:layout_below="@id/loginBack"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <include
+            app:viewModel="@{viewModel}"
+            app:activity="@{activity}"
+            layout="@layout/view_user_protocol"/>
+    </RelativeLayout>
 </layout>
