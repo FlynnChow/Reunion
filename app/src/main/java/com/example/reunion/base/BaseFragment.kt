@@ -2,6 +2,7 @@ package com.example.reunion.base
 
 import android.app.Application
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,10 +23,19 @@ abstract class BaseFragment:Fragment() {
     var savedInstanceState: Bundle? = null
 
     @Suppress("UNCHECKED_CAST")
-    protected fun <T : BaseViewModel> setViewModel(owner: ViewModelStoreOwner, modelClass: Class<T>):T{
+    protected fun <T : BaseViewModel> setViewModel(owner: BaseActivity, modelClass: Class<T>):T{
         val mViewModel = ViewModelProvider(owner).get(modelClass)
-        mViewModel.error.observe(this, Observer {
-            toast("异常: "+it.message)
+        return mViewModel
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    protected fun <T : BaseViewModel> setViewModel(owner: BaseFragment, modelClass: Class<T>):T{
+        val mViewModel = ViewModelProvider(owner).get(modelClass)
+        mViewModel.error.observe(owner, Observer {
+            toast(it.message)
+        })
+        mViewModel.toast.observe(owner, Observer {
+            toast(it)
         })
         return mViewModel
     }

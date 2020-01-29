@@ -97,8 +97,14 @@ class LoginActivity : BaseActivity() {
         else
             resources.getColor(R.color.retryNo)
 
-    fun getLoginButtonResource(checked:Boolean)=
+    fun getPhoneButtonResource(checked:Boolean)=
         (if (checked)
+            resources.getDrawable(R.drawable.login_phone_button_ok)
+        else
+            resources.getDrawable(R.drawable.login_phone_button_no))!!
+
+    fun getLoginButtonResource(checked:Boolean,isRetry:Boolean)=
+        (if (checked&&!isRetry)
             resources.getDrawable(R.drawable.login_phone_button_ok)
         else
             resources.getDrawable(R.drawable.login_phone_button_no))!!

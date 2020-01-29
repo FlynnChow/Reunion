@@ -2,12 +2,10 @@ package com.example.reunion.base
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
+import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.RuntimeException
+import java.net.ConnectException
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -18,7 +16,7 @@ abstract class BaseRemoteResource {
         @JvmStatic
         val BASE_URL_FACE = ""
         @JvmStatic
-        val BASE_URL_SERVER = ""
+        val BASE_URL_SERVER = "http://47.106.146.115:8080/"
         @JvmStatic
         val client:OkHttpClient by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
             OkHttpClient.Builder().run {
@@ -55,7 +53,13 @@ abstract class BaseRemoteResource {
         return suspendCoroutine {
             enqueue(object : Callback<T> {
                 override fun onFailure(call: Call<T>, t: Throwable) {
-                    it.resumeWithException(t)
+                    if (t is HttpException){
+                        it.resumeWithException(ConnectException("网络正在开小差"))
+                    }else if(t is ConnectException){
+                        it.resumeWithException(ConnectException("网络连接失败"))
+                    }
+                    else
+                        it.resumeWithException(t)
                 }
 
                 override fun onResponse(call: Call<T>, response: Response<T>) {
@@ -63,7 +67,20 @@ abstract class BaseRemoteResource {
                     if (body != null){
                         it.resume(body)
                     }else{
-                        it.resumeWithException(RuntimeException("BodyNullException"))
+                        val code = response.code()
+                        when(code){
+                            in 100 until 200->{
+                                it.resumeWithException(RuntimeException("服务器正在处理"))
+                            }
+                            in 300 until 400->{
+                                it.resumeWithException(RuntimeException("应用异常"))
+                            }
+                            in 400 until 500->{
+                                it.resumeWithException(RuntimeException("服务异常"))
+                            }else ->{
+                                it.resumeWithException(RuntimeException("服务异常"))
+                            }
+                        }
                     }
                 }
             })

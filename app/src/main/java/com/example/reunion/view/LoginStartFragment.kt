@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.example.reunion.R
+import com.example.reunion.base.BaseActivity
 import com.example.reunion.base.BaseFragment
 import com.example.reunion.databinding.ViewLoginStartBinding
 import com.example.reunion.viewmodel.LoginViewModel
@@ -16,7 +17,7 @@ class LoginStartFragment: BaseFragment() {
     private lateinit var mBinding:ViewLoginStartBinding
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        mBinding.viewModel = setViewModel(activity!!,LoginViewModel::class.java)
+        mBinding.viewModel = setViewModel(activity as BaseActivity,LoginViewModel::class.java)
         mBinding.activity = activity as LoginActivity
     }
 

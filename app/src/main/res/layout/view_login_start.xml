@@ -52,7 +52,7 @@
                 android:onClick="@{viewModel::showPhoneView}"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:background="@{activity.getLoginButtonResource(viewModel.checked)}"
+                android:background="@{activity.getPhoneButtonResource(viewModel.checked)}"
                 android:clickable="@{viewModel.checked}"
                 android:layout_width="match_parent"
                 android:layout_height="42dp">

@@ -5,14 +5,18 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.example.reunion.base.BaseViewModel
+import com.example.reunion.repostory.local_resource.UserHelper
+import com.example.reunion.repostory.remote_resource.LoginRemoteModel
 import kotlinx.coroutines.delay
 import java.sql.Time
 import java.util.*
 
-class LoginViewModel():BaseViewModel() {
+class LoginViewModel:BaseViewModel() {
+
+    private val remoteModel by lazy { LoginRemoteModel() }
+
     //checkbox 选中状态
     val checked = MutableLiveData<Boolean>(false)
-
     val startVisibility = MutableLiveData<Int>(View.VISIBLE)
     val phoneVisibility = MutableLiveData<Int>(View.INVISIBLE)
 
@@ -21,8 +25,6 @@ class LoginViewModel():BaseViewModel() {
     var vCode = MutableLiveData<String>("") //验证码
 
     var areaCode = MutableLiveData<String>("+86") //区号
-
-    var replyText = MutableLiveData<String>("60秒后重新获取") //重新获取文本
 
     val replyNum = MutableLiveData<Int>(60) //重新获取倒计时
 
@@ -45,28 +47,36 @@ class LoginViewModel():BaseViewModel() {
     }
 
     fun getTimeText(num:Int) =
-        if(num>0){
+        if(num in 1..59){
             num.toString()+"秒后可重新获取"
-        }else{
+        }else {
             "获取验证码"
         }
 
-    private fun onStartTask (){
+
+    fun onPhoneLogin(){
         launch {
-            val job = launch {
-                repeat(60){
-                    replyNum.value = 60 - it - 1
-                    delay(1000L)
+            val userBody = remoteModel.onPhoneLogin(mobileNumber.value!!,vCode.value!!)
+            when(userBody.code){
+                200->{
+                    if(userBody.data!=null){
+                        val data = userBody.data
+                        UserHelper.login(data,userBody.time)
+                    }else{
+                        toast.value = "登录失败，请重试"
+                    }
+                }
+                400->{
+                    toast.value = "验证码错误！"
+                }else ->{
+                    toast.value = "发生未知错误，请重试"
                 }
             }
-            job.join()
-            isReply.value = true
         }
     }
 
-    fun onPhoneLogin(){
-
-    }
+    //判断是否可以登录
+    fun isLogin(checked:Boolean,isRetry:Boolean)= checked&&!isRetry
 
     fun clearNumber(view:View){
         mobileNumber.value = ""
@@ -74,8 +84,36 @@ class LoginViewModel():BaseViewModel() {
 
     fun onGetVCode(view:View ?= null){
         if (isReply.value == true){
-            isReply.value = false
-            onStartTask()
+            onSendMessage(mobileNumber.value!!)
+        }else{
+            toast.value = "请${replyNum.value}秒后再重试"
+        }
+        isReply.value = false
+    }
+
+    private fun onSendMessage(phone:String){
+        launch {
+            val codeMessage = remoteModel.onSendMessage(phone)
+            when (codeMessage.return_code) {
+                "00000" -> {
+                    isReply.value = false
+                    toast.value = "发送短信成功"
+                    val job = launch {
+                        repeat(60){
+                            replyNum.value = 60 - it - 1
+                            delay(1000L)
+                        }
+                    }
+                    job.join()
+                    isReply.value = true
+                }
+                "10007" -> {
+                    toast.value = "未找到号码归属地"
+                }
+                else -> {
+                    toast.value = "服务出错了"
+                }
+            }
         }
     }
 }

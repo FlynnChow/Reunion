@@ -1,8 +1,5 @@
 package com.example.reunion.util
 
-import android.util.Log
-import java.util.regex.Pattern
-
 object NormalUtil {
     fun isMobile(phone:String?):Boolean{
         if (phone==null||phone.length != 11)
@@ -17,6 +14,4 @@ object NormalUtil {
         }
         return true
     }
-
-
 }

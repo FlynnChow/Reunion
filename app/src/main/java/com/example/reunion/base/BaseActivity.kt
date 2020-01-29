@@ -3,6 +3,7 @@ import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -20,10 +21,13 @@ abstract class BaseActivity: AppCompatActivity() {
 
 
     @Suppress("UNCHECKED_CAST")
-    protected fun <T : BaseViewModel> setViewModel(owner: ViewModelStoreOwner,modelClass: Class<T>):T{
+    protected fun <T : BaseViewModel> setViewModel(owner: BaseActivity,modelClass: Class<T>):T{
         val mViewModel = ViewModelProvider(owner).get(modelClass)
-        mViewModel.error.observe(this, Observer {
-            toast("异常: "+it.message)
+        mViewModel.error.observe(owner , Observer {
+            toast(it.message)
+        })
+        mViewModel.toast.observe(owner, Observer {
+            toast(it)
         })
         return mViewModel
     }

@@ -12,6 +12,8 @@ abstract class BaseViewModel:ViewModel() {
     //用于记录异常
     val error by lazy { MutableLiveData<Throwable>() }
 
+    val toast by lazy { MutableLiveData<String>() }
+
     /**
      * 各种协程方法，出现异常直接显示
      */
