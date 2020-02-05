@@ -1,5 +1,6 @@
 package com.example.reunion.base
 
+import com.example.reunion.repostory.remote_resource.ServerApi
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import retrofit2.*
@@ -27,7 +28,7 @@ abstract class BaseRemoteResource {
         }
 
         @JvmStatic
-        val serverRetrofit by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+        private val serverRetrofit: Retrofit by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
             Retrofit.Builder().run {
                 baseUrl(BASE_URL_SERVER)
                 addCallAdapterFactory(CoroutineCallAdapterFactory())
@@ -38,7 +39,10 @@ abstract class BaseRemoteResource {
         }
 
         @JvmStatic
-        val faceRetrofit by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+        fun getServiceRemote() = serverRetrofit.create(ServerApi::class.java)
+
+        @JvmStatic
+        private val faceRetrofit: Retrofit by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
             Retrofit.Builder().run {
                 baseUrl(BASE_URL_FACE)
                 addCallAdapterFactory(CoroutineCallAdapterFactory())
@@ -47,6 +51,8 @@ abstract class BaseRemoteResource {
                 build()
             }
         }
+
+        fun getFaceRemote() = faceRetrofit.create(ServerApi::class.java)
     }
 
     protected suspend fun <T> Call<T>.await():T{

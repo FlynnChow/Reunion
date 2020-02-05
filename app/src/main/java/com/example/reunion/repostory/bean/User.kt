@@ -2,10 +2,11 @@ package com.example.reunion.repostory.bean
 
 
 class User {
-    val code = 0
-    val msg = ""
-    val time:Long = 0L
-    val data:Data? = null
+    var code = 0
+    var msg = ""
+    var time:Long = 0L
+    var enCode = ""
+    var data:Data? = null
     class Data{
         var uId = ""
         var uName = ""

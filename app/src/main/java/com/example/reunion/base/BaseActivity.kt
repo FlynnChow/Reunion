@@ -1,9 +1,11 @@
 package com.example.reunion.base
+import android.Manifest
 import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -57,9 +59,11 @@ abstract class BaseActivity: AppCompatActivity() {
     /**
      * 必须的权限，拒绝会被finish
      */
-    protected fun checkMustPermission(perTable:Array<String>){
+    private fun checkMustPermission(){
         val permissions = ArrayList<String>()
-        val perTable = arrayOf<String>()
+        val perTable = arrayOf(
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE)
         for (permission in perTable){
             if (ContextCompat.checkSelfPermission(this,permission) != PackageManager.PERMISSION_GRANTED)
                 permissions.add(permission)
@@ -72,6 +76,7 @@ abstract class BaseActivity: AppCompatActivity() {
     final override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initActivity()
+        checkMustPermission()
         create(savedInstanceState)
     }
 

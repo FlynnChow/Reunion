@@ -5,7 +5,7 @@ import com.example.reunion.repostory.bean.User
 
 class HomeRemoteModel:BaseRemoteResource() {
 
-    suspend fun checkLogin():User{
-        return User()
+    suspend fun checkLogin(uid:String,time:Long,enCode:String):User{
+        return getServiceRemote().checkLogin(uid,time,enCode).await()
     }
 }

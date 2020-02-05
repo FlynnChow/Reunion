@@ -1,17 +1,18 @@
 package com.example.reunion.repostory.local_resource
 
 import android.annotation.SuppressLint
-import android.app.Application
 import android.content.SharedPreferences
-import android.util.Log
 import com.example.reunion.MyApplication
 import com.example.reunion.repostory.bean.User
+import com.example.reunion.util.StringDealerUtil
 
 object UserHelper {
     private var user:User.Data? = null
     private var isLogin = false
     private var isFirst = true
+    var enCode = ""
     var time = 0L
+    var timeMD = ""
     fun getUser():User.Data?{
         if(user == null && isFirst){
             synchronized(UserHelper::class.java){
@@ -50,13 +51,13 @@ object UserHelper {
     }
 
     @SuppressLint("CommitPrefEdits")
-    fun login(user: User.Data,time:Long){
-        this.user = user
+    fun login(user: User){
+        this.user = user.data
         val userPre = MyApplication.app.getSharedPreferences("userFile",0)
         val editor = userPre.edit()
         editor.putBoolean("isLogin",true)
         this.isLogin = true
-        saveUser(user,time,editor)
+        saveUser(user,editor)
     }
 
     fun updateTime(time:Long){
@@ -66,30 +67,35 @@ object UserHelper {
         editor.apply()
     }
 
-    private fun saveUser(user:User.Data,time:Long,editor:SharedPreferences.Editor){
-        editor.putLong("time",time)
-        editor.putString("address",user.uAddress)
-        editor.putString("birthday",user.uBirthday)
-        editor.putString("city",user.uCity)
-        editor.putInt("sex",user.uSex)
-        editor.putString("district",user.uDistrict)
-        editor.putString("headPortrait",user.uHeadPortrait)
-        editor.putString("uid",user.uId)
-        editor.putString("microblog",user.uMicroblog)
-        editor.putString("name",user.uName)
-        editor.putString("province",user.uProvince)
-        editor.putString("pw",user.uPw)
-        editor.putString("qq",user.uQq)
-        editor.putString("tele",user.uTele)
-        editor.putString("updateTime",user.uUpdateTime)
-        editor.putInt("volunteer",user.uVolunteer)
-        editor.putString("weChat",user.uWeChat)
+    private fun saveUser(user:User,editor:SharedPreferences.Editor){
+        val timeMD = StringDealerUtil.getEncryptString(user.time)
+        editor.putString("timeMD",timeMD)
+        editor.putLong("time",user.time)
+        editor.putString("enCode",user.enCode)
+        editor.putString("address",user.data?.uAddress)
+        editor.putString("birthday",user.data?.uBirthday)
+        editor.putString("city",user.data?.uCity)
+        editor.putInt("sex",user.data?.uSex!!)
+        editor.putString("district",user.data?.uDistrict)
+        editor.putString("headPortrait",user.data?.uHeadPortrait)
+        editor.putString("uid",user.data?.uId)
+        editor.putString("microblog",user.data?.uMicroblog)
+        editor.putString("name",user.data?.uName)
+        editor.putString("province",user.data?.uProvince)
+        editor.putString("pw",user.data?.uPw)
+        editor.putString("qq",user.data?.uQq)
+        editor.putString("tele",user.data?.uTele)
+        editor.putString("updateTime",user.data?.uUpdateTime)
+        editor.putInt("volunteer",user.data?.uVolunteer!!)
+        editor.putString("weChat",user.data?.uWeChat)
         editor.apply()
     }
 
     private fun getUserFromLocal(userPre:SharedPreferences):User.Data{
         val userData = User.Data()
         time = userPre.getLong("time",0L)
+        timeMD = userPre.getString("timeMD","")!!
+        enCode = userPre.getString("enCode","")!!
         userData.uAddress = userPre.getString("address","")!!
         userData.uBirthday = userPre.getString("birthday","")!!
         userData.uCity = userPre.getString("city","")!!

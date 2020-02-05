@@ -94,5 +94,8 @@ dependencies {
     //material
     implementation 'com.google.android.material:material:1.2.0-alpha04'
 
+    //选择器
     implementation 'com.github.arcadefire:nice-spinner:1.4.5'
+
+    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.4.6'
 }

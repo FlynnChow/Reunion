@@ -1,5 +1,9 @@
 package com.example.reunion.util
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
+import com.example.reunion.R
+
 object NormalUtil {
     fun isMobile(phone:String?):Boolean{
         if (phone==null||phone.length != 11)
@@ -14,4 +18,11 @@ object NormalUtil {
         }
         return true
     }
+
+    fun getGlideOption(skipMemoryCache:Boolean = true,diskCacheStrategy:Boolean = true) =
+         RequestOptions()
+            .placeholder(R.drawable.temp_icon)//占位图
+            .error(R.drawable.temp_icon)//加载错误图
+            .skipMemoryCache(!skipMemoryCache)
+            .diskCacheStrategy(if (diskCacheStrategy) DiskCacheStrategy.AUTOMATIC else DiskCacheStrategy.NONE)
 }

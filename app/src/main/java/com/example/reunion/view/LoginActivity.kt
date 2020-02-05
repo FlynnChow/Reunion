@@ -1,7 +1,6 @@
 package com.example.reunion.view
 
 import android.os.Bundle
-import android.os.UserHandle
 import android.util.Log
 import android.view.View
 import androidx.databinding.DataBindingUtil
@@ -10,10 +9,14 @@ import com.example.reunion.base.BaseActivity
 import com.example.reunion.databinding.ActivityLoginBinding
 import com.example.reunion.repostory.local_resource.UserHelper
 import com.example.reunion.util.NormalUtil
-import com.example.reunion.viewmodel.LoginViewModel
+import com.example.reunion.util.PictureEngine
+import com.example.reunion.view_model.LoginViewModel
+import com.luck.picture.lib.PictureSelector
+import com.luck.picture.lib.config.PictureConfig
+import com.luck.picture.lib.config.PictureMimeType
+import com.zhihu.matisse.engine.impl.GlideEngine
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.view_user_protocol.*
-import java.util.*
 
 class LoginActivity : BaseActivity() {
     private lateinit var mBinding:ActivityLoginBinding

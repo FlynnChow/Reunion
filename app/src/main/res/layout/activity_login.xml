@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.reunion.viewmodel.LoginViewModel" />
+            type="com.example.reunion.view_model.LoginViewModel" />
         <variable
             name="activity"
             type="com.example.reunion.view.LoginActivity" />
@@ -16,6 +16,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.LoginActivity">
+        <Button
+            android:layout_centerHorizontal="true"
+            android:id="@+id/test"
+            android:text="test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
         <ImageView
             android:id="@+id/loginBack"
             android:onClick="@{activity::onBackClick}"

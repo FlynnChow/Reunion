@@ -9,7 +9,7 @@ import com.example.reunion.R
 import com.example.reunion.base.BaseActivity
 import com.example.reunion.base.BaseFragment
 import com.example.reunion.databinding.ViewLoginPhoneBinding
-import com.example.reunion.viewmodel.LoginViewModel
+import com.example.reunion.view_model.LoginViewModel
 
 class LoginPhoneFragment:BaseFragment() {
     private lateinit var mBinding: ViewLoginPhoneBinding

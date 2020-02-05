@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.reunion.viewmodel.LoginViewModel" />
+            type="com.example.reunion.view_model.LoginViewModel" />
         <variable
             name="activity"
             type="com.example.reunion.view.LoginActivity" />

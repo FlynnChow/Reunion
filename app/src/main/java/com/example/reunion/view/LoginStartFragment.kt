@@ -5,13 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import com.example.reunion.R
 import com.example.reunion.base.BaseActivity
 import com.example.reunion.base.BaseFragment
 import com.example.reunion.databinding.ViewLoginStartBinding
-import com.example.reunion.viewmodel.LoginViewModel
-import kotlinx.android.synthetic.main.view_login_start.*
+import com.example.reunion.view_model.LoginViewModel
 
 class LoginStartFragment: BaseFragment() {
     private lateinit var mBinding:ViewLoginStartBinding

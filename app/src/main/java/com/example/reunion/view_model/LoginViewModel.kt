@@ -1,16 +1,11 @@
-package com.example.reunion.viewmodel
+package com.example.reunion.view_model
 
-import android.app.Application
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.example.reunion.base.BaseViewModel
 import com.example.reunion.repostory.local_resource.UserHelper
 import com.example.reunion.repostory.remote_resource.LoginRemoteModel
 import kotlinx.coroutines.delay
-import java.sql.Time
-import java.util.*
-
 class LoginViewModel:BaseViewModel() {
 
     private val remoteModel by lazy { LoginRemoteModel() }
@@ -60,8 +55,7 @@ class LoginViewModel:BaseViewModel() {
             when(userBody.code){
                 200->{
                     if(userBody.data!=null){
-                        val data = userBody.data
-                        UserHelper.login(data,userBody.time)
+                        UserHelper.login(userBody)
                     }else{
                         toast.value = "登录失败，请重试"
                     }
@@ -88,7 +82,6 @@ class LoginViewModel:BaseViewModel() {
         }else{
             toast.value = "请${replyNum.value}秒后再重试"
         }
-        isReply.value = false
     }
 
     private fun onSendMessage(phone:String){

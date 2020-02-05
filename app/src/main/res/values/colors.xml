@@ -24,4 +24,6 @@
     <color name="retryNo">#B7B7B7</color>
 
     <color name="login_phone">#FFFFFF</color>
+
+    <color name="picture_circle">#FF6868</color>
 </resources>
