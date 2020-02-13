@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:icon="@drawable/shouye_3"
+        android:id="@+id/menuHome"
+        android:title="@string/menu_home"
+        />
+    <item
+        android:icon="@drawable/chongfengquan_3"
+        android:id="@+id/menuCommunity"
+        android:title="@string/menu_community"
+        />
+    <item
+        android:icon="@null"
+        android:title=""
+        />
+    <item
+        android:icon="@drawable/xiaoxi_3"
+        android:id="@+id/menuMessage"
+        android:title="@string/menu_message"
+        />
+    <item
+        android:icon="@drawable/wode_3"
+        android:id="@+id/menuMine"
+        android:title="@string/menu_mine"
+        />
+</menu>

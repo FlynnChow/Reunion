@@ -1,4 +1,4 @@
-package com.example.reunion.repostory.bean
+package com.example.reunion.customize
 
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -10,14 +10,15 @@ import java.io.File
 class UploadRequestBody(private val requestBody: RequestBody,private val listener:((Float)->Unit)? = null):RequestBody() {
     companion object{
         @JvmStatic
-        fun getRequestBody(file: File,name:String,listener:((Float)->Unit)? = null):MultipartBody.Part{
+        fun getRequestBody(file: File,name:String,listener:((Float)->Unit)? = null):RequestBody{
             val body = file.asRequestBody("application/octet-stream".toMediaTypeOrNull())
             val uploadBody =
                 UploadRequestBody(
                     body,
                     listener
                 )
-            return MultipartBody.Part.createFormData(name,file.name,uploadBody)
+            MultipartBody.Part.createFormData(name,file.name,uploadBody)
+            return uploadBody
         }
     }
 
@@ -30,7 +31,7 @@ class UploadRequestBody(private val requestBody: RequestBody,private val listene
     override fun writeTo(sink: BufferedSink) {
         if (byteBufferedSink == null)
             byteBufferedSink = sink(sink).buffer()
-        requestBody.writeTo(sink)
+        requestBody.writeTo(byteBufferedSink!!)
         byteBufferedSink?.flush()
     }
 

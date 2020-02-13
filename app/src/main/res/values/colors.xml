@@ -26,4 +26,13 @@
     <color name="login_phone">#FFFFFF</color>
 
     <color name="picture_circle">#FF6868</color>
+    <color name="menu_unchecked">#616060</color>
+    <color name="menu_checked">#FF6868</color>
+    <color name="menu_background">#ffff</color>
+
+    <color name="tab_background">#F6F7F9</color>
+
+    <color name="color_white">#FFF</color>
+
+    <color name="news_line">#B7B7B7</color>
 </resources>

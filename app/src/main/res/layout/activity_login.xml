@@ -40,6 +40,6 @@
         <include
             app:viewModel="@{viewModel}"
             app:activity="@{activity}"
-            layout="@layout/view_user_protocol"/>
+            layout="@layout/fragment_user_protocol"/>
     </RelativeLayout>
 </layout>

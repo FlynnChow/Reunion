@@ -48,9 +48,6 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
 
-    //知乎图片选择器
-    implementation 'com.zhihu.android:matisse:0.5.3-beta3'
-
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.7.1'
 
@@ -79,7 +76,7 @@ dependencies {
     implementation "androidx.viewpager2:viewpager2:1.0.0"
 
     //MotionLayout
-    implementation 'com.android.support.constraint:constraint-layout:2.0.0-beta4'
+
 
     //viewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
@@ -91,11 +88,15 @@ dependencies {
     // Gson
     implementation 'com.google.code.gson:gson:2.8.5'
 
-    //material
-    implementation 'com.google.android.material:material:1.2.0-alpha04'
+    //material 更新1.0以上版本后会出现奇怪的bug
+    implementation 'com.google.android.material:material:1.0.0'
 
     //选择器
     implementation 'com.github.arcadefire:nice-spinner:1.4.5'
 
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.4.6'
+
+    implementation 'com.github.devlight.navigationtabstrip:navigationtabstrip:1.0.4'
+
+    implementation 'com.github.nuptboyzhb.lib.uikit:superswiperefreshlayout:1.0.0'
 }

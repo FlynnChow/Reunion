@@ -1,13 +1,24 @@
 package com.example.reunion.view_model
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.example.reunion.base.BaseViewModel
+import com.example.reunion.customize.UploadRequestBody
 import com.example.reunion.repostory.local_resource.UserHelper
 import com.example.reunion.repostory.remote_resource.HomeRemoteModel
+import com.example.reunion.repostory.remote_resource.UpLoadRemoteModel
 import com.example.reunion.util.StringDealerUtil
+import okhttp3.MultipartBody
+import java.io.File
 import java.net.ConnectException
 class HomeViewModel:BaseViewModel() {
+    var currentIndex = 0 //用于保存当前viewpager的index
+
     private val remoteModel:HomeRemoteModel by lazy { HomeRemoteModel() }
+
+    private val uploadModel:UpLoadRemoteModel by lazy { UpLoadRemoteModel() }
+
+    var header = MutableLiveData<String>("")
 
     /**
      * 检查登录状态，未登录过返回false，否则登录并验证缓存
@@ -55,5 +66,23 @@ class HomeViewModel:BaseViewModel() {
             }
         })
         return true
+    }
+
+    fun uploadHeader(){
+        if (!UserHelper.isLogin())
+            return
+        val file = File(header.value!!)
+        val uploadBody = UploadRequestBody.getRequestBody(file,"header"){
+            Log.d("上传进度测试：",it.toString())
+        }
+        val body = MultipartBody.Builder()
+            .addFormDataPart("uId",UserHelper.getUser()!!.uId)
+            .addFormDataPart("time",UserHelper.time.toString())
+            .addFormDataPart("enCode",UserHelper.enCode)
+            .addFormDataPart("headPhoto",file.name,uploadBody)
+            .build()
+        launch {
+            val bean = uploadModel.uploadHeader(body)
+        }
     }
 }

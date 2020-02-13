@@ -8,7 +8,7 @@ import com.example.reunion.util.PictureEngine
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
-import kotlinx.android.synthetic.main.view_login_start.view.*
+import kotlinx.android.synthetic.main.fragment_login_start.view.*
 
 class PictureSelectHelper {
 
@@ -18,46 +18,47 @@ class PictureSelectHelper {
         val MIN_SIZE = 150
 
         @JvmStatic
-        val CHECK_ALL_CODE = 100000
+        val CHECK_ALL_CODE = 10000
 
         @JvmStatic
-        val CHECK_VIDEO_CODE = 100001
+        val CHECK_VIDEO_CODE = 10001
 
         @JvmStatic
-        val CHECK_PHOTO_CODE = 100002
+        val CHECK_PHOTO_CODE = 10002
 
         @JvmStatic
-        val CHECK_HEADER_CODE = 100003
+        val CHECK_HEADER_CODE = 10003
+
+        val instance by lazy(LazyThreadSafetyMode.SYNCHRONIZED) { PictureSelectHelper() }
 
     }
 
     fun createSelector(activity:Activity)
-            = initHeaderSelector(PictureSelector.create(activity))
+            = initPhotoSelector(PictureSelector.create(activity))
 
     fun createSelector(fragment:Fragment)
-            = initHeaderSelector(PictureSelector.create(fragment))
+            = initPhotoSelector(PictureSelector.create(fragment))
 
     fun createHeaderSelector(activity:Activity,num:Int = 1,isCamera:Boolean = false)
-            = initPhotoSelector(PictureSelector.create(activity),num = num,isCamera = isCamera)
+            = initHeaderSelector(PictureSelector.create(activity))
 
     fun createHeaderSelector(fragment:Fragment,num:Int = 1,isCamera:Boolean = false)
-            = initPhotoSelector(PictureSelector.create(fragment),num = num,isCamera = isCamera)
+            = initHeaderSelector(PictureSelector.create(fragment))
 
     fun createPhotoSelector(activity:Activity,num:Int = 1,isCamera:Boolean = false)
-            = initPhotoSelector(PictureSelector.create(activity),PictureMimeType.ofImage(), CHECK_VIDEO_CODE,num,isCamera)
+            = initPhotoSelector(PictureSelector.create(activity),PictureMimeType.ofImage(), CHECK_PHOTO_CODE,num,isCamera)
 
     fun createPhotoSelector(fragment:Fragment,num:Int = 1,isCamera:Boolean = false)
-            = initPhotoSelector(PictureSelector.create(fragment),PictureMimeType.ofImage(),CHECK_VIDEO_CODE,num,isCamera)
+            = initPhotoSelector(PictureSelector.create(fragment),PictureMimeType.ofImage(),CHECK_PHOTO_CODE,num,isCamera)
 
     fun createVideoSelector(activity:Activity,num:Int = 1,isCamera:Boolean = false)
-            = initPhotoSelector(PictureSelector.create(activity),PictureMimeType.ofVideo(), CHECK_PHOTO_CODE,num,isCamera)
+            = initPhotoSelector(PictureSelector.create(activity),PictureMimeType.ofVideo(), CHECK_VIDEO_CODE,num,isCamera)
 
     fun createVideoSelector(fragment:Fragment,num:Int = 1,isCamera:Boolean = false)
-            = initPhotoSelector(PictureSelector.create(fragment),PictureMimeType.ofVideo(),CHECK_PHOTO_CODE,num,isCamera)
+            = initPhotoSelector(PictureSelector.create(fragment),PictureMimeType.ofVideo(),CHECK_VIDEO_CODE,num,isCamera)
 
     private fun initPhotoSelector(selector: PictureSelector,type:Int = PictureMimeType.ofAll(),requestCode:Int = CHECK_ALL_CODE,num:Int = 1,isCamera:Boolean = false) = selector.openGallery(type).run {
         theme(R.style.PictureSelectorStyle)
-        isWeChatStyle(true)
         loadImageEngine(PictureEngine.createGlideEngine())
         isWithVideoImage(false)
         isOriginalImageControl(true)
@@ -81,7 +82,6 @@ class PictureSelectHelper {
 
     private fun initHeaderSelector(selector: PictureSelector) = selector.openGallery(PictureMimeType.ofImage()).run {
         theme(R.style.PictureSelectorStyle)
-        isWeChatStyle(true)
         loadImageEngine(PictureEngine.createGlideEngine())
         isWithVideoImage(false)
         isOriginalImageControl(false)

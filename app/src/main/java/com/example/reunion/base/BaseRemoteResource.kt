@@ -17,12 +17,14 @@ abstract class BaseRemoteResource {
         @JvmStatic
         val BASE_URL_FACE = ""
         @JvmStatic
-        val BASE_URL_SERVER = "http://47.106.146.115:8080/"
+        val BASE_URL_SERVER = "https://reunion.yulinzero.xyz/"
         @JvmStatic
+        val BASE_URL_NEWS = "https://api.jisuapi.com/news/"
         val client:OkHttpClient by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
             OkHttpClient.Builder().run {
                 readTimeout(15,TimeUnit.SECONDS)
                 writeTimeout(15,TimeUnit.SECONDS)
+                connectTimeout(10,TimeUnit.SECONDS)
                 build()
             }
         }
@@ -53,6 +55,19 @@ abstract class BaseRemoteResource {
         }
 
         fun getFaceRemote() = faceRetrofit.create(ServerApi::class.java)
+
+        @JvmStatic
+        private val newsRetrofit: Retrofit by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+            Retrofit.Builder().run {
+                baseUrl(BASE_URL_NEWS)
+                addCallAdapterFactory(CoroutineCallAdapterFactory())
+                addConverterFactory(GsonConverterFactory.create())
+                client(client)
+                build()
+            }
+        }
+
+        fun getNewsRemote() = newsRetrofit.create(ServerApi::class.java)
     }
 
     protected suspend fun <T> Call<T>.await():T{
@@ -60,7 +75,7 @@ abstract class BaseRemoteResource {
             enqueue(object : Callback<T> {
                 override fun onFailure(call: Call<T>, t: Throwable) {
                     if (t is HttpException){
-                        it.resumeWithException(ConnectException("网络正在开小差"))
+                        it.resumeWithException(ConnectException("网络开小差了"))
                     }else if(t is ConnectException){
                         it.resumeWithException(ConnectException("网络连接失败"))
                     }
@@ -82,9 +97,9 @@ abstract class BaseRemoteResource {
                                 it.resumeWithException(RuntimeException("应用异常"))
                             }
                             in 400 until 500->{
-                                it.resumeWithException(RuntimeException("服务异常"))
+                                it.resumeWithException(RuntimeException("服务器异常"))
                             }else ->{
-                                it.resumeWithException(RuntimeException("服务异常"))
+                                it.resumeWithException(RuntimeException("服务器异常"))
                             }
                         }
                     }

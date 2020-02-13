@@ -1,5 +1,6 @@
 package com.example.reunion.view_model
 
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.example.reunion.base.BaseViewModel
@@ -24,6 +25,8 @@ class LoginViewModel:BaseViewModel() {
     val replyNum = MutableLiveData<Int>(60) //重新获取倒计时
 
     val isReply = MutableLiveData<Boolean>(true)
+
+    val isSendSuccess = MutableLiveData<Boolean>(false)
     /**
      * 当前页面：0.开始 1.手机登录 2.手机验证码
      */
@@ -52,6 +55,7 @@ class LoginViewModel:BaseViewModel() {
     fun onPhoneLogin(){
         launch {
             val userBody = remoteModel.onPhoneLogin(mobileNumber.value!!,vCode.value!!)
+            Log.d("测试code:",""+userBody.code)
             when(userBody.code){
                 200->{
                     if(userBody.data!=null){
@@ -70,13 +74,14 @@ class LoginViewModel:BaseViewModel() {
     }
 
     //判断是否可以登录
-    fun isLogin(checked:Boolean,isRetry:Boolean)= checked&&!isRetry
+    fun isLogin(checked:Boolean,isRetry:Boolean,isSendSuccess:Boolean)= (checked&&!isRetry)||(checked&&isSendSuccess)
 
     fun clearNumber(view:View){
         mobileNumber.value = ""
     }
 
     fun onGetVCode(view:View ?= null){
+        isSendSuccess.value = false
         if (isReply.value == true){
             onSendMessage(mobileNumber.value!!)
         }else{
@@ -87,9 +92,10 @@ class LoginViewModel:BaseViewModel() {
     private fun onSendMessage(phone:String){
         launch {
             val codeMessage = remoteModel.onSendMessage(phone)
-            when (codeMessage.return_code) {
-                "00000" -> {
+            when (codeMessage.code) {
+                0L -> {
                     isReply.value = false
+                    isSendSuccess.value = true
                     toast.value = "发送短信成功"
                     val job = launch {
                         repeat(60){
@@ -100,11 +106,11 @@ class LoginViewModel:BaseViewModel() {
                     job.join()
                     isReply.value = true
                 }
-                "10007" -> {
+                10007L -> {
                     toast.value = "未找到号码归属地"
                 }
                 else -> {
-                    toast.value = "服务出错了"
+                    toast.value = "发送失败"
                 }
             }
         }

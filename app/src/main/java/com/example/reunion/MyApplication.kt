@@ -10,5 +10,8 @@ class MyApplication:Application() {
     companion object{
         @JvmStatic
         lateinit var app:Application
+
+        @JvmStatic
+        fun resource() = app.resources
     }
 }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.reunion.view_model.HomeViewModel" />
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <FrameLayout
+            android:background="@color/tab_background"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <ImageView
+                android:clickable="true"
+                android:layout_marginStart="9dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/temp_icon"
+                android:padding="2dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:focusable="true" />
+            <com.gigamole.navigationtabstrip.NavigationTabStrip
+                android:layout_marginStart="60dp"
+                android:layout_marginEnd="60dp"
+                app:nts_size="16sp"
+                app:nts_weight="4dp"
+                app:nts_color="@color/mainColor"
+                app:nts_inactive_color="#757575"
+                app:nts_active_color="#000000"
+                app:nts_corners_radius="2dp"
+                app:nts_animation_duration="150"
+                android:id="@+id/homeTabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"/>
+        </FrameLayout>
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/homeViewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+</layout>

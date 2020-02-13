@@ -19,6 +19,7 @@ object NormalUtil {
         return true
     }
 
+    //默认使用三级缓存
     fun getGlideOption(skipMemoryCache:Boolean = true,diskCacheStrategy:Boolean = true) =
          RequestOptions()
             .placeholder(R.drawable.temp_icon)//占位图

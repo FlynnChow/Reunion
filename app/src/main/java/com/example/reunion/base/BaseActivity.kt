@@ -3,6 +3,7 @@ import android.Manifest
 import android.app.Application
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -14,6 +15,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
+import com.luck.picture.lib.entity.LocalMedia
+import java.io.File
 
 abstract class BaseActivity: AppCompatActivity() {
 
@@ -105,4 +108,16 @@ abstract class BaseActivity: AppCompatActivity() {
     protected open fun onNormalPermissionFail(permission:String){}
 
     abstract fun create(savedInstanceState: Bundle?)
+
+    protected fun LocalMedia.getAndroidPath():String{
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            androidQToPath
+        }else{
+            when {
+                isCompressed -> compressPath
+                isCut -> cutPath
+                else -> path
+            }
+        }
+    }
 }

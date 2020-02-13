@@ -1,5 +1,7 @@
 package com.example.reunion.repostory.bean
 
+import java.time.LocalDateTime
+
 
 class User {
     var code = 0
@@ -23,7 +25,6 @@ class User {
         var uWeChat = ""
         var uMicroblog = ""
         var uVolunteer = 0
-        var uUpdateTime = ""
 
         override fun toString(): String {
             return """
@@ -42,7 +43,6 @@ class User {
             uWeChat = $uWeChat
             uMicroblog = $uMicroblog
             uVolunteer = $uVolunteer
-            uUpdateTime = $uUpdateTime
             """.trimIndent()
         }
     }

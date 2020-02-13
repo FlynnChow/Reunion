@@ -11,7 +11,7 @@
         <item name="android:button">@drawable/circle_check_box</item>
     </style>
 
-    <style name="PictureSelectorStyle" parent="Base.Theme.NoActionBar">
+    <style name="PictureSelectorStyle" parent="picture.default.style">
         <!-- Customize your theme here. -->
         <!--标题栏背景色-->
         <item name="colorPrimary">@color/picture_color_grey</item>
@@ -40,7 +40,7 @@
         <!--图片列表预览文字颜色-->
         <item name="picture.preview.textColor">@color/picture_color_white</item>
         <!--图片列表已完成文字颜色**-->
-        <item name="picture.complete.textColor">@color/picture_circle</item>
+        <item name="picture.complete.textColor">@color/picture_color_white</item>
         <!--图片已选数量圆点背景色-->
         <item name="picture.num.style">@color/picture_color_grey</item>
         <!--预览界面标题文字颜色-->
@@ -61,5 +61,19 @@
         <item name="picture.crop.title.color">@color/picture_color_white</item>
         <!--相册文件夹列表选中图标-->
         <item name="picture.folder_checked_dot">@drawable/picture_orange_oval</item>
+    </style>
+
+    <style name="bottomUnCheckStyle">
+        <item name="android:textColor">@color/menu_unchecked</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="bottomCheckStyle">
+        <item name="android:textColor">@color/menu_checked</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="NewsTabTextStyle">
+        <item name="android:textSize">14sp</item>
     </style>
 </resources>

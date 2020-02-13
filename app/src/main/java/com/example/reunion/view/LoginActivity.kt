@@ -1,5 +1,6 @@
 package com.example.reunion.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -11,12 +12,8 @@ import com.example.reunion.repostory.local_resource.UserHelper
 import com.example.reunion.util.NormalUtil
 import com.example.reunion.util.PictureEngine
 import com.example.reunion.view_model.LoginViewModel
-import com.luck.picture.lib.PictureSelector
-import com.luck.picture.lib.config.PictureConfig
-import com.luck.picture.lib.config.PictureMimeType
-import com.zhihu.matisse.engine.impl.GlideEngine
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.view_user_protocol.*
+import kotlinx.android.synthetic.main.fragment_user_protocol.*
 
 class LoginActivity : BaseActivity() {
     private lateinit var mBinding:ActivityLoginBinding
@@ -29,6 +26,10 @@ class LoginActivity : BaseActivity() {
         mBinding.activity = this
         mBinding.lifecycleOwner = this
         initFragment()
+
+        test.setOnClickListener {
+            startActivity(Intent(this,HomeActivity::class.java))
+        }
     }
 
     private fun initFragment(){

@@ -15,10 +15,8 @@ import androidx.lifecycle.ViewModelStoreOwner
 
 abstract class BaseFragment:Fragment() {
 
-    //使用懒加载
-    var isLazyLoad = false
 
-    var isViewCreated = false
+    private var isFirstLoad = true
 
     var savedInstanceState: Bundle? = null
 
@@ -48,26 +46,30 @@ abstract class BaseFragment:Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         this.savedInstanceState = savedInstanceState
-        if (getUserVisibleHint()&&isLazyLoad&&isViewCreated)
-            onLazyLoad(savedInstanceState)
     }
 
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        if (isVisibleToUser&&isLazyLoad&&isViewCreated)
-            onLazyLoad(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        isViewCreated = true
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    protected fun onLazyLoad(savedInstanceState: Bundle?){
+    override fun onResume() {
+        super.onResume()
+        if (isFirstLoad){
+            isFirstLoad = false
+            onLazyLoad()
+        }
+    }
+
+    /**
+     * 这里只能进行有关数据的操作
+     * 不能在这里初始化view，否则会发生异常
+     */
+    protected open fun onLazyLoad(){
 
     }
 }

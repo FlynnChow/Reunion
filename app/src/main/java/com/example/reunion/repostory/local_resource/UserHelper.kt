@@ -5,6 +5,8 @@ import android.content.SharedPreferences
 import com.example.reunion.MyApplication
 import com.example.reunion.repostory.bean.User
 import com.example.reunion.util.StringDealerUtil
+import java.time.ZoneId
+
 
 object UserHelper {
     private var user:User.Data? = null
@@ -85,7 +87,6 @@ object UserHelper {
         editor.putString("pw",user.data?.uPw)
         editor.putString("qq",user.data?.uQq)
         editor.putString("tele",user.data?.uTele)
-        editor.putString("updateTime",user.data?.uUpdateTime)
         editor.putInt("volunteer",user.data?.uVolunteer!!)
         editor.putString("weChat",user.data?.uWeChat)
         editor.apply()
@@ -109,7 +110,6 @@ object UserHelper {
         userData.uPw = userPre.getString("pw","")!!
         userData.uQq = userPre.getString("qq","")!!
         userData.uTele = userPre.getString("tele","")!!
-        userData.uUpdateTime = userPre.getString("updateTime","")!!
         userData.uVolunteer = userPre.getInt("volunteer",0)
         userData.uWeChat = userPre.getString("weChat","")!!
         return userData
