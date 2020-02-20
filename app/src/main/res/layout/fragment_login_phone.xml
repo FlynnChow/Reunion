@@ -106,7 +106,7 @@
             android:onClick="@{activity::onPhoneLoginClick}"
             android:textSize="16sp"
             android:textColor="@color/login_phone"
-            android:background="@{activity.getLoginButtonResource(viewModel.checked,viewModel.isReply)}"
+            android:background="@{activity.getLoginButtonResource(viewModel.checked,viewModel.isReply,viewModel.isSendSuccess)}"
             android:clickable="@{viewModel.isLogin(viewModel.checked,viewModel.isReply,viewModel.isSendSuccess)}"
             android:text="@string/log_phone_login"
             android:layout_marginTop="44dp"

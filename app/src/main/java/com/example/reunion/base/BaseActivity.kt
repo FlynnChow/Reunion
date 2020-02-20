@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import com.luck.picture.lib.entity.LocalMedia
 import java.io.File
+import java.net.UnknownHostException
 
 abstract class BaseActivity: AppCompatActivity() {
 

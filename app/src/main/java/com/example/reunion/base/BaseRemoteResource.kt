@@ -1,16 +1,19 @@
 package com.example.reunion.base
 
+import android.util.Log
+import com.example.reunion.repostory.remote_resource.NewsApi
 import com.example.reunion.repostory.remote_resource.ServerApi
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
-import java.lang.RuntimeException
 import java.net.ConnectException
-import java.util.concurrent.TimeUnit
+import java.net.UnknownHostException
+import java.util.concurrent.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
+
 
 abstract class BaseRemoteResource {
     companion object{
@@ -67,7 +70,16 @@ abstract class BaseRemoteResource {
             }
         }
 
-        fun getNewsRemote() = newsRetrofit.create(ServerApi::class.java)
+        fun getNewsRemote() = newsRetrofit.create(NewsApi::class.java)
+
+        @JvmStatic
+        val custRetrofitBuilder by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+            Retrofit.Builder().run {
+                addCallAdapterFactory(CoroutineCallAdapterFactory())
+                addConverterFactory(GsonConverterFactory.create())
+                client(client)
+            }
+        }
     }
 
     protected suspend fun <T> Call<T>.await():T{
@@ -78,6 +90,8 @@ abstract class BaseRemoteResource {
                         it.resumeWithException(ConnectException("网络开小差了"))
                     }else if(t is ConnectException){
                         it.resumeWithException(ConnectException("网络连接失败"))
+                    }else if(t is UnknownHostException){
+                        it.resumeWithException(UnknownHostException("无网络"))
                     }
                     else
                         it.resumeWithException(t)
@@ -97,7 +111,7 @@ abstract class BaseRemoteResource {
                                 it.resumeWithException(RuntimeException("应用异常"))
                             }
                             in 400 until 500->{
-                                it.resumeWithException(RuntimeException("服务器异常"))
+                                it.resumeWithException(RuntimeException("客户端异常"))
                             }else ->{
                                 it.resumeWithException(RuntimeException("服务器异常"))
                             }

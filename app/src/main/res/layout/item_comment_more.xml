@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="isType"
+            type="Integer" />
+        <import type="android.view.View"/>
+    </data>
+    <LinearLayout
+        android:background="@color/windowBackground"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <FrameLayout
+            android:id="@+id/newsMoreLoad"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="@{isType == 0? View.VISIBLE:View.GONE}"
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+            <TextView
+                android:layout_gravity="center"
+                android:textColor="@color/comment_text_color"
+                android:textSize="10sp"
+                android:text="@string/comment_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:visibility="@{isType == 1? View.VISIBLE:View.GONE}"
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+            <TextView
+                android:layout_gravity="center"
+                android:textColor="@color/comment_text_color"
+                android:textSize="10sp"
+                android:text="@string/comment_load"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/newsNoMore"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="@{isType == 2? View.VISIBLE:View.GONE}"
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+            <TextView
+                android:layout_gravity="center"
+                android:textColor="@color/comment_text_color"
+                android:textSize="10sp"
+                android:text="@string/comment_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
+    </LinearLayout>
+</layout>

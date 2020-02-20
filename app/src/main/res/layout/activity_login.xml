@@ -16,19 +16,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.LoginActivity">
-        <Button
-            android:layout_centerHorizontal="true"
-            android:id="@+id/test"
-            android:text="test"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
         <ImageView
             android:id="@+id/loginBack"
             android:onClick="@{activity::onBackClick}"
+            android:background="@drawable/ripple_back_oval"
             android:clickable="true"
-            android:src="@drawable/temp_icon"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
+            android:focusable="true"
+            android:src="@drawable/fanhui"
+            android:layout_marginStart="@dimen/back_margin_start"
+            android:layout_marginTop="@dimen/back_margin_top"
             android:layout_width="24dp"
             android:layout_height="24dp"/>
         <FrameLayout

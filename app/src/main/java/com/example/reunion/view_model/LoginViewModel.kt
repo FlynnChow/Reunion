@@ -6,7 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import com.example.reunion.base.BaseViewModel
 import com.example.reunion.repostory.local_resource.UserHelper
 import com.example.reunion.repostory.remote_resource.LoginRemoteModel
+import com.example.reunion.util.StringDealerUtil
 import kotlinx.coroutines.delay
+import java.net.ConnectException
+import java.net.UnknownHostException
+
 class LoginViewModel:BaseViewModel() {
 
     private val remoteModel by lazy { LoginRemoteModel() }
@@ -32,6 +36,7 @@ class LoginViewModel:BaseViewModel() {
      */
     val currentPage = MutableLiveData(0)
 
+    val isLoginSuccess = MutableLiveData<Boolean>(false)
     fun showStartView(view: View? = null){
         startVisibility.value = View.VISIBLE
         phoneVisibility.value = View.INVISIBLE
@@ -55,11 +60,12 @@ class LoginViewModel:BaseViewModel() {
     fun onPhoneLogin(){
         launch {
             val userBody = remoteModel.onPhoneLogin(mobileNumber.value!!,vCode.value!!)
-            Log.d("测试code:",""+userBody.code)
             when(userBody.code){
                 200->{
                     if(userBody.data!=null){
                         UserHelper.login(userBody)
+                        toast.value = "登录成功"
+                        isLoginSuccess.value = true
                     }else{
                         toast.value = "登录失败，请重试"
                     }

@@ -26,7 +26,6 @@ class NewsContentFragment(private val contentIndex:Int = 0):BaseFragment() {
     private val mViewModel: NewsViewModel by lazy {
         setViewModel(this, NewsViewModel::class.java)
     }
-    private val adapter by lazy {  NewsItemAdapter() }
     private lateinit var mBinding:ViewRecyclerViewBinding
 
     override fun onCreateView(
@@ -97,7 +96,7 @@ class NewsContentFragment(private val contentIndex:Int = 0):BaseFragment() {
         recyclerView.adapter = adapter
         mViewModel.clearList.observe(this, androidx.lifecycle.Observer {
             adapter.newsList.clear()
-            adapter. notifyDataSetChanged()
+            adapter.notifyDataSetChanged()
         })
         mViewModel.news.observe(this, androidx.lifecycle.Observer {
             adapter.newsList.addAll(it)
@@ -115,6 +114,7 @@ class NewsContentFragment(private val contentIndex:Int = 0):BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         initView()
     }
+
 
     /**
      * 0.距离不够

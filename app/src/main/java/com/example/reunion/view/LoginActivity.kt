@@ -1,10 +1,12 @@
 package com.example.reunion.view
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.example.reunion.R
 import com.example.reunion.base.BaseActivity
 import com.example.reunion.databinding.ActivityLoginBinding
@@ -26,10 +28,12 @@ class LoginActivity : BaseActivity() {
         mBinding.activity = this
         mBinding.lifecycleOwner = this
         initFragment()
-
-        test.setOnClickListener {
-            startActivity(Intent(this,HomeActivity::class.java))
-        }
+        mBinding.viewModel!!.isLoginSuccess.observe(this, Observer {
+            if (it){
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
+        })
     }
 
     private fun initFragment(){
@@ -107,8 +111,8 @@ class LoginActivity : BaseActivity() {
         else
             resources.getDrawable(R.drawable.login_phone_button_no))!!
 
-    fun getLoginButtonResource(checked:Boolean,isRetry:Boolean)=
-        (if (checked&&!isRetry)
+    fun getLoginButtonResource(checked:Boolean,isRetry:Boolean,isSendSuccess:Boolean)=
+        (if ((checked&&!isRetry)||(checked&&isSendSuccess))
             resources.getDrawable(R.drawable.login_phone_button_ok)
         else
             resources.getDrawable(R.drawable.login_phone_button_no))!!

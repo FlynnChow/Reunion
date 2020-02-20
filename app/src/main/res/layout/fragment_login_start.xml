@@ -57,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="42dp">
                 <ImageView
-                    android:src="@drawable/temp_icon"
+                    android:src="@drawable/suo"
                     android:layout_width="22dp"
                     android:layout_height="22dp"/>
                 <TextView
@@ -77,7 +77,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="42dp">
                 <ImageView
-                    android:src="@drawable/temp_icon"
+                    android:src="@drawable/weixin"
                     android:layout_width="22dp"
                     android:layout_height="22dp"/>
                 <TextView
@@ -139,7 +139,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:onClick="@{viewModel::clearNumber}"
                     android:padding="1dp"
-                    android:src="@drawable/temp_icon"
+                    android:src="@drawable/delete"
                     android:layout_width="24dp"
                     android:layout_height="24dp"/>
             </androidx.constraintlayout.widget.ConstraintLayout>

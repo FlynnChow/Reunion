@@ -9,6 +9,7 @@ import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureConfig
 import com.luck.picture.lib.config.PictureMimeType
 import kotlinx.android.synthetic.main.fragment_login_start.view.*
+import java.io.File
 
 class PictureSelectHelper {
 
@@ -89,14 +90,14 @@ class PictureSelectHelper {
         isCamera(true)
         enableCrop(true)
         compress(true)
+        circleDimmedLayer(false)
         isGif(false)
-        compressSavePath(MyApplication.app.getExternalFilesDir("cache")?.absolutePath)
+        compressSavePath(MyApplication.app.getExternalFilesDir("cache")?.absolutePath+ File.separator)
         freeStyleCropEnabled(true)
-        circleDimmedLayer(true)
         minimumCompressSize(MIN_SIZE)
         rotateEnabled(true)
         scaleEnabled(true)
-        cropImageWideHigh(1,1)
+        withAspectRatio(1,1)
         forResult(CHECK_HEADER_CODE)
     }
 }

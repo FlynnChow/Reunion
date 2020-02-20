@@ -9,7 +9,7 @@
     </data>
 
     <RelativeLayout
-        android:foreground="@drawable/item_ripple"
+        android:foreground="@drawable/ripple_rect_borderless"
         android:focusable="true"
         android:layout_width="match_parent"
         android:orientation="horizontal"
@@ -78,7 +78,7 @@
             <ImageView
                 app:url="@{bean.pic}"
                 android:id="@+id/newsImage"
-                android:scaleType="centerCrop"
+                android:scaleType="fitXY"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </androidx.cardview.widget.CardView>

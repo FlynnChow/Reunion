@@ -76,7 +76,7 @@ dependencies {
     implementation "androidx.viewpager2:viewpager2:1.0.0"
 
     //MotionLayout
-
+    implementation 'com.android.support.constraint:constraint-layout:2.0.0-beta4'
 
     //viewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
@@ -89,14 +89,22 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
 
     //material 更新1.0以上版本后会出现奇怪的bug
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.material:material:1.1.0'
 
     //选择器
     implementation 'com.github.arcadefire:nice-spinner:1.4.5'
-
+    //图片选择器
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.4.6'
-
+    //viewpager导航
     implementation 'com.github.devlight.navigationtabstrip:navigationtabstrip:1.0.4'
-
+    //刷新
     implementation 'com.github.nuptboyzhb.lib.uikit:superswiperefreshlayout:1.0.0'
+
+    implementation 'org.ccil.cowan.tagsoup:tagsoup:1.2.1'
+    //圆形头像
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    //地区选择器
+    implementation 'liji.library.dev:citypickerview:5.2.0'
+    //时间和选项选择器
+    implementation 'com.contrarywind:Android-PickerView:4.1.9'
 }

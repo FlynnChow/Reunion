@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.example.reunion.R
+import com.example.reunion.base.BaseActivity
 import com.example.reunion.base.BaseFragment
 import com.example.reunion.databinding.FragmentMineBinding
+import com.example.reunion.view_model.HomeViewModel
 
 class MineFragment:BaseFragment() {
     private lateinit var mBinding:FragmentMineBinding
@@ -23,5 +25,7 @@ class MineFragment:BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        mBinding.viewModel = setViewModel(activity as BaseActivity,HomeViewModel::class.java)
+        mBinding.activity = activity as HomeActivity
     }
 }

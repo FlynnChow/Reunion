@@ -19,7 +19,7 @@
     <string-array name="phoneSpinner">
         <item>+86</item>
     </string-array>
-    
+
     <string name="menu_home">首页</string>
     <string name="menu_community">重逢圈</string>
     <string name="menu_mine">我的</string>
@@ -30,6 +30,12 @@
     <string name="home_nearby">附近</string>
     <string name="home_find">寻人</string>
     <string name="home_news">新闻</string>
+    <string name="home_claim">认领</string>
+
+    <string name="sex_0">保密</string>
+    <string name="sex_1">男</string>
+    <string name="sex_2">女</string>
+
 
     <string-array name="newsTitle">
         <item>健康</item>
@@ -44,4 +50,55 @@
     <string name="load_all">全部加载了</string>
     <string name="fail_refresh">刷新失败</string>
     <string name="fail_load">加载失败</string>
+
+    <string name="comment_send">发送</string>
+    <string name="comment_success">评论成功</string>
+    <string name="comment_edit">写评论…</string>
+    <string name="comment_no">已经显示全部评论</string>
+    <string name="comment_load">评论正在加载…</string>
+    <string name="comment_more">点击加载更多评论</string>
+    <string name="reply_all">全部评论</string>
+    <string name="reply_user">回复</string>
+
+    <string name="no_login">未登录</string>
+    <string name="signature">简介</string>
+    <string name="mine_follow">关注</string>
+    <string name="mine_star">收藏</string>
+    <string name="mine_history">历史</string>
+    <string name="mine_homepage">个人主页</string>
+    <string name="mine_send">我发布的</string>
+    <string name="mine_setting">设置</string>
+
+    <string name="setting_account">账号与安全</string>
+    <string name="setting_message">个人资料</string>
+    <string name="setting_normal">通用</string>
+    <string name="setting_homepage">首页管理</string>
+    <string name="setting_help">帮助</string>
+    <string name="setting_exit">退出</string>
+    <string name="setting_approve">基本信息</string>
+    <string name="setting_basic">认证信息</string>
+    <string name="setting_save">保存</string>
+
+    <string name="setting_header">头像</string>
+    <string name="setting_name">昵称</string>
+    <string name="setting_real_name">姓名</string>
+    <string name="setting_signature">简介</string>
+    <string name="setting_sex">性别</string>
+    <string name="setting_birthday">生日</string>
+    <string name="setting_area">常住</string>
+    <string name="setting_uid">UID</string>
+    <string name="setting_qq">QQ</string>
+    <string name="setting_we_chat">微信</string>
+    <string name="setting_phone">手机号</string>
+    <string name="setting_check_version">版本更新</string>
+    <string name="setting_newest_version">已是最新版本</string>
+    <string name="setting_advice">反馈和建议</string>
+    <string name="setting_advice_edit">请输入遇到的问题或建议</string>
+    <string name="setting_advice_phone_text">联系电话</string>
+    <string name="setting_advice_phone">选填，便于我们联系您</string>
+    <string name="setting_advice_submit">提交</string>
+    <string name="setting_proto">《服务条例》</string>
+
+    <string name="setting_home_content">首页内容</string>
+
 </resources>

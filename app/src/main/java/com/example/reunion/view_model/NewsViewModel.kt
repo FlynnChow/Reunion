@@ -9,6 +9,8 @@ import com.example.reunion.base.BaseViewModel
 import com.example.reunion.repostory.bean.NewsBean
 import com.example.reunion.repostory.remote_resource.NewsRemoteModel
 import com.example.reunion.view.NewsContentFragment
+import retrofit2.HttpException
+import java.net.UnknownHostException
 
 class NewsViewModel: BaseViewModel() {
     private val remoteModel:NewsRemoteModel by lazy { NewsRemoteModel() }
@@ -19,6 +21,10 @@ class NewsViewModel: BaseViewModel() {
     val isLoadEnd:MutableLiveData<Boolean> = MutableLiveData(true)
     val clearList:MutableLiveData<Boolean> = MutableLiveData(false)
     private var page:Int = 0
+
+    val healthFragment = NewsContentFragment(NewsContentFragment.HEALTHY)
+    val childFragment = NewsContentFragment(NewsContentFragment.Child)
+    val publicFragment = NewsContentFragment(NewsContentFragment.PUBLIC_WELFARE)
 
     fun onLoadNews(view: View? = null){
         if (isLoadEnd.value == false)
@@ -54,14 +60,16 @@ class NewsViewModel: BaseViewModel() {
             isLoadEnd.value = true
         },{
             isLoadEnd.value = true
-            toast.value = MyApplication.resource().getString(R.string.fail_load)
+            if (it is HttpException || it is UnknownHostException)
+                toast.value = it.message
+            else
+                toast.value = MyApplication.resource().getString(R.string.fail_load)
         })
     }
 
     fun onRefresh(view: View? = null){
         if (isRefreshEnd.value == false)
             return
-        clearList.value = true
         page = 0
         launch ({
             isRefreshEnd.value = false
@@ -78,14 +86,18 @@ class NewsViewModel: BaseViewModel() {
             }
             when(bean.status){
                 0->{
+                    clearList.value = true
                     page+=40
                     news.value = (bean.result as NewsBean.Result).list!!
                 }
             }
             isRefreshEnd.value = true
         },{
+            if (it is HttpException || it is UnknownHostException)
+                toast.value = it.message
+            else
+                toast.value = "刷新错误"
             isRefreshEnd.value = true
-            toast.value = MyApplication.resource().getString(R.string.fail_refresh)
         })
     }
 }

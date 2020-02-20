@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.reunion.view_model.SettingViewModel" />
+        <variable
+            name="activity"
+            type="com.example.reunion.view.SettingActivity" />
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <FrameLayout
+            android:elevation="2dp"
+            android:background="@color/color_white"
+            android:layout_width="match_parent"
+            android:layout_height="47dp">
+            <ImageView
+                android:layout_marginTop="@dimen/back_margin_top"
+                android:layout_marginStart="@dimen/back_margin_start"
+                android:onClick="@{activity::onBackClick}"
+                android:background="@drawable/ripple_back_oval"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/fanhui"
+                android:padding="2dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"/>
+            <TextView
+                android:textSize="16sp"
+                android:textColor="@color/color_black"
+                android:text="@string/mine_setting"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </FrameLayout>
+        <androidx.cardview.widget.CardView
+            app:cardElevation="2dp"
+            app:cardCornerRadius="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <FrameLayout
+                    android:foreground="@drawable/ripple_rect_borderless"
+                    android:background="@color/color_white"
+                    android:onClick="@{activity::showAccountFragment}"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp">
+                    <TextView
+                        android:textSize="16sp"
+                        android:textColor="@color/color_black"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="18dp"
+                        android:text="@string/setting_account"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <ImageView
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginEnd="20dp"
+                        android:src="@drawable/point_right"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"/>
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        app:head="@{viewModel.header}"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginEnd="50dp"
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:src="@drawable/temp_icon"
+                        app:civ_border_width="0dp" />
+                </FrameLayout>
+                <FrameLayout
+                    android:foreground="@drawable/ripple_rect_borderless"
+                    android:background="@color/color_white"
+                    android:onClick="@{activity::showMessageFragment}"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp">
+                    <TextView
+                        android:textSize="16sp"
+                        android:textColor="@color/color_black"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="18dp"
+                        android:text="@string/setting_message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <ImageView
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginEnd="20dp"
+                        android:src="@drawable/point_right"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"/>
+                </FrameLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            app:cardElevation="2dp"
+            app:cardCornerRadius="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <FrameLayout
+                    android:foreground="@drawable/ripple_rect_borderless"
+                    android:background="@color/color_white"
+                    android:onClick="@{activity::showNormalFragment}"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp">
+                    <TextView
+                        android:textSize="16sp"
+                        android:textColor="@color/color_black"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="18dp"
+                        android:text="@string/setting_normal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <ImageView
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginEnd="20dp"
+                        android:src="@drawable/point_right"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"/>
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:onClick="@{activity::showManagerFragment}"
+                    android:background="@color/color_white"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="@drawable/ripple_rect_borderless">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="18dp"
+                        android:text="@string/setting_homepage"
+                        android:textColor="@color/color_black"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginEnd="20dp"
+                        android:src="@drawable/point_right" />
+                </FrameLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="2dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@color/color_white"
+                android:onClick="@{activity::showHelpFragment}"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/ripple_rect_borderless">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="18dp"
+                    android:text="@string/setting_help"
+                    android:textColor="@color/color_black"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="20dp"
+                    android:src="@drawable/point_right" />
+            </FrameLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="43dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="2dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@color/color_white"
+                android:onClick="@{activity::exitApplication}"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="@drawable/ripple_rect_borderless">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/setting_exit"
+                    android:textColor="@color/color_black"
+                    android:textSize="16sp" />
+            </FrameLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</layout>

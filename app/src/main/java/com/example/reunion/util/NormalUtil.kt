@@ -22,8 +22,14 @@ object NormalUtil {
     //默认使用三级缓存
     fun getGlideOption(skipMemoryCache:Boolean = true,diskCacheStrategy:Boolean = true) =
          RequestOptions()
-            .placeholder(R.drawable.temp_icon)//占位图
-            .error(R.drawable.temp_icon)//加载错误图
+            .placeholder(R.drawable.loading)//占位图
+            .error(R.drawable.load_error)//加载错误图
+            .skipMemoryCache(!skipMemoryCache)
+            .diskCacheStrategy(if (diskCacheStrategy) DiskCacheStrategy.AUTOMATIC else DiskCacheStrategy.NONE)
+
+    fun getGlideHeaderOption(skipMemoryCache:Boolean = true,diskCacheStrategy:Boolean = true) =
+        RequestOptions()
+            .error(R.drawable.user)//加载错误图
             .skipMemoryCache(!skipMemoryCache)
             .diskCacheStrategy(if (diskCacheStrategy) DiskCacheStrategy.AUTOMATIC else DiskCacheStrategy.NONE)
 }

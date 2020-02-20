@@ -34,15 +34,16 @@ class NewsFragment:BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        initFragments()
         mBinding.viewModel = mViewModel
     }
 
     private fun initFragments(){
-        val healthFragment = NewsContentFragment(NewsContentFragment.HEALTHY)
-        val childFragment = NewsContentFragment(NewsContentFragment.Child)
-        val publicFragment = NewsContentFragment(NewsContentFragment.PUBLIC_WELFARE)
+        val healthFragment = mViewModel.healthFragment
+        val childFragment = mViewModel.childFragment
+        val publicFragment = mViewModel.publicFragment
         val fragments:Array<Fragment> = arrayOf<Fragment>(healthFragment,childFragment,publicFragment)
-        val adapter = NewsAdapter(fragmentManager!!,fragments,resources.getStringArray(R.array.newsTitle))
+        val adapter = NewsAdapter(childFragmentManager,fragments,resources.getStringArray(R.array.newsTitle))
         newsViewPager.adapter = adapter
         newsTab.setupWithViewPager(newsViewPager)
         if (newsViewPager.currentItem != mViewModel.currentIndex){
@@ -50,9 +51,6 @@ class NewsFragment:BaseFragment() {
         }
     }
 
-    override fun onLazyLoad() {
-        initFragments()
-    }
 
     override fun onDestroyView() {
         mViewModel.currentIndex = newsViewPager.currentItem

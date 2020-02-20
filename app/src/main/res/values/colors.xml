@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#FFFFFF</color>
+    <color name="colorAccent">#FF6868</color>
+    <color name="windowBackground">#F6F7F9</color>
 
     <color name="mainColor">#FF6868</color>
     <color name="spaceColor">#FFFFFF</color>
@@ -30,9 +31,25 @@
     <color name="menu_checked">#FF6868</color>
     <color name="menu_background">#ffff</color>
 
-    <color name="tab_background">#F6F7F9</color>
+    <color name="tab_background">#FFF</color>
 
     <color name="color_white">#FFF</color>
+    <color name="color_black">#000</color>
 
     <color name="news_line">#B7B7B7</color>
+    <color name="news_src">#2A2A2A</color>
+    <color name="comment_bg">#F6F7F9</color>
+
+    <color name="button_cant_click">#B7B7B7</color>
+    <color name="comment_text_color">#2A2A2A</color>
+    <color name="comment_text_name">#757575</color>
+    <color name="comment_read_num">#929292</color>
+    <color name="home_text_signature">#929292</color>
+    <color name="mine_line">#D1D1D1</color>
+
+    <color name="home_page_0">#929292</color>
+    <color name="home_page_1">#FFFFFF</color>
+
+    <color name="picker_color">#01579B</color>
+    <color name="setting_save">#8C8C8C</color>
 </resources>

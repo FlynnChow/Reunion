@@ -12,32 +12,23 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <FrameLayout
-            android:background="@color/color_white"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <com.google.android.material.tabs.TabLayout
-                app:tabTextColor="#2A2A2A"
-                app:tabSelectedTextColor="@color/mainColor"
-                app:tabIndicatorHeight="0dp"
-                app:tabTextAppearance="@style/NewsTabTextStyle"
-                app:tabMaxWidth="0dp"
-                app:tabMinWidth="0dp"
-                app:tabPaddingStart="9dp"
-                app:tabPaddingEnd="9dp"
-                app:tabBackground="@android:color/transparent"
-                app:tabRippleColor="@android:color/transparent"
-                android:background="@null"
-                android:id="@+id/newsTab"
-                android:layout_marginStart="14dp"
-                android:layout_width="150dp"
-                android:layout_height="40dp"/>
-        </FrameLayout>
-        <View
-            android:background="#B7B7B7"
-            android:layout_width="match_parent"
-            android:layout_height="0.2dp"/>
-        <androidx.viewpager.widget.ViewPager
+        <com.google.android.material.tabs.TabLayout
+            app:tabTextColor="#2A2A2A"
+            app:tabSelectedTextColor="@color/mainColor"
+            app:tabIndicatorHeight="0dp"
+            app:tabTextAppearance="@style/NewsTabTextStyle"
+            app:tabMaxWidth="0dp"
+            app:tabMinWidth="0dp"
+            app:tabPaddingStart="9dp"
+            app:tabPaddingEnd="9dp"
+            app:tabBackground="@android:color/transparent"
+            app:tabRippleColor="@android:color/transparent"
+            android:background="@null"
+            android:id="@+id/newsTab"
+            android:layout_marginStart="14dp"
+            android:layout_width="150dp"
+            android:layout_height="40dp"/>
+        <com.example.reunion.customize.ViewPagerChange
             android:id="@+id/newsViewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

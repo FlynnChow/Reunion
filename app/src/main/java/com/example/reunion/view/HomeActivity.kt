@@ -1,6 +1,7 @@
 package com.example.reunion.view
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -23,18 +24,19 @@ import java.net.URI
 import kotlin.math.min
 
 class HomeActivity : BaseActivity() {
+    val LOGIN_USER = 100
+    val SETTING_REQUEST = 101
     private lateinit var mBinding:ActivityHomeBinding
     private lateinit var fragments:Array<Fragment>
     private var lastFragmentIndex = 0
     override fun create(savedInstanceState: Bundle?) {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_home)
+        mBinding.lifecycleOwner = this
         mBinding.viewModel = setViewModel(this,HomeViewModel::class.java)
+        mBinding.viewModel!!.updateUser()
         mBinding.viewModel!!.checkLogin()//登录检查
         initBottomNavigation()//初始化fragment
-    }
-
-    fun uploadHeader(view: View?=null){
-        PictureSelectHelper.instance.createPhotoSelector(this)
+        getSystemService(Context.INPUT_METHOD_SERVICE)
     }
 
     private fun initBottomNavigation(){
@@ -72,12 +74,28 @@ class HomeActivity : BaseActivity() {
 
         if (resultCode == Activity.RESULT_OK){
             when(requestCode){
-                PictureSelectHelper.CHECK_PHOTO_CODE->{
-                    val list = PictureSelector.obtainMultipleResult(data)
-                    mBinding.viewModel!!.header.value = list[0].getAndroidPath()
-                    mBinding.viewModel!!.uploadHeader()
+                LOGIN_USER->{
+                    mBinding.viewModel!!.updateUser()
+                }
+                SETTING_REQUEST->{
+                    mBinding.viewModel!!.updateFragment()
+                    mBinding.viewModel!!.updateUser()
                 }
             }
         }
+
+    }
+
+    fun onClickUser(view:View? = null){
+        if (UserHelper.isLogin()){
+
+        }else{
+            val intent = Intent(this,LoginActivity::class.java)
+            startActivityForResult(intent,LOGIN_USER)
+        }
+    }
+
+    fun startSettingActivity(view: View?){
+        startActivityForResult(Intent(this,SettingActivity::class.java).apply { addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP) },SETTING_REQUEST)
     }
 }

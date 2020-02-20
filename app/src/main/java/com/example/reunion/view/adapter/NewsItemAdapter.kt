@@ -1,5 +1,7 @@
 package com.example.reunion.view.adapter
 
+import android.content.Intent
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,6 +14,7 @@ import com.example.reunion.R
 import com.example.reunion.base.BaseViewHolder
 import com.example.reunion.databinding.ItemNewsBinding
 import com.example.reunion.repostory.bean.NewsBean
+import com.example.reunion.view.NewsActivity
 
 class NewsItemAdapter:RecyclerView.Adapter<BaseViewHolder<ItemNewsBinding>>() {
 
@@ -22,9 +25,6 @@ class NewsItemAdapter:RecyclerView.Adapter<BaseViewHolder<ItemNewsBinding>>() {
     ): BaseViewHolder<ItemNewsBinding> {
         val mBinding:ItemNewsBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context),
             R.layout.item_news,parent,false)
-        mBinding.root.setOnClickListener {
-
-        }
         return BaseViewHolder(mBinding)
     }
 
@@ -35,6 +35,15 @@ class NewsItemAdapter:RecyclerView.Adapter<BaseViewHolder<ItemNewsBinding>>() {
     override fun onBindViewHolder(holder: BaseViewHolder<ItemNewsBinding>, position: Int) {
         val mBinding = holder.mBinding
         mBinding.bean = newsList[position]
+        mBinding.root.setOnClickListener {
+            if (newsList[position] != null){
+                val intent = Intent(mBinding.root.context,NewsActivity::class.java)
+                val bundle = Bundle()
+                bundle.putParcelable("news",newsList[position])
+                intent.putExtras(bundle)
+                mBinding.root.context.startActivity(intent)
+            }
+        }
         mBinding.executePendingBindings()
     }
 }

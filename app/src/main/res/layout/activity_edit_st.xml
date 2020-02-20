@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.reunion.view_model.EditStViewModel" />
+        <variable
+            name="activity"
+            type="com.example.reunion.view.EditStActivity" />
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.EditStActivity">
+
+        <FrameLayout
+            android:elevation="2dp"
+            android:background="@color/color_white"
+            android:layout_width="match_parent"
+            android:layout_height="47dp">
+
+            <ImageView
+                android:layout_marginTop="@dimen/back_margin_top"
+                android:layout_marginStart="@dimen/back_margin_start"
+                android:onClick="@{activity::onBackClick}"
+                android:background="@drawable/ripple_back_oval"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/fanhui"
+                android:padding="2dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp" />
+
+            <TextView
+                android:textSize="16sp"
+                android:textColor="@color/color_black"
+                android:text="@{viewModel.title}"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:focusable="true"
+                android:layout_marginEnd="12dp"
+                android:layout_gravity="end|center_vertical"
+                android:text="@string/setting_save"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:onClick="@{activity::onClickSave}"
+                android:textColor="@{viewModel.getSaveTextColor(viewModel.change)}"
+                android:background="@{viewModel.getSaveBg(viewModel.change)}"
+                android:clickable="@{viewModel.isSaveClickable(viewModel.change)}"
+                android:layout_width="50dp"
+                android:layout_height="25dp"/>
+        </FrameLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/stEdit"
+                android:textSize="14sp"
+                android:paddingEnd="32dp"
+                android:text="@={viewModel.content}"
+                android:maxLines="2"
+                android:textColor="@color/color_black"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/stEdit"
+                android:text="@{viewModel.updateNum(viewModel.content,viewModel.length)}"
+                android:textSize="12sp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="12dp"
+                android:layout_gravity="end"
+                android:textColor="@color/comment_text_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</layout>

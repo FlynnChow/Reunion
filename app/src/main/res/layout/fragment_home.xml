@@ -20,26 +20,30 @@
                 android:clickable="true"
                 android:layout_marginStart="9dp"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/temp_icon"
+                android:src="@drawable/sousuo"
                 android:padding="2dp"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:focusable="true" />
-            <com.gigamole.navigationtabstrip.NavigationTabStrip
-                android:layout_marginStart="60dp"
-                android:layout_marginEnd="60dp"
-                app:nts_size="16sp"
-                app:nts_weight="4dp"
-                app:nts_color="@color/mainColor"
-                app:nts_inactive_color="#757575"
-                app:nts_active_color="#000000"
-                app:nts_corners_radius="2dp"
-                app:nts_animation_duration="150"
+            <com.example.reunion.customize.tab.TabLayout
+                app:tabIndicator="@drawable/home_tab_indicator"
+                app:tabTextColor="#2A2A2A"
+                app:tabTextAppearance="@style/NewsTabTextStyle"
+                android:layout_marginStart="48dp"
+                android:layout_marginEnd="20dp"
+                app:tabBackground="@android:color/transparent"
+                app:tabRippleColor="@android:color/transparent"
+                app:tabMaxWidth="0dp"
+                app:tabMinWidth="0dp"
+                app:tabPaddingStart="6dp"
+                app:tabPaddingEnd="6dp"
+                app:tabIndicatorHeight="50dp"
+                app:tabIndicatorColor="@color/mainColor"
                 android:id="@+id/homeTabLayout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"/>
+                android:layout_height="47dp"/>
         </FrameLayout>
-        <androidx.viewpager.widget.ViewPager
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/homeViewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
