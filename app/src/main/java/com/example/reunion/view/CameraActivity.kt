@@ -4,8 +4,11 @@ import android.Manifest
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
+import android.view.MotionEvent
 import android.view.WindowManager
+import android.widget.SeekBar
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.example.reunion.R
 import com.example.reunion.base.BaseActivity
@@ -25,7 +28,7 @@ class CameraActivity : BaseActivity() {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_camera)
         mBinding.lifecycleOwner = this
 
-       cameraHelper = CameraHelper(this, cameraView)
+       cameraHelper = CameraHelper(this, cameraView,mBinding.faceDrawView!!)
 
         takePicture.setOnClickListener {
             cameraHelper.takePicture{
@@ -35,7 +38,20 @@ class CameraActivity : BaseActivity() {
 
         exchangeCamera.setOnClickListener {
             cameraHelper.exchangeCamera()
+            cameraSeekBar?.progress = 0
         }
+
+        cameraHelper.addFaceListener {
+            faceDrawView?.updateFaceList(it)
+        }
+
+        cameraSeekBar?.setOnSeekBarChangeListener(object :SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                cameraHelper.setZoom(progress/100f)
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
     }
 
 
@@ -48,6 +64,7 @@ class CameraActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         cameraHelper.mCameraFacing = mViewModel.mCameraFacing
+        cameraHelper.zoomLevel = mViewModel.zoomLevel.value!!
         if (allPermissionsGranted()){
             cameraHelper.startCamera()
         }
@@ -55,15 +72,24 @@ class CameraActivity : BaseActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        cameraHelper.onDestory()
+        cameraHelper.onDestroy()
     }
 
 
     override fun onStop() {
         mViewModel.mCameraFacing = cameraHelper.mCameraFacing
+        mViewModel.zoomLevel.value = cameraHelper.zoomLevel
         super.onStop()
     }
 
     override fun permissionCheckPass() = cameraHelper.startCamera()
 
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        ev?.apply {
+            cameraHelper.onTouch(this){
+                cameraSeekBar?.progress = (it*100).toInt()
+            }
+        }
+        return super.dispatchTouchEvent(ev)
+    }
 }

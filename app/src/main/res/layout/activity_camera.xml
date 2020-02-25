@@ -4,44 +4,44 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="mViewModel"
+            type="com.example.reunion.repostory.remote_resource.CameraViewModel" />
+        <variable
+            name="activity"
+            type="com.example.reunion.view.CameraActivity" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.CameraActivity">
-        <TextureView
-            app:layout_constraintStart_toStartOf="parent"
+        <com.example.reunion.customize.MyTextureView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cameraView" />
+        <com.example.reunion.customize.FaceDrawView
+            android:id="@+id/faceDrawView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <SeekBar
+            android:id="@+id/cameraSeekBar"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/cameraView" />
-        <ImageView
-            android:id="@+id/imgTS"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_width="200dp"
-            android:layout_height="200dp"/>
-
+            android:layout_height="wrap_content"/>
         <Button
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_alignParentBottom="true"
             android:layout_marginBottom="50dp"
             android:id="@+id/takePicture"
             android:text="start Camera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <Button
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/takePicture"
+            android:layout_alignParentBottom="true"
             android:layout_marginBottom="50dp"
             android:id="@+id/exchangeCamera"
             android:text="exchange Camera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 </layout>

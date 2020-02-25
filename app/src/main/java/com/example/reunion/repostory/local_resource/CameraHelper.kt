@@ -1,9 +1,9 @@
 package com.example.reunion.repostory.local_resource
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.graphics.*
 import android.hardware.camera2.*
 import android.media.ImageReader
@@ -12,31 +12,33 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.util.Log
 import android.util.Size
+import android.view.MotionEvent
 import android.view.Surface
 import android.view.TextureView
 import androidx.core.content.ContextCompat
-import com.example.reunion.MyApplication
 import com.example.reunion.base.BaseActivity
+import com.example.reunion.customize.FaceDrawView
+import com.example.reunion.customize.MyTextureView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import okio.buffer
-import okio.sink
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.math.sqrt
 
-class CameraHelper(private val activity:BaseActivity,private val textureView: TextureView) {
+class CameraHelper(private val activity:BaseActivity,private val textureView: MyTextureView,private val faceView:FaceDrawView) {
 
     companion object{
-        const val PREVIEW_WIDTH = 720
-        const val PREVIEW_HEIGHT = 1280
+        const val PREVIEW_WIDTH = 1080
+        const val PREVIEW_HEIGHT = 1440
         const val SAVE_WIDTH = 720
         const val SAVE_HEIGHT = 1280
     }
     private val savePath = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!.absolutePath + File.separator + "cachePicture/"
     private var takePcListener:((String)->Unit)? = null
+    private var faceListener:((ArrayList<RectF>)->Unit)? = null
 
     private var mCameraId = ""
 
@@ -49,6 +51,12 @@ class CameraHelper(private val activity:BaseActivity,private val textureView: Te
     var mCameraFacing = CameraCharacteristics.LENS_FACING_BACK //摄像头方向
     private var mCameraOrientation = 0 //摄像头角度
     private var mDisplayRotation = activity.windowManager.defaultDisplay.rotation //手机屏幕方向
+
+    private var mFaceMode = CaptureResult.STATISTICS_FACE_DETECT_MODE_OFF
+    private var openFace = true
+    private var mFaceMatrix = Matrix()
+    private var mFaceList = ArrayList<RectF>()
+
 
     private var mPreviewSize = Size(
         PREVIEW_WIDTH,
@@ -138,7 +146,7 @@ class CameraHelper(private val activity:BaseActivity,private val textureView: Te
     private val comparatorSize = object :Comparator<Size>{
         override fun compare(size1: Size?, size2: Size?): Int {
             if (size1 != null&&size2!=null){
-                return (size1.width*size1.height).compareTo((size2.width*size2.height))
+                return java.lang.Long.signum(size1.width.toLong() * size1.height - size2.width.toLong() * size2.height)
             }
             return -1
         }
@@ -175,7 +183,9 @@ class CameraHelper(private val activity:BaseActivity,private val textureView: Te
             captureBuilder.addTarget(mImageReader?.surface!!)
             captureBuilder.set(CaptureRequest.CONTROL_AF_MODE,CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE)
             captureBuilder.set(CaptureRequest.CONTROL_AE_MODE,CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH)
-            mCameraCaptureSession?.capture(captureBuilder.build(),null,mCameraHandler)?:activity.toast("拍照失败")
+            mCameraCaptureSession?.stopRepeating()
+            mCameraCaptureSession?.abortCaptures()
+            mCameraCaptureSession?.capture(captureBuilder.build(),mCaptureCallback,mCameraHandler)?:activity.toast("拍照失败")
         }
     }
 
@@ -232,18 +242,45 @@ class CameraHelper(private val activity:BaseActivity,private val textureView: Te
             if (exchange) textureView.width else textureView.height,
             previewSize?.toList()!!)
 
-        val rotate = activity.windowManager.defaultDisplay.rotation
-        if (rotate == Surface.ROTATION_90 || rotate == Surface.ROTATION_270){
-            textureView.surfaceTexture.setDefaultBufferSize(mPreviewSize.height,mPreviewSize.width)
+        textureView.surfaceTexture.setDefaultBufferSize(mPreviewSize.width, mPreviewSize.height)
+        val orientation = activity.resources.configuration.orientation
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE){
+            textureView.setAspectRatio(mPreviewSize.width,mPreviewSize.height)
         }else{
-            textureView.surfaceTexture.setDefaultBufferSize(mPreviewSize.width,mPreviewSize.height)
+            textureView.setAspectRatio(mPreviewSize.height,mPreviewSize.width)
         }
         setTransform()
 
         mImageReader = ImageReader.newInstance(mSaveSize.width,mSaveSize.height,ImageFormat.JPEG,1)
         mImageReader?.setOnImageAvailableListener(onImageAvailableListener,mCameraHandler)
-
+        if (openFace){
+            initFaceDetect()
+        }
         openCamera()
+
+    }
+
+    private fun initFaceDetect(){
+        val faceCount = mCameraCharacteristics.get(CameraCharacteristics.STATISTICS_INFO_MAX_FACE_COUNT)
+        val faceModes = mCameraCharacteristics.get(CameraCharacteristics.STATISTICS_INFO_AVAILABLE_FACE_DETECT_MODES)?:IntArray(0)
+        mFaceMode = when {
+            faceModes.contains(CaptureRequest.STATISTICS_FACE_DETECT_MODE_FULL) -> CaptureRequest.STATISTICS_FACE_DETECT_MODE_FULL
+            faceModes.contains(CaptureRequest.STATISTICS_FACE_DETECT_MODE_SIMPLE) -> CaptureRequest.STATISTICS_FACE_DETECT_MODE_FULL
+            else -> CaptureRequest.STATISTICS_FACE_DETECT_MODE_OFF
+        }
+        if (mFaceMode == CaptureRequest.STATISTICS_FACE_DETECT_MODE_OFF) {
+            return
+        }
+
+        val activeArraySizeRect = mCameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE) //获取成像区域
+        val scaledWidth = mPreviewSize.width / activeArraySizeRect?.width()?.toFloat()!!
+        val scaledHeight = mPreviewSize.height / activeArraySizeRect.height().toFloat()
+        val mirror = mCameraFacing == CameraCharacteristics.LENS_FACING_FRONT
+
+        mFaceMatrix.setRotate(mCameraOrientation.toFloat())
+        mFaceMatrix.postScale(if (mirror) -scaledWidth else scaledWidth, scaledHeight)
+        if (isExchangeWidthAndHeight(mDisplayRotation, mCameraOrientation))
+            mFaceMatrix.postTranslate(mPreviewSize.height.toFloat(), mPreviewSize.width.toFloat())
 
     }
 
@@ -287,15 +324,7 @@ class CameraHelper(private val activity:BaseActivity,private val textureView: Te
     }
 
     private fun createCaptureSession(mCameraDevice: CameraDevice){
-        val requestCaptureBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
-
         val surface = Surface(textureView.surfaceTexture)
-        requestCaptureBuilder.apply {
-            addTarget(surface)
-            set(CaptureRequest.CONTROL_AE_MODE,CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH)
-            set(CaptureRequest.CONTROL_AF_MODE,CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE)
-        }
-
         mCameraDevice.createCaptureSession(arrayListOf(surface,mImageReader?.surface),object :CameraCaptureSession.StateCallback(){
             override fun onConfigureFailed(session: CameraCaptureSession) {
                 activity.toast("开启预览会话失败")
@@ -303,13 +332,14 @@ class CameraHelper(private val activity:BaseActivity,private val textureView: Te
 
             override fun onConfigured(session: CameraCaptureSession) {
                 mCameraCaptureSession = session
-                session.setRepeatingRequest(requestCaptureBuilder.build(),mCaptureCallback,mCameraHandler)
+                setZoom()
             }
         },mCameraHandler)
     }
 
     fun exchangeCamera(){
         if (mCameraFacing == null|| !isCanExchangeFac||!textureView.isAvailable) return
+        setZoom()
         mCameraFacing = if(mCameraFacing == CameraCharacteristics.LENS_FACING_FRONT) CameraCharacteristics.LENS_FACING_BACK
         else CameraCharacteristics.LENS_FACING_FRONT
 
@@ -318,24 +348,74 @@ class CameraHelper(private val activity:BaseActivity,private val textureView: Te
         initCamera()
     }
 
-    private val mCaptureCallback = object :CameraCaptureSession.CaptureCallback(){
+    private val mRepeatingCallback = object :CameraCaptureSession.CaptureCallback(){
         override fun onCaptureCompleted(
             session: CameraCaptureSession,
             request: CaptureRequest,
             result: TotalCaptureResult
         ) {
             super.onCaptureCompleted(session, request, result)
+            if (openFace && mFaceMode != CaptureRequest.STATISTICS_FACE_DETECT_MODE_OFF)
+                handleFace(result)
             isCanExchangeFac = true
             isCanTakePic = true
         }
+    }
 
+    private val mCaptureCallback = object :CameraCaptureSession.CaptureCallback(){
+        override fun onCaptureCompleted(
+            session: CameraCaptureSession,
+            request: CaptureRequest,
+            result: TotalCaptureResult
+        ) {
+            val requestCaptureBuilder = getRestoreRepeating()
+            mCameraCaptureSession?.setRepeatingRequest(requestCaptureBuilder.build(),mRepeatingCallback,mCameraHandler)
+            super.onCaptureCompleted(session, request, result)
+        }
         override fun onCaptureFailed(
             session: CameraCaptureSession,
             request: CaptureRequest,
             failure: CaptureFailure
         ) {
+            val requestCaptureBuilder = getRestoreRepeating()
+            mCameraCaptureSession?.setRepeatingRequest(requestCaptureBuilder.build(),mRepeatingCallback,mCameraHandler)
             super.onCaptureFailed(session, request, failure)
-            activity.toast("开启预览失败")
+        }
+    }
+
+    private fun getRestoreRepeating():CaptureRequest.Builder{
+        val requestCaptureBuilder = mCameraDevice?.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
+        return requestCaptureBuilder?.apply {
+            addTarget(Surface(textureView.surfaceTexture))
+            set(CaptureRequest.CONTROL_AE_MODE,CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH)
+            set(CaptureRequest.CONTROL_AF_MODE,CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE)
+            if (openFace && mFaceMode != CaptureRequest.STATISTICS_FACE_DETECT_MODE_OFF)
+                set(CaptureRequest.STATISTICS_FACE_DETECT_MODE, CameraCharacteristics.STATISTICS_FACE_DETECT_MODE_SIMPLE)
+        }!!
+    }
+
+    private fun handleFace(result: TotalCaptureResult){
+        val faces = result.get(CaptureResult.STATISTICS_FACES)?:return
+        mFaceList.clear()
+        for (face in faces){
+            val bounds = face.bounds
+            val left = bounds.left
+            val top = bounds.top
+            val right = bounds.right
+            val bottom = bounds.bottom
+
+            val rawFaceRect = RectF(left.toFloat(), top.toFloat(), right.toFloat(), bottom.toFloat())
+            mFaceMatrix.mapRect(rawFaceRect)
+
+            val resultFaceRect = if (mCameraFacing == CaptureRequest.LENS_FACING_FRONT)
+                rawFaceRect
+            else{
+                RectF(rawFaceRect.left, rawFaceRect.top - mPreviewSize.width, rawFaceRect.right, rawFaceRect.bottom - mPreviewSize.width)
+            }
+            mFaceList.add(resultFaceRect)
+        }
+        GlobalScope.launch(Dispatchers.Main) {
+            faceListener?.invoke(mFaceList)
         }
     }
 
@@ -353,8 +433,80 @@ class CameraHelper(private val activity:BaseActivity,private val textureView: Te
         isCanTakePic = false
     }
 
-    fun onDestory(){
+
+    fun onDestroy(){
         releaseCamera()
         handlerThread.quitSafely()
+    }
+
+    private var fingerSpacing = 0f
+    var zoomLevel = 1
+    fun onTouch(event:MotionEvent,listener:((Float)->Unit)? = null){
+        if (!textureView.isAvailable||mCameraDevice==null){
+            return
+        }
+        val maxZoom = (mCameraCharacteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM)?:1f)*10
+        val currentZoom = mCameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE)
+        val currentFingerSpacing:Float
+        if (event.pointerCount >1){
+            currentFingerSpacing = getSpacing(event)
+            if (fingerSpacing != 0f){
+                if (currentFingerSpacing - fingerSpacing > 10)
+                    zoomLevel ++
+                else if (currentFingerSpacing - fingerSpacing< -10)
+                    zoomLevel --
+                if (zoomLevel <=0) zoomLevel = 0
+                else if (zoomLevel >= maxZoom/2) zoomLevel = (maxZoom).toInt()/2
+                listener?.invoke(zoomLevel / (maxZoom/2))
+                val zoom = getNewZoom(currentZoom!!,maxZoom,zoomLevel)
+                mCameraCaptureSession?.stopRepeating()
+                mCameraCaptureSession?.abortCaptures()
+                val requestCaptureBuilder = getRestoreRepeating()
+                requestCaptureBuilder.apply {
+                    set(CaptureRequest.CONTROL_AE_MODE,CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH)
+                    set(CaptureRequest.CONTROL_AF_MODE,CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE)
+                }
+                requestCaptureBuilder.set(CaptureRequest.SCALER_CROP_REGION,zoom)
+                mCameraCaptureSession?.setRepeatingRequest(requestCaptureBuilder.build(),mRepeatingCallback,mCameraHandler)
+            }
+            fingerSpacing = currentFingerSpacing
+        }
+    }
+
+    fun setZoom(current:Float = -1f){
+        if (current==-1f){}
+        else if (current !in 0f..1f||!textureView.isAvailable||mCameraDevice==null) return
+        val maxZoom = (mCameraCharacteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM)?:1f)*10
+        val currentZoom = mCameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE)
+        val maxbugZoom = maxZoom / 2
+        if (current != -1f) zoomLevel = (maxbugZoom*current).toInt()
+        val zoom = getNewZoom(currentZoom!!,maxZoom,zoomLevel)
+        mCameraCaptureSession?.stopRepeating()
+        mCameraCaptureSession?.abortCaptures()
+        val requestCaptureBuilder = getRestoreRepeating()
+        requestCaptureBuilder.set(CaptureRequest.SCALER_CROP_REGION,zoom)
+        mCameraCaptureSession?.setRepeatingRequest(requestCaptureBuilder.build(),mRepeatingCallback,mCameraHandler)
+    }
+
+    private fun getNewZoom(cZoom:Rect,max:Float,level:Int):Rect{
+        val minW = (cZoom.width() / max).toInt()
+        val minH = (cZoom.height() / max).toInt()
+        val disW = cZoom.width() - minW
+        val disH = cZoom.height() - minH
+        var cropW = disW / 100 * level
+        var cropH = disH / 100 * level
+        cropW -= cropW and 3
+        cropH -= cropH and 3
+        return Rect(cropW,cropH,cZoom.width() - cropW,cZoom.height() - cropH)
+    }
+
+    private fun getSpacing(ev:MotionEvent):Float{
+        val x = ev.getX(0) - ev.getX(1)
+        val y = ev.getY(0) - ev.getY(1)
+        return sqrt(x*x+y*y)
+    }
+
+    fun addFaceListener(listener: ((ArrayList<RectF>) -> Unit)?){
+        faceListener = listener
     }
 }
