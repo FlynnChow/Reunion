@@ -1,32 +1,8 @@
 package com.example.reunion.util;
-
-import android.app.Activity;
-import android.content.Context;
 import android.provider.Settings;
-import android.util.Log;
-import android.view.View;
-
-import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
-import com.bigkoo.pickerview.builder.TimePickerBuilder;
-import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
-import com.bigkoo.pickerview.listener.OnTimeSelectListener;
-import com.bigkoo.pickerview.view.OptionsPickerView;
-import com.bigkoo.pickerview.view.TimePickerView;
 import com.example.reunion.MyApplication;
-import com.lljjcoder.bean.ProvinceBean;
-
-import java.security.Key;
 import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.DESKeySpec;
 
 public class StringDealerUtil {
     /**

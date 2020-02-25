@@ -121,7 +121,7 @@ public class TextAppearance {
                             TextAppearance.this.fontResolved = true;
                             callback.onFontRetrievalFailed(reason);
                         }
-                    }, (Handler)null);
+                    }, null);
                 } catch (NotFoundException | UnsupportedOperationException var5) {
                 } catch (Exception var6) {
                     Log.d("TextAppearance", "Error loading font " + this.fontFamily, var6);

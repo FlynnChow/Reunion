@@ -20,7 +20,7 @@ import com.example.reunion.MyApplication
 import com.example.reunion.R
 import com.example.reunion.base.BaseActivity
 import com.example.reunion.databinding.ActivitySettingBinding
-import com.example.reunion.repostory.local_resource.PictureSelectHelper
+import com.example.reunion.repostory.local_resource.PictureHelper
 import com.example.reunion.repostory.local_resource.UserHelper
 import com.example.reunion.view.setting_view.*
 import com.example.reunion.view_model.SettingViewModel
@@ -30,10 +30,7 @@ import com.lljjcoder.bean.DistrictBean
 import com.lljjcoder.bean.ProvinceBean
 import com.lljjcoder.citywheel.CityConfig
 import com.lljjcoder.style.citypickerview.CityPickerView
-import com.luck.picture.lib.PictureSelector
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
-import java.text.DateFormat
+import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -41,6 +38,10 @@ import kotlin.system.exitProcess
 
 
 class SettingActivity : BaseActivity() {
+    companion object{
+        val MODE_DEFAULT = 0
+        val MODE_USER = 1
+    }
     private val mViewModel by lazy { setViewModel(this,SettingViewModel::class.java) }
     private lateinit var mBinding:ActivitySettingBinding
     private val account by lazy { AccountStFragment() }
@@ -53,6 +54,7 @@ class SettingActivity : BaseActivity() {
     private val mCityPicker by lazy { CityPickerView() }
     private lateinit var mSexPicker: OptionsPickerView<*>
     private lateinit var mTimePicker: TimePickerView
+    private var mode = 0
 
 
 
@@ -61,7 +63,13 @@ class SettingActivity : BaseActivity() {
         mBinding.viewModel = mViewModel
 
         mViewModel.initUser()
-        showStartFragment()
+        val mode = intent.getIntExtra("launchMode",0)
+        if (mode == 0)
+            showStartFragment()
+        else{
+            this.mode = mode
+            showMessageFragment()
+        }
         initPicker()
     }
 
@@ -139,21 +147,30 @@ class SettingActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
-        when(mViewModel.currentPage){
-            SettingViewModel.PAGE_START -> {
+        when(mode){
+            MODE_DEFAULT -> {
+                when(mViewModel.currentPage){
+                    SettingViewModel.PAGE_START -> {
+                        setResult(Activity.RESULT_OK)
+                        finish()
+                    }
+                    SettingViewModel.PAGE_ADVICE -> showHelpFragment()
+                    SettingViewModel.PAGE_HOME_MANAGER ->{
+                        mViewModel.saveHomePage()
+                        showStartFragment()
+                    }
+                    SettingViewModel.PAGE_MESSAGE->{
+                        mViewModel.saveUser()
+                        showStartFragment()
+                    }
+                    else -> showStartFragment()
+                }
+            }
+            MODE_USER ->{
                 setResult(Activity.RESULT_OK)
+                mViewModel.saveHomePage()
                 finish()
             }
-            SettingViewModel.PAGE_ADVICE -> showHelpFragment()
-            SettingViewModel.PAGE_HOME_MANAGER ->{
-                mViewModel.saveHomePage()
-                showStartFragment()
-            }
-            SettingViewModel.PAGE_MESSAGE->{
-                mViewModel.saveUser()
-                showStartFragment()
-            }
-            else -> showStartFragment()
         }
     }
 
@@ -237,7 +254,7 @@ class SettingActivity : BaseActivity() {
     }
 
     fun onChangeHeader(view: View?=null){
-        PictureSelectHelper.instance.createHeaderSelector(this)
+        PictureHelper.instance.openPhoto(this)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -256,10 +273,20 @@ class SettingActivity : BaseActivity() {
                     val content = data?.getStringExtra("content")?:""
                     mViewModel.realName.value = content
                 }
-                PictureSelectHelper.CHECK_HEADER_CODE->{
-                    val list = PictureSelector.obtainMultipleResult(data)
-                    mViewModel.path.value = list[0].getAndroidPath()
-                    mBinding.viewModel!!.uploadHeader()
+                PictureHelper.REQUEST_DEFAULT->{
+                    val uri = PictureHelper.instance.obtainUriFromPhoto(data)
+                    PictureHelper.instance.cropCircleImage(this@SettingActivity,uri)
+                }
+                PictureHelper.REQUEST_CROUP->{
+                    val uri = PictureHelper.instance.obtainCropUri(data)
+                    val oriPath = PictureHelper.instance.obtainPathFromUri(uri)
+                    GlobalScope.launch(Dispatchers.IO) {
+                        val comPath = PictureHelper.instance.compressImage(this@SettingActivity,oriPath)
+                        launch(Dispatchers.Main) {
+                            mViewModel.path.value = comPath
+                            mBinding.viewModel!!.uploadHeader()
+                        }
+                    }
                 }
             }
         }

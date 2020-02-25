@@ -9,19 +9,12 @@ import android.util.Log
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
 import com.example.reunion.R
 import com.example.reunion.base.BaseActivity
 import com.example.reunion.databinding.ActivityHomeBinding
-import com.example.reunion.repostory.local_resource.PictureSelectHelper
 import com.example.reunion.repostory.local_resource.UserHelper
 import com.example.reunion.view_model.HomeViewModel
-import com.luck.picture.lib.PictureSelector
-import com.luck.picture.lib.entity.LocalMedia
 import kotlinx.android.synthetic.main.activity_home.*
-import java.io.File
-import java.net.URI
-import kotlin.math.min
 
 class HomeActivity : BaseActivity() {
     val LOGIN_USER = 100
@@ -88,9 +81,12 @@ class HomeActivity : BaseActivity() {
 
     fun onClickUser(view:View? = null){
         if (UserHelper.isLogin()){
-
+            val intent = Intent(this,SettingActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivityForResult(intent,SETTING_REQUEST)
         }else{
             val intent = Intent(this,LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
             startActivityForResult(intent,LOGIN_USER)
         }
     }

@@ -9,12 +9,12 @@ class NewsBean {
     var msg = ""
     var result: Result?= null
 
-    public class Result{
+    class Result{
         var num = 0
         var list:ArrayList<News> ?= null
     }
 
-    public class News() :Parcelable{
+    class News() :Parcelable{
         var title = ""
         var time = ""
         var src = ""

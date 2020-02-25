@@ -1,20 +1,15 @@
 package com.example.reunion.view
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.example.reunion.R
 import com.example.reunion.base.BaseActivity
 import com.example.reunion.databinding.ActivityLoginBinding
-import com.example.reunion.repostory.local_resource.UserHelper
 import com.example.reunion.util.NormalUtil
-import com.example.reunion.util.PictureEngine
 import com.example.reunion.view_model.LoginViewModel
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_user_protocol.*
 
 class LoginActivity : BaseActivity() {

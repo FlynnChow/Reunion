@@ -155,7 +155,7 @@ class SettingViewModel:BaseViewModel() {
         val body = MultipartBody.Builder()
             .addFormDataPart("uId",UserHelper.getUser()?.uId?:"")
             .addFormDataPart("time",UserHelper.time.toString())
-            .addFormDataPart("enCode",UserHelper.enCode?:"")
+            .addFormDataPart("enCode", UserHelper.enCode)
             .addFormDataPart("headPhoto",file.name,uploadBody)
             .build()
         launch ({
@@ -199,7 +199,7 @@ class SettingViewModel:BaseViewModel() {
         val body = MultipartBody.Builder()
             .addFormDataPart("uId",UserHelper.getUser()?.uId?:"")
             .addFormDataPart("time",UserHelper.time.toString())
-            .addFormDataPart("enCode",UserHelper.enCode?:"")
+            .addFormDataPart("enCode", UserHelper.enCode)
             .addFormDataPart("userJson",gsonString)
             .build()
         launch({

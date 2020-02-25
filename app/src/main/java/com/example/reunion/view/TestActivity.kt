@@ -1,38 +1,30 @@
 package com.example.reunion.view
 
-import android.app.Dialog
-import android.graphics.Color
-import android.os.Build
+import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.util.Log
-import android.view.ViewGroup
-import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.NestedScrollView
 import com.example.reunion.R
-import com.example.reunion.customize.CommentView
+import com.example.reunion.base.BaseActivity
+import com.zhihu.matisse.Matisse
+import com.zhihu.matisse.MimeType
+import com.zhihu.matisse.engine.impl.GlideEngine
 import kotlinx.android.synthetic.main.activity_test.*
 
-class TestActivity : AppCompatActivity() {
+class TestActivity : BaseActivity() {
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+
+    override fun create(savedInstanceState: Bundle?) {
         setContentView(R.layout.activity_test)
 
         testButton.setOnClickListener {
-            val view = layoutInflater.inflate(R.layout.view_comment_dialog,null,false)
-            val dialog = Dialog(this)
-            dialog.setContentView(view)
-            val window = dialog.window
-            val params = window?.attributes
-            params?.width = ViewGroup.LayoutParams.MATCH_PARENT
-            params?.height = ViewGroup.LayoutParams.MATCH_PARENT
-            params?.y = -1000
-            window?.attributes = params
-            window?.decorView?.setBackgroundColor(Color.WHITE)
-            window?.decorView?.setPadding(0,0,0,0)
-            dialog.show()
+            Matisse.from(this)
+                .choose(MimeType.ofAll())
+                .countable(true)
+                .maxSelectable(9)
+                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                .thumbnailScale(0.85f)
+                .imageEngine(GlideEngine())
+                .showPreview(false) // Default is `true`
+                .forResult(1)
         }
     }
 }

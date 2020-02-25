@@ -3,7 +3,7 @@ package com.example.reunion.repostory.local_resource
 import android.util.Log
 import com.example.reunion.MyApplication
 
-class HomePageSt() {
+class HomePageSt {
     companion object {
         val instance: HomePageSt by lazy(LazyThreadSafetyMode.SYNCHRONIZED) { HomePageSt() }
     }

@@ -18,7 +18,7 @@ public class TabItem extends View {
     public final int customLayout;
 
     public TabItem(Context context) {
-        this(context, (AttributeSet)null);
+        this(context, null);
     }
 
     public TabItem(Context context, AttributeSet attrs) {

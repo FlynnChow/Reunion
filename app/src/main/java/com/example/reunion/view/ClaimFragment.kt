@@ -23,7 +23,4 @@ class ClaimFragment:BaseFragment() {
         return mBinding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-    }
 }

@@ -49,14 +49,6 @@ abstract class BaseFragment:Fragment() {
     }
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
     override fun onResume() {
         super.onResume()
         if (isFirstLoad){

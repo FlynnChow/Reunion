@@ -6,6 +6,7 @@
     <color name="windowBackground">#F6F7F9</color>
 
     <color name="mainColor">#FF6868</color>
+    <color name="testColor">#3318FFFF</color>
     <color name="spaceColor">#FFFFFF</color>
     <color name="iconColor">#757575</color>
     

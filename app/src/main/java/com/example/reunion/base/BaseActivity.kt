@@ -12,18 +12,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
-import com.luck.picture.lib.entity.LocalMedia
-import java.io.File
-import java.net.UnknownHostException
 
 abstract class BaseActivity: AppCompatActivity() {
 
     private val MUST_PERMISSION = 1000
 
     private val NORM_PERMISSION = 1001
+
+    val mustPermissions:ArrayList<String> = ArrayList()
 
 
     @Suppress("UNCHECKED_CAST")
@@ -38,48 +35,46 @@ abstract class BaseActivity: AppCompatActivity() {
         return mViewModel
     }
 
-    protected fun toast(msg:String?,duration:Int = Toast.LENGTH_SHORT){
+    fun toast(msg:String?,duration:Int = Toast.LENGTH_SHORT){
         Toast.makeText(this,msg,duration).show()
     }
 
     private fun initActivity(){
-        checkPermission()
-    }
 
-    /**
-     * 可选的权限，拒绝不会被finish
-     */
-    private fun checkPermission(){
-        val permissions = ArrayList<String>()
-        val perTable = arrayOf<String>()
-        for (permission in perTable){
-            if (ContextCompat.checkSelfPermission(this,permission) != PackageManager.PERMISSION_GRANTED)
-                permissions.add(permission)
-        }
-        if (permissions.isNotEmpty())
-            ActivityCompat.requestPermissions(this,permissions.toTypedArray(),NORM_PERMISSION)
     }
 
     /**
      * 必须的权限，拒绝会被finish
      */
     private fun checkMustPermission(){
-        val permissions = ArrayList<String>()
         val perTable = arrayOf(
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE)
         for (permission in perTable){
             if (ContextCompat.checkSelfPermission(this,permission) != PackageManager.PERMISSION_GRANTED)
-                permissions.add(permission)
+                mustPermissions.add(permission)
         }
-        if (permissions.isNotEmpty())
-            ActivityCompat.requestPermissions(this,permissions.toTypedArray(),MUST_PERMISSION)
+        if (mustPermissions.isNotEmpty())
+            ActivityCompat.requestPermissions(this,mustPermissions.toTypedArray(),MUST_PERMISSION)
+    }
+
+    protected open fun insertMustPermission():ArrayList<String>?{ return null }
+
+    private fun insertMustPermission(mPermissions:ArrayList<String>?){
+        mPermissions?.apply {
+            val mustPermissions = ArrayList<String>()
+            for (permission in mPermissions){
+                if (ContextCompat.checkSelfPermission(this@BaseActivity,permission) != PackageManager.PERMISSION_GRANTED)
+                    mustPermissions.add(permission)
+            }
+            this@BaseActivity.mustPermissions.addAll(mustPermissions)
+        }
     }
 
 
     final override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initActivity()
+        insertMustPermission(insertMustPermission())
         checkMustPermission()
         create(savedInstanceState)
     }
@@ -98,27 +93,25 @@ abstract class BaseActivity: AppCompatActivity() {
                     onNormalPermissionFail(permissions[index])
                 }
             }
+            if (allPermissionsGranted()){
+                permissionCheckPass()
+            }
         }
     }
 
     protected open fun onMustPermissionFail(permission:String){
-        toast("必须申请权限才能使用该功能")
+        toast("必须接受权限才能使用该功能")
         finish()
+    }
+
+    protected fun allPermissionsGranted() = mustPermissions.all {
+        ContextCompat.checkSelfPermission(
+            baseContext, it) == PackageManager.PERMISSION_GRANTED
     }
 
     protected open fun onNormalPermissionFail(permission:String){}
 
-    abstract fun create(savedInstanceState: Bundle?)
+    protected open fun permissionCheckPass(){}
 
-    protected fun LocalMedia.getAndroidPath():String{
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
-            androidQToPath
-        }else{
-            when {
-                isCompressed -> compressPath
-                isCut -> cutPath
-                else -> path
-            }
-        }
-    }
+    abstract fun create(savedInstanceState: Bundle?)
 }

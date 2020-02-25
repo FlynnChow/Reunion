@@ -2,9 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.reunion">
     <!-- 网络 -->
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- 文件读写 -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 网络 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /><!-- 文件读写 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" /><!-- 摄像头 -->
 
     <application
         android:name=".MyApplication"
@@ -15,20 +16,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.EditStActivity"></activity>
-        <activity android:name=".view.SettingActivity" />
-        <activity android:name=".view.TestActivity" />
-        <activity android:name=".view.NewsActivity" />
-        <activity
-            android:name=".view.HomeActivity"
-            android:screenOrientation="portrait">
+        <activity android:name=".view.CameraActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".view.EditStActivity" />
+        <activity android:name=".view.SettingActivity" />
+        <activity android:name=".view.TestActivity" />
+        <activity android:name=".view.NewsActivity" />
+        <activity
+            android:name=".view.HomeActivity"
+            android:screenOrientation="portrait">
+        </activity>
         <activity android:name=".view.LoginActivity" />
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
+        <meta-data
+            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+            android:value="face" />
     </application>
 
 </manifest>
