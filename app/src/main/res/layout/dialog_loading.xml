@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<data>
+    <variable
+        name="text"
+        type="String" />
+</data>
+
+<androidx.cardview.widget.CardView
+    app:cardCornerRadius="25dp"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:paddingStart="60dp"
+        android:paddingEnd="60dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="18dp"
+        android:layout_gravity="bottom"
+        android:elevation="2dp"
+        android:background="@drawable/dialog_bg"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.wang.avi.AVLoadingIndicatorView
+            android:layout_gravity="center"
+            android:id="@+id/avi"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            style="@style/AVLoadingIndicatorView"
+            app:indicatorName="BallSpinFadeLoaderIndicator"
+            app:indicatorColor="@color/mainColor"
+            />
+        <TextView
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ripple_rect"
+            android:textColor="@color/color_black"
+            android:textSize="14sp"
+            android:text="@{text}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
+</layout>
+

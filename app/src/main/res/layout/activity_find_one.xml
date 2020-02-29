@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.reunion.view_model.FindOneViewModel" />
+        <variable
+            name="activity"
+            type="com.example.reunion.view.FindOneActivity" />
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.FindOneActivity">
+        <FrameLayout
+            android:elevation="2dp"
+            android:background="@color/color_white"
+            android:layout_width="match_parent"
+            android:layout_height="47dp">
+            <ImageView
+                android:layout_marginTop="@dimen/back_margin_top"
+                android:layout_marginStart="@dimen/back_margin_start"
+                android:onClick="@{activity::onBack}"
+                android:background="@drawable/ripple_back_oval"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/fanhui"
+                android:padding="2dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"/>
+            <TextView
+                android:textSize="16sp"
+                android:textColor="@color/color_black"
+                android:text="@string/find_title"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="80dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <com.wang.avi.AVLoadingIndicatorView
+                    android:id="@+id/avi"
+                    style="@style/AVLoadingIndicatorView"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:baselineAligned="false"
+                    app:indicatorColor="@color/mainColor"
+                    app:indicatorName="BallSpinFadeLoaderIndicator" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@{viewModel.loadText}"
+                    android:textColor="@color/mainColor"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
+</layout>

@@ -53,4 +53,13 @@
 
     <color name="picker_color">#01579B</color>
     <color name="setting_save">#8C8C8C</color>
+
+    <color name="draw_face">#2962FF</color>
+    <color name="draw_lips">#D50000</color>
+    <color name="draw_eyes">#00C853</color>
+    <color name="draw_eyebrow">#FF6D00</color>
+    <color name="draw_point">#FFFF</color>
+    <color name="draw_nose">#6200EA</color>
+
+    <color name="dialog_bg">#4D000000</color>
 </resources>

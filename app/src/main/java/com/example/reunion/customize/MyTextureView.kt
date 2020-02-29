@@ -35,6 +35,10 @@ class MyTextureView @JvmOverloads constructor(context: Context,attributeSet: Att
                 currentWidth = height * mRatioWidth / mRatioHeight
                 currentHeight = height
             }
+//            if (width/height != mRatioWidth / mRatioHeight){
+//                currentWidth = width * mRatioHeight / mRatioWidth
+//                currentHeight = height
+//            }
         }
         setMeasuredDimension(currentWidth, currentHeight)
     }

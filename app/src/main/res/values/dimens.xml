@@ -15,4 +15,8 @@
 
     <dimen name="comment_scroll_max">150dp</dimen>
 
+    <dimen name="camera_zoom_height">10dp</dimen>
+    <dimen name="camera_zoom_whole_height">12dp</dimen>
+    <dimen name="camera_zoom_whole_width">2dp</dimen>
+    <dimen name="camera_zoom_width">1dp</dimen>
 </resources>

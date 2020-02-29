@@ -1,10 +1,13 @@
 package com.example.reunion.view
 
 import android.Manifest
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
 import android.view.MotionEvent
+import android.view.View
 import android.view.WindowManager
 import android.widget.SeekBar
 import androidx.databinding.DataBindingUtil
@@ -14,8 +17,12 @@ import com.example.reunion.R
 import com.example.reunion.base.BaseActivity
 import com.example.reunion.databinding.ActivityCameraBinding
 import com.example.reunion.repostory.local_resource.CameraHelper
+import com.example.reunion.repostory.local_resource.PictureHelper
 import com.example.reunion.repostory.remote_resource.CameraViewModel
 import kotlinx.android.synthetic.main.activity_camera.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class CameraActivity : BaseActivity() {
     private lateinit var mBinding:ActivityCameraBinding
@@ -27,18 +34,11 @@ class CameraActivity : BaseActivity() {
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_camera)
         mBinding.lifecycleOwner = this
+        mBinding.activity = this
 
-       cameraHelper = CameraHelper(this, cameraView,mBinding.faceDrawView!!)
-
-        takePicture.setOnClickListener {
-            cameraHelper.takePicture{
-
-            }
-        }
-
-        exchangeCamera.setOnClickListener {
-            cameraHelper.exchangeCamera()
-            cameraSeekBar?.progress = 0
+        cameraHelper = CameraHelper(this, cameraView)
+        faceDrawView.post {
+            cameraHelper.setFaceView(faceDrawView)
         }
 
         cameraHelper.addFaceListener {
@@ -66,7 +66,9 @@ class CameraActivity : BaseActivity() {
         cameraHelper.mCameraFacing = mViewModel.mCameraFacing
         cameraHelper.zoomLevel = mViewModel.zoomLevel.value!!
         if (allPermissionsGranted()){
-            cameraHelper.startCamera()
+           cameraView.post {
+               cameraHelper.startCamera()
+           }
         }
     }
 
@@ -91,5 +93,54 @@ class CameraActivity : BaseActivity() {
             }
         }
         return super.dispatchTouchEvent(ev)
+    }
+
+    fun takePicture(view: View){
+        cameraHelper.takePicture{
+            val intent = Intent(this,FaceImageActivity::class.java)
+            intent.putExtra("picture",it)
+            startActivity(intent)
+            finish()
+        }
+    }
+
+    fun exchangeCamera(view: View){
+        cameraHelper.exchangeCamera()
+        cameraSeekBar?.progress = 0
+    }
+
+    fun onBack(view:View){
+        finish()
+    }
+
+    fun addZoom(view:View){
+        cameraHelper.changeZoom(1){
+            cameraSeekBar?.progress = (it*100).toInt()
+        }
+    }
+
+    fun subZoom(view:View){
+        cameraHelper.changeZoom(-1){
+            cameraSeekBar?.progress = (it*100).toInt()
+        }
+    }
+
+    fun openPhoto(view:View){
+        PictureHelper.instance.openPhoto(this)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == PictureHelper.REQUEST_DEFAULT&&resultCode == Activity.RESULT_OK){
+            val uri = PictureHelper.instance.obtainUriFromPhoto(data)
+            PictureHelper.instance.cropImage(this,uri)
+        }else if (requestCode == PictureHelper.REQUEST_CROUP&&resultCode == Activity.RESULT_OK){
+            val uri = PictureHelper.instance.obtainCropUri(data)
+            val oriPath = PictureHelper.instance.obtainPathFromUri(uri)
+            val intent = Intent(this,FaceImageActivity::class.java)
+            intent.putExtra("picture",oriPath)
+            startActivity(intent)
+            finish()
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }

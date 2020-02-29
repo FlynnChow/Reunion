@@ -67,4 +67,15 @@ class User {
             return name
         }
     }
+
+    class UserJson{
+        var uName = ""
+        var uRealName = ""
+        var uSex = 0
+        var uProvince = ""
+        var uCity = ""
+        var uDistrict = ""
+        var uSignature = ""
+        var uBirthday = ""
+    }
 }

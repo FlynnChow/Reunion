@@ -96,11 +96,11 @@ class LoginViewModel:BaseViewModel() {
     }
 
     private fun onSendMessage(phone:String){
-        launch {
+        launch ({
+            isReply.value = false
             val codeMessage = remoteModel.onSendMessage(phone)
             when (codeMessage.code) {
                 0L -> {
-                    isReply.value = false
                     isSendSuccess.value = true
                     toast.value = "发送短信成功"
                     val job = launch {
@@ -119,6 +119,9 @@ class LoginViewModel:BaseViewModel() {
                     toast.value = "发送失败"
                 }
             }
-        }
+        },{
+            isReply.value = true
+            toast.value = it.message
+        })
     }
 }

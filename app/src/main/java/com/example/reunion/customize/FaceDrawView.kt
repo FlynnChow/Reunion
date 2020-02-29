@@ -18,13 +18,14 @@ class FaceDrawView @JvmOverloads constructor(context: Context,attributeSet: Attr
         mPaint.color = context.resources.getColor(R.color.mainColor)
         mPaint.style = Paint.Style.STROKE
         mPaint.strokeWidth =
-            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10f, context.resources.displayMetrics)
+            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3f, context.resources.displayMetrics)
     }
     override fun onDraw(canvas: Canvas?) {
         faceList?.let {
-            Log.d("测试","在花花：${it.size}")
             for (face in it){
-                canvas?.drawRect(face, mPaint)
+                canvas?.drawRoundRect(face,
+                    TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5f, context.resources.displayMetrics),
+                    TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5f, context.resources.displayMetrics), mPaint)
             }
         }
         super.onDraw(canvas)
@@ -51,7 +52,6 @@ class FaceDrawView @JvmOverloads constructor(context: Context,attributeSet: Attr
         var width = MeasureSpec.getSize(widthMeasureSpec)
         var height = MeasureSpec.getSize(heightMeasureSpec)
         if (0 != mRatioWidth || 0 != mRatioHeight) {
-            Log.d("测试","debug")
             width = mRatioWidth
             height = mRatioHeight
         }

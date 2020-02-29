@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="activity"
+            type="com.example.reunion.view.RegisterFaceActivity" />
+        <variable
+            name="viewModel"
+            type="com.example.reunion.view_model.RegisterFaceViewModel" />
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@color/color_white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.RegisterFaceActivity">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp">
+            <ImageView
+                android:onClick="@{activity::onBack}"
+                android:id="@+id/cameraBack"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/ripple_back_oval"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/fanhui"
+                android:layout_marginStart="@dimen/back_margin_start"
+                android:layout_marginTop="@dimen/back_margin_top"
+                android:layout_width="28dp"
+                android:layout_height="28dp"/>
+            <TextView
+                android:onClick="@{activity::openPhoto}"
+                android:text="@string/camera_photo"
+                android:layout_marginEnd="11dp"
+                android:layout_gravity="end|center_vertical"
+                android:id="@+id/faceGroup"
+                android:textSize="16sp"
+                android:textColor="@color/color_black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </FrameLayout>
+        <TextView
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="15dp"
+            android:textStyle="bold"
+            android:onClick="@{viewModel::retryUpload}"
+            android:text="@{viewModel.setContentText(viewModel.state,viewModel.timingNum,viewModel.faceNum,viewModel.endNum)}"
+            android:textColor="@color/color_black"
+            android:textSize="22sp"
+            android:lines="2"
+            android:maxLines="2"
+            android:gravity="top|center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <FrameLayout
+            android:layout_gravity="center"
+            android:layout_width="407.5dp"
+            android:layout_height="407.5dp">
+            <androidx.camera.view.PreviewView
+                android:id="@+id/facePreview"
+                android:layout_margin="60dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <ImageView
+                android:layout_margin="60dp"
+                app:bitmap="@{viewModel.bitmap}"
+                app:uri="@{viewModel.uri}"
+                android:scaleType="centerCrop"
+                android:id="@+id/resultImage"
+                android:visibility="@{viewModel.useImageView?View.VISIBLE:View.INVISIBLE}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+            <View
+                android:background="@{activity.setCameraBg(viewModel.state)}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </FrameLayout>
+    </LinearLayout>
+</layout>

@@ -17,12 +17,15 @@ import javax.crypto.spec.SecretKeySpec
 
 
 class HomeViewModel:BaseViewModel() {
+    var isShowSendWondow = false
+
     var currentIndex = 0 //用于保存当前viewpager的index
 
     private val remoteModel:HomeRemoteModel by lazy { HomeRemoteModel() }
 
 
     val user: MutableLiveData<User.Data> = MutableLiveData<User.Data>()
+
 
     //以下为homePager的adapter所有
     val isHomeUpdate = MutableLiveData(false)
@@ -88,8 +91,9 @@ class HomeViewModel:BaseViewModel() {
     }
 
     fun updateUser(){
-        if(UserHelper.isLogin())
+        if(UserHelper.isLogin()){
             user.value = UserHelper.getUser()
+        }
         else
             user.value = User.Data()
     }

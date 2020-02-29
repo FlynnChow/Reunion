@@ -137,6 +137,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <FrameLayout
+                    android:onClick="@{activity::startFaceManagerActivity}"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:foreground="@drawable/ripple_rect_borderless"
+                    android:background="@color/color_white"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp">
+                    <ImageView
+                        android:layout_marginStart="13dp"
+                        android:layout_marginTop="13dp"
+                        android:src="@drawable/home_page"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"/>
+                    <TextView
+                        android:layout_marginStart="57dp"
+                        android:layout_marginTop="16dp"
+                        android:textSize="16sp"
+                        android:textColor="@color/color_black"
+                        android:text="@string/mine_faceManager"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <ImageView
+                        android:layout_gravity="end|center_vertical"
+                        android:layout_marginEnd="9dp"
+                        android:src="@drawable/point_right"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"/>
+                </FrameLayout>
+                <FrameLayout
                     android:focusable="true"
                     android:clickable="true"
                     android:foreground="@drawable/ripple_rect_borderless"

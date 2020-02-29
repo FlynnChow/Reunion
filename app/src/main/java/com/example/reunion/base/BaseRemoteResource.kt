@@ -1,6 +1,7 @@
 package com.example.reunion.base
 
 import android.util.Log
+import com.example.reunion.repostory.remote_resource.FaceApi
 import com.example.reunion.repostory.remote_resource.NewsApi
 import com.example.reunion.repostory.remote_resource.ServerApi
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
@@ -18,7 +19,7 @@ import kotlin.coroutines.suspendCoroutine
 abstract class BaseRemoteResource {
     companion object{
         @JvmStatic
-        val BASE_URL_FACE = ""
+        val BASE_URL_FACE = "https://api.ai.qq.com/"
         @JvmStatic
         val BASE_URL_SERVER = "https://reunion.yulinzero.xyz/"
         @JvmStatic
@@ -44,20 +45,10 @@ abstract class BaseRemoteResource {
         }
 
         @JvmStatic
-        fun getServiceRemote() = serverRetrofit.create(ServerApi::class.java)
+        fun getServiceRemote(): ServerApi = serverRetrofit.create(ServerApi::class.java)
 
         @JvmStatic
-        private val faceRetrofit: Retrofit by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
-            Retrofit.Builder().run {
-                baseUrl(BASE_URL_FACE)
-                addCallAdapterFactory(CoroutineCallAdapterFactory())
-                addConverterFactory(GsonConverterFactory.create())
-                client(client)
-                build()
-            }
-        }
-
-        fun getFaceRemote() = faceRetrofit.create(ServerApi::class.java)
+        fun getFaceRemote(): FaceApi = serverRetrofit.create(FaceApi::class.java)
 
         @JvmStatic
         private val newsRetrofit: Retrofit by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {

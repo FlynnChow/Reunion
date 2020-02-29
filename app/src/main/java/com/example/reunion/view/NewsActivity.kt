@@ -3,6 +3,7 @@ package com.example.reunion.view
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
+import android.view.MotionEvent
 import android.view.View
 import android.widget.TextView
 import androidx.core.widget.NestedScrollView
@@ -64,6 +65,8 @@ class NewsActivity : BaseActivity() {
             roundView.translationY = distance.toFloat()
         })
 
+
+
         mViewModel.comments.observe(this, Observer {
             adapter.comments.addAll(it)
             adapter.notifyDataSetChanged()
@@ -87,6 +90,14 @@ class NewsActivity : BaseActivity() {
                adapter.notifyDataSetChanged()
            }
         })
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        if (ev?.y!! <= mBinding.newsEditView.top){
+            ViewUtil.hideInput(this)
+            newsEdit.clearFocus()
+        }
+        return super.dispatchTouchEvent(ev)
     }
 
     fun onBackClick(view: View){

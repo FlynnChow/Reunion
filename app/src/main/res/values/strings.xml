@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Reunion</string>
 
+    <string name="tencent_ai_app_key">ptWTkIRx0yPw3J5A</string>
+    <string name="tencent_ai_app_id">2123552337</string>
+
     <string name="login_text">Reunion</string>
     <string name="login_phone">手机号登录</string>
     <string name="login_authorize">微信登录</string>
@@ -66,6 +69,7 @@
     <string name="mine_star">收藏</string>
     <string name="mine_history">历史</string>
     <string name="mine_homepage">个人主页</string>
+    <string name="mine_faceManager">我的人脸管理</string>
     <string name="mine_send">我发布的</string>
     <string name="mine_setting">设置</string>
 
@@ -101,4 +105,50 @@
 
     <string name="setting_home_content">首页内容</string>
 
+    <string name="camera_photo">相册</string>
+    <string name="face_loading">正在检测中..</string>
+
+    <string name="face_text_success">恭喜您,检测通过！</string>
+    <string name="face_text_inaccurate">未检测到人脸,请重试</string>
+    <string name="face_text_error">发生未知错误</string>
+
+    <string name="face_button_success">立即寻人</string>
+    <string name="face_button_inaccurate">重新尝试</string>
+    <string name="face_button_cut">裁剪图像</string>
+
+    <string name="find_title">扫脸结果</string>
+    <string name="finding">正在寻人..</string>
+
+    <string name="picture_compressing">图片正在压缩..</string>
+    <string name="picture_uploading">图片正在上传..</string>
+
+    <string name="dialog_use_camera">使用相机</string>
+    <string name="dialog_use_photo">使用相册</string>
+    <string name="dialog_cancel">取消</string>
+
+    <string name="send_find_body">发布认领启示</string>
+    <string name="send_find_body_content">快来认领丢失的东西</string>
+    <string name="send_find_people">发布求助</string>
+    <string name="send_find_people_content">让大家一起帮助你寻人</string>
+    <string name="find_face">扫脸寻人</string>
+    <string name="find_face_content">通过扫脸识别，查询用户信息</string>
+
+    <string name="face_mg_title">我的人脸管理</string>
+    <string name="face_delete_cancel">取消</string>
+    <string name="face_delete_all_cancel">取消全选</string>
+    <string name="face_delete_all">全选</string>
+    <string name="face_delete_ok">删除</string>
+    <string name="face_delete_button">删除人脸信息</string>
+    <string name="face_create_button">录入人脸信息</string>
+
+    <string name="face_on_click_message">每位用户最多可以录入5张人脸信息，请先删除现有的再录入</string>
+    <string name="face_load_delete">正在删除中,请稍等</string>
+
+    <string name="send_find_people_time">失联时间</string>
+    <string name="send_find_people_area">失联地点</string>
+    <string name="send_find_people_age">失联人年龄</string>
+
+    <string name="send_find_body_time">时间</string>
+    <string name="send_find_body_area">地点</string>
+    <string name="send_find_body_age">年龄</string>
 </resources>

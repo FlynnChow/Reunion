@@ -108,11 +108,13 @@
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
             <RelativeLayout
+                android:id="@+id/newsEditView"
                 android:background="@color/color_white"
                 android:layout_gravity="bottom"
                 android:layout_width="match_parent"
                 android:layout_height="41dp">
                 <EditText
+                    android:id="@+id/newsEdit"
                     android:text="@={viewModel.commentContent}"
                     android:hint="@string/comment_edit"
                     android:layout_toStartOf="@id/comment_send"

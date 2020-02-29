@@ -3,9 +3,9 @@
     package="com.example.reunion">
     <!-- 网络 -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- 网络 -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /><!-- 文件读写 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 文件读写 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" /><!-- 摄像头 -->
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".MyApplication"
@@ -16,13 +16,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.CameraActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".view.SendTopicActivity"></activity>
+        <activity android:name=".view.FaceManager" />
+        <activity android:name=".view.RegisterFaceActivity"></activity>
+        <activity android:name=".view.FindOneActivity" />
+        <activity
+            android:name=".view.FaceImageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.CameraActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".view.EditStActivity" />
         <activity android:name=".view.SettingActivity" />
         <activity android:name=".view.TestActivity" />
@@ -30,10 +33,18 @@
         <activity
             android:name=".view.HomeActivity"
             android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".view.LoginActivity" />
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat"/>
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
+        <activity android:name=".customize.CityListSelectActivity" />
+
         <meta-data
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"
             android:value="face" />

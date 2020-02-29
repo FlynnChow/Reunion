@@ -21,6 +21,7 @@ import com.example.reunion.customize.FaceDrawView
 import com.example.reunion.customize.MyTextureView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
@@ -28,17 +29,18 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.sqrt
 
-class CameraHelper(private val activity:BaseActivity,private val textureView: MyTextureView,private val faceView:FaceDrawView) {
+class CameraHelper(private val activity:BaseActivity,private val textureView: MyTextureView) {
 
     companion object{
-        const val PREVIEW_WIDTH = 1080
-        const val PREVIEW_HEIGHT = 1440
+        const val PREVIEW_WIDTH = 2160
+        const val PREVIEW_HEIGHT = 2880
         const val SAVE_WIDTH = 720
         const val SAVE_HEIGHT = 1280
     }
     private val savePath = activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!.absolutePath + File.separator + "cachePicture/"
     private var takePcListener:((String)->Unit)? = null
     private var faceListener:((ArrayList<RectF>)->Unit)? = null
+    private var faceView:FaceDrawView ? = null
 
     private var mCameraId = ""
 
@@ -53,7 +55,7 @@ class CameraHelper(private val activity:BaseActivity,private val textureView: My
     private var mDisplayRotation = activity.windowManager.defaultDisplay.rotation //手机屏幕方向
 
     private var mFaceMode = CaptureResult.STATISTICS_FACE_DETECT_MODE_OFF
-    private var openFace = true
+    private var openFace = false
     private var mFaceMatrix = Matrix()
     private var mFaceList = ArrayList<RectF>()
 
@@ -63,6 +65,11 @@ class CameraHelper(private val activity:BaseActivity,private val textureView: My
         PREVIEW_HEIGHT
     )
     private var mSaveSize = Size(
+        SAVE_WIDTH,
+        SAVE_HEIGHT
+    )
+
+    private var cPixelSize = Size(
         SAVE_WIDTH,
         SAVE_HEIGHT
     )
@@ -110,6 +117,12 @@ class CameraHelper(private val activity:BaseActivity,private val textureView: My
             initCamera()
         else
             isInitCamera = true
+        GlobalScope.launch(Dispatchers.Default) {
+            delay(500)
+            launch(Dispatchers.Main) {
+                resetCamera()
+            }
+        }
     }
 
     private fun isExchangeWidthAndHeight(displayRotation:Int,sensorOrientation:Int)
@@ -193,7 +206,6 @@ class CameraHelper(private val activity:BaseActivity,private val textureView: My
         val matrix = Matrix()
         matrix.postRotate(rotate.toFloat())
         if(mCameraFacing == CameraCharacteristics.LENS_FACING_FRONT){
-            val matrix = Matrix()
             matrix.postScale(-1f,1f)
         }
         return Bitmap.createBitmap(bitmap,0,0,bitmap.width,bitmap.height,matrix,true)
@@ -229,6 +241,11 @@ class CameraHelper(private val activity:BaseActivity,private val textureView: My
         val previewSize = configurationMap?.getOutputSizes(SurfaceTexture::class.java)
         val exchange = isExchangeWidthAndHeight(mDisplayRotation,mCameraOrientation)
 
+        val activeArraySizeRect = mCameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE)!!
+        val width = activeArraySizeRect.width()
+        val height = activeArraySizeRect.width()*mPreviewSize.height/mPreviewSize.width
+        mPreviewSize = Size(width,height)
+
         mSaveSize = getBestSize(
             if (exchange) mSaveSize.height else mSaveSize.width,
             if (exchange) mSaveSize.width else mSaveSize.height,
@@ -250,14 +267,17 @@ class CameraHelper(private val activity:BaseActivity,private val textureView: My
             textureView.setAspectRatio(mPreviewSize.height,mPreviewSize.width)
         }
         setTransform()
-
         mImageReader = ImageReader.newInstance(mSaveSize.width,mSaveSize.height,ImageFormat.JPEG,1)
         mImageReader?.setOnImageAvailableListener(onImageAvailableListener,mCameraHandler)
         if (openFace){
             initFaceDetect()
         }
         openCamera()
+    }
 
+    fun setFaceView(faceView:FaceDrawView){
+        this.faceView = faceView
+        this.faceView!!.setAspectRatio(textureView.width,textureView.height)
     }
 
     private fun initFaceDetect(){
@@ -342,8 +362,16 @@ class CameraHelper(private val activity:BaseActivity,private val textureView: My
         setZoom()
         mCameraFacing = if(mCameraFacing == CameraCharacteristics.LENS_FACING_FRONT) CameraCharacteristics.LENS_FACING_BACK
         else CameraCharacteristics.LENS_FACING_FRONT
-
         mPreviewSize = Size(PREVIEW_WIDTH, PREVIEW_HEIGHT)
+        releaseCamera()
+        initCamera()
+    }
+
+    private fun resetCamera(){
+        if (mCameraFacing == null|| !isCanExchangeFac||!textureView.isAvailable) return
+        mCameraFacing = CameraCharacteristics.LENS_FACING_BACK
+        mPreviewSize = Size(PREVIEW_WIDTH, PREVIEW_HEIGHT)
+        openFace = true
         releaseCamera()
         initCamera()
     }
@@ -369,7 +397,8 @@ class CameraHelper(private val activity:BaseActivity,private val textureView: My
             result: TotalCaptureResult
         ) {
             val requestCaptureBuilder = getRestoreRepeating()
-            mCameraCaptureSession?.setRepeatingRequest(requestCaptureBuilder.build(),mRepeatingCallback,mCameraHandler)
+            if(requestCaptureBuilder!=null)
+                mCameraCaptureSession?.setRepeatingRequest(requestCaptureBuilder.build(),mRepeatingCallback,mCameraHandler)
             super.onCaptureCompleted(session, request, result)
         }
         override fun onCaptureFailed(
@@ -378,25 +407,32 @@ class CameraHelper(private val activity:BaseActivity,private val textureView: My
             failure: CaptureFailure
         ) {
             val requestCaptureBuilder = getRestoreRepeating()
-            mCameraCaptureSession?.setRepeatingRequest(requestCaptureBuilder.build(),mRepeatingCallback,mCameraHandler)
+            if(requestCaptureBuilder!=null)
+                mCameraCaptureSession?.setRepeatingRequest(requestCaptureBuilder.build(),mRepeatingCallback,mCameraHandler)
             super.onCaptureFailed(session, request, failure)
         }
     }
 
-    private fun getRestoreRepeating():CaptureRequest.Builder{
-        val requestCaptureBuilder = mCameraDevice?.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
-        return requestCaptureBuilder?.apply {
-            addTarget(Surface(textureView.surfaceTexture))
-            set(CaptureRequest.CONTROL_AE_MODE,CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH)
-            set(CaptureRequest.CONTROL_AF_MODE,CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE)
-            if (openFace && mFaceMode != CaptureRequest.STATISTICS_FACE_DETECT_MODE_OFF)
-                set(CaptureRequest.STATISTICS_FACE_DETECT_MODE, CameraCharacteristics.STATISTICS_FACE_DETECT_MODE_SIMPLE)
-        }!!
+    private fun getRestoreRepeating():CaptureRequest.Builder?{
+        if (mCameraDevice == null||!textureView.isAvailable) return null
+        try {
+            val requestCaptureBuilder = mCameraDevice?.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
+            return requestCaptureBuilder?.apply {
+                addTarget(Surface(textureView.surfaceTexture))
+                set(CaptureRequest.CONTROL_AE_MODE,CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH)
+                set(CaptureRequest.CONTROL_AF_MODE,CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE)
+                if (openFace && mFaceMode != CaptureRequest.STATISTICS_FACE_DETECT_MODE_OFF)
+                    set(CaptureRequest.STATISTICS_FACE_DETECT_MODE, CameraCharacteristics.STATISTICS_FACE_DETECT_MODE_SIMPLE)
+            }!!
+        } catch (e: Exception) {
+            return null
+        }
     }
 
     private fun handleFace(result: TotalCaptureResult){
         val faces = result.get(CaptureResult.STATISTICS_FACES)?:return
         mFaceList.clear()
+
         for (face in faces){
             val bounds = face.bounds
             val left = bounds.left
@@ -407,10 +443,20 @@ class CameraHelper(private val activity:BaseActivity,private val textureView: My
             val rawFaceRect = RectF(left.toFloat(), top.toFloat(), right.toFloat(), bottom.toFloat())
             mFaceMatrix.mapRect(rawFaceRect)
 
-            val resultFaceRect = if (mCameraFacing == CaptureRequest.LENS_FACING_FRONT)
-                rawFaceRect
+            val resultFaceRect = if (mCameraFacing == CaptureRequest.LENS_FACING_FRONT){
+                if (android.os.Build.MANUFACTURER == "samsung"||android.os.Build.MODEL == "SM-N9760"){
+                    RectF(rawFaceRect.left+rawFaceRect.width()/6,rawFaceRect.top+rawFaceRect.height()/6,rawFaceRect.right+rawFaceRect.width()*2/3,rawFaceRect.bottom+rawFaceRect.height()*2/3)
+                }else{
+                    rawFaceRect
+                }
+            }
             else{
-                RectF(rawFaceRect.left, rawFaceRect.top - mPreviewSize.width, rawFaceRect.right, rawFaceRect.bottom - mPreviewSize.width)
+                if (android.os.Build.MANUFACTURER == "samsung"||android.os.Build.MODEL == "SM-N9760"){
+                    val tempR = RectF(rawFaceRect.left, rawFaceRect.top - mPreviewSize.width, (rawFaceRect.right), (rawFaceRect.bottom - mPreviewSize.width))
+                    RectF(tempR.left+tempR.width()/4,tempR.top+tempR.height()/4,tempR.right+tempR.width(),tempR.bottom+tempR.width())
+                }else{
+                    RectF(rawFaceRect.left, rawFaceRect.top - mPreviewSize.width, (rawFaceRect.right), (rawFaceRect.bottom - mPreviewSize.width))
+                }
             }
             mFaceList.add(resultFaceRect)
         }
@@ -462,12 +508,12 @@ class CameraHelper(private val activity:BaseActivity,private val textureView: My
                 mCameraCaptureSession?.stopRepeating()
                 mCameraCaptureSession?.abortCaptures()
                 val requestCaptureBuilder = getRestoreRepeating()
-                requestCaptureBuilder.apply {
+                requestCaptureBuilder?.apply {
                     set(CaptureRequest.CONTROL_AE_MODE,CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH)
                     set(CaptureRequest.CONTROL_AF_MODE,CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE)
+                    requestCaptureBuilder.set(CaptureRequest.SCALER_CROP_REGION,zoom)
+                    mCameraCaptureSession?.setRepeatingRequest(requestCaptureBuilder.build(),mRepeatingCallback,mCameraHandler)
                 }
-                requestCaptureBuilder.set(CaptureRequest.SCALER_CROP_REGION,zoom)
-                mCameraCaptureSession?.setRepeatingRequest(requestCaptureBuilder.build(),mRepeatingCallback,mCameraHandler)
             }
             fingerSpacing = currentFingerSpacing
         }
@@ -484,8 +530,34 @@ class CameraHelper(private val activity:BaseActivity,private val textureView: My
         mCameraCaptureSession?.stopRepeating()
         mCameraCaptureSession?.abortCaptures()
         val requestCaptureBuilder = getRestoreRepeating()
-        requestCaptureBuilder.set(CaptureRequest.SCALER_CROP_REGION,zoom)
-        mCameraCaptureSession?.setRepeatingRequest(requestCaptureBuilder.build(),mRepeatingCallback,mCameraHandler)
+        if (requestCaptureBuilder !=null){
+            requestCaptureBuilder.set(CaptureRequest.SCALER_CROP_REGION,zoom)
+            mCameraCaptureSession?.setRepeatingRequest(requestCaptureBuilder.build(),mRepeatingCallback,mCameraHandler)
+        }
+    }
+
+    fun changeZoom(target:Int,listener:((Float)->Unit)? = null){
+        if (!textureView.isAvailable||mCameraDevice==null) return
+        val maxZoom = (mCameraCharacteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM)?:1f)*10
+        val currentZoom = mCameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE)
+        val maxbugZoom = maxZoom / 2
+        val changeNum = maxbugZoom.toInt()/20
+        if(target ==1){
+            zoomLevel += changeNum
+            if (zoomLevel >= maxbugZoom) zoomLevel = maxbugZoom.toInt()
+        }else{
+            zoomLevel -= changeNum
+            if (zoomLevel <= 1) zoomLevel = 1
+        }
+        listener?.invoke(zoomLevel / (maxZoom/2))
+        val zoom = getNewZoom(currentZoom!!,maxZoom,zoomLevel)
+        mCameraCaptureSession?.stopRepeating()
+        mCameraCaptureSession?.abortCaptures()
+        val requestCaptureBuilder = getRestoreRepeating()
+        if (requestCaptureBuilder != null){
+            requestCaptureBuilder.set(CaptureRequest.SCALER_CROP_REGION,zoom)
+            mCameraCaptureSession?.setRepeatingRequest(requestCaptureBuilder.build(),mRepeatingCallback,mCameraHandler)
+        }
     }
 
     private fun getNewZoom(cZoom:Rect,max:Float,level:Int):Rect{

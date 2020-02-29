@@ -150,7 +150,7 @@ class SettingViewModel:BaseViewModel() {
             return
         val file = File(path.value!!)
         val uploadBody = UploadRequestBody.getRequestBody(file,"header"){
-            Log.d("上传进度测试：",it.toString())
+
         }
         val body = MultipartBody.Builder()
             .addFormDataPart("uId",UserHelper.getUser()?.uId?:"")
@@ -186,7 +186,7 @@ class SettingViewModel:BaseViewModel() {
     }
 
     fun saveUser(){
-        val user = User.Data()
+        val user = User.UserJson()
         user.uProvince = province.value?:""
         user.uCity = city.value?:""
         user.uDistrict = district.value?:""

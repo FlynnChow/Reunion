@@ -12,36 +12,121 @@
             type="com.example.reunion.view.CameraActivity" />
     </data>
 
-    <RelativeLayout
+    <FrameLayout
+        android:background="@color/color_black"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.CameraActivity">
-        <com.example.reunion.customize.MyTextureView
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/cameraView" />
-        <com.example.reunion.customize.FaceDrawView
-            android:id="@+id/faceDrawView"
+            android:layout_height="65dp">
+            <ImageView
+                android:onClick="@{activity::onBack}"
+                android:id="@+id/cameraBack"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/ripple_back_oval"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/back_white"
+                android:layout_marginStart="@dimen/back_margin_start"
+                android:layout_marginTop="@dimen/back_margin_top"
+                android:layout_width="24dp"
+                android:layout_height="24dp"/>
+            <TextView
+                android:onClick="@{activity::openPhoto}"
+                android:layout_marginEnd="18dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:text="@string/camera_photo"
+                android:textColor="#fff6f7f9"
+                android:textSize="16sp"
+                />
+        </FrameLayout>
+        <FrameLayout
+            android:layout_marginBottom="182dp"
+            android:layout_marginTop="65dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-        <SeekBar
-            android:id="@+id/cameraSeekBar"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="wrap_content">
+            <com.example.reunion.customize.MyTextureView
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/cameraView" />
+            <com.example.reunion.customize.FaceDrawView
+                app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/faceDrawView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </FrameLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_gravity="bottom"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <Button
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="50dp"
-            android:id="@+id/takePicture"
-            android:text="start Camera"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <Button
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="50dp"
-            android:id="@+id/exchangeCamera"
-            android:text="exchange Camera"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </RelativeLayout>
+            android:layout_height="182dp">
+            <FrameLayout
+                android:layout_marginTop="24dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:onClick="@{activity::subZoom}"
+                    android:padding="2dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="21dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:textColor="#ffffffff"
+                    android:textSize="22sp" />
+                <SeekBar
+                    android:thumb="@drawable/camera_seek_bar_thumb"
+                    android:progressDrawable="@drawable/camera_seek_bar_progress"
+                    android:layout_marginStart="49dp"
+                    android:layout_marginEnd="49dp"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/cameraSeekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:onClick="@{activity::addZoom}"
+                    android:padding="2dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:layout_marginEnd="21dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+"
+                    android:textColor="#ffffffff"
+                    android:textSize="22sp" />
+            </FrameLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_gravity="center_horizontal|bottom"
+                    android:layout_marginBottom="52dp"
+                    android:onClick="@{activity::takePicture}"
+                    android:background="@drawable/camera_take_picture"
+                    android:id="@+id/takePicture"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"/>
+                <ImageView
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:padding="8dp"
+                    android:background="@drawable/camera_exchange"
+                    android:onClick="@{activity::exchangeCamera}"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginEnd="49dp"
+                    android:layout_marginBottom="63dp"
+                    android:id="@+id/exchangeCamera"
+                    android:text="exchange Camera"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"/>
+            </FrameLayout>
+        </LinearLayout>
+    </FrameLayout>
 </layout>

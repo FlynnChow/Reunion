@@ -33,11 +33,11 @@ class PictureHelper {
 
         val instance by lazy(LazyThreadSafetyMode.SYNCHRONIZED) { PictureHelper() }
 
-        fun getCacheDirectory():String{
-            val path = MyApplication.app.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.absolutePath
+        fun getCachePath():String{
+            val path = MyApplication.app.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.absolutePath + File.separator + "cache/"
             if (!File(path).exists())
                 File(path).mkdirs()
-            return path + File.separator
+            return path
         }
     }
 
@@ -63,11 +63,11 @@ class PictureHelper {
     fun obtainUriFromPhoto(data:Intent?) = Matisse.obtainResult(data)[0]
 
     fun obtainPathFromUri(uri:Uri,name:String = "cache"): String?{
-        val cachePath = MyApplication.app.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.absolutePath+File.separator+name
-        if (File(cachePath).exists()){
+        val cachePath = MyApplication.app.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.absolutePath+File.separator+name+File.separator
+        if (!File(cachePath).exists()){
             File(cachePath).mkdirs()
         }
-        val cacheFile = File(cachePath + File.separator + System.currentTimeMillis() + ".jpg")
+        val cacheFile = File(cachePath + System.currentTimeMillis() + ".jpg")
         val inStream: InputStream = MyApplication.app.contentResolver.openInputStream(uri)?:return null
         val outStream: OutputStream = FileOutputStream(cacheFile)
         val bytes = ByteArray(1024)
