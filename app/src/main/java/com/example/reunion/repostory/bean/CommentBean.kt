@@ -29,7 +29,10 @@ class CommentBean {
                 return field
             else return ""
         }
+
         var uHeadPortrait = "" //头像 2个都用到
+        var commentSum = 0
+
         var replySum = 0
 
         //自评论的

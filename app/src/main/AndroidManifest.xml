@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.reunion">
     <!-- 网络 -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- 网络 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 文件读写 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- 允许程序获取网络状态 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 允许程序访问WiFi网络信息 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 允许程序读写手机状态和身份 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 允许程序访问CellID或WiFi热点来获取粗略的位置 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
     <application
         android:name=".MyApplication"
@@ -15,24 +23,28 @@
         android:networkSecurityConfig="@xml/http_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".view.SendTopicActivity"></activity>
+        android:theme="@style/AppTheme"
+        tools:targetApi="n">
+        <activity android:name=".view.MyTopicActivity"></activity>
+        <activity android:name=".view.MapActivity" />
+        <activity android:name=".view.TopicActivity" />
+        <activity android:name=".view.SendTopicActivity" />
         <activity android:name=".view.FaceManager" />
-        <activity android:name=".view.RegisterFaceActivity"></activity>
+        <activity android:name=".view.RegisterFaceActivity" />
         <activity android:name=".view.FindOneActivity" />
         <activity
             android:name=".view.FaceImageActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".view.CameraActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity android:name=".view.EditStActivity" />
         <activity android:name=".view.SettingActivity" />
         <activity android:name=".view.TestActivity" />
         <activity android:name=".view.NewsActivity" />
         <activity
             android:name=".view.HomeActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="fullSensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,9 +57,14 @@
             android:theme="@style/Base.Theme.AppCompat" />
         <activity android:name=".customize.CityListSelectActivity" />
 
+        <service android:name=".repostory.remote_resource.UploadServer" />
+
         <meta-data
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"
             android:value="face" />
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="9de851f9ad279f6b9173f1013910e360" />
     </application>
 
 </manifest>

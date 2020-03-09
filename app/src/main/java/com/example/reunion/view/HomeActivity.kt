@@ -15,6 +15,7 @@ import com.example.reunion.R
 import com.example.reunion.base.BaseActivity
 import com.example.reunion.databinding.ActivityHomeBinding
 import com.example.reunion.repostory.local_resource.UserHelper
+import com.example.reunion.repostory.remote_resource.UploadServer
 import com.example.reunion.view_model.HomeViewModel
 import com.lljjcoder.style.citylist.utils.CityListLoader
 import kotlinx.android.synthetic.main.activity_home.*
@@ -200,4 +201,28 @@ class HomeActivity : BaseActivity() {
         startActivity(Intent(this,FaceManager::class.java).apply { addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP) })
         onResetSendWindow()
     }
+
+    fun startSendPeopleActivity(view: View?){
+        startActivity(Intent(this,SendTopicActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            putExtra("type","people")
+        })
+        onResetSendWindow()
+    }
+
+    fun startSendBodyActivity(view: View?){
+        startActivity(Intent(this,SendTopicActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            putExtra("type","body")
+        })
+        onResetSendWindow()
+    }
+
+    fun startMyTopic(view: View?){
+        startActivity(Intent(this,MyTopicActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        })
+        onResetSendWindow()
+    }
+
 }

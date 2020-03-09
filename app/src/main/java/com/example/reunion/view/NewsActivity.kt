@@ -52,6 +52,7 @@ class NewsActivity : BaseActivity() {
                     mViewModel.replyBean.value?.fromUname = mViewModel.replyBean.value!!.uName
                     mViewModel.replyFloor.value = 0
                     mViewModel.sendBean = mViewModel.replyBean.value
+                    mViewModel.replySum.value = comment?.replySum?:0
                     ViewUtil.hideInput(this)
                     showReplyComment()
                     mViewModel.getReplyComment(true)

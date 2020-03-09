@@ -22,6 +22,10 @@ import com.example.reunion.view_model.SettingViewModel
 import kotlinx.android.synthetic.main.fragment_news.*
 
 class AdviceStFragment:BaseFragment() {
+    companion object{
+        const val ADAVICE_PHOTO = 1031
+    }
+
     private lateinit var mBinding:FragmentSettingAdviceBinding
     private val mViewModel: SettingViewModel by lazy {
         setViewModel(activity as BaseActivity, SettingViewModel::class.java)

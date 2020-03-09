@@ -12,5 +12,5 @@ class FaceRemoteModel:BaseRemoteResource() {
 
     suspend fun getFaceList() = getFaceRemote().getFaceList().await()
 
-    suspend fun researchFace(groupId: String) = getFaceRemote().researchFace(groupId).await()
+    suspend fun searchFace(body: RequestBody) = getFaceRemote().searchFace(body).await()
 }

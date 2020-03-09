@@ -47,6 +47,7 @@
     <color name="comment_read_num">#929292</color>
     <color name="home_text_signature">#929292</color>
     <color name="mine_line">#D1D1D1</color>
+    <color name="card_text_name">#434343</color>
 
     <color name="home_page_0">#929292</color>
     <color name="home_page_1">#FFFFFF</color>
@@ -62,4 +63,8 @@
     <color name="draw_nose">#6200EA</color>
 
     <color name="dialog_bg">#4D000000</color>
+
+    <color name="topic_default_color">#FFA5F0</color>
+    <color name="map_stroke">#B3FF1744</color>
+    <color name="map_fill">#26FF6868</color>
 </resources>

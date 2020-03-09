@@ -5,6 +5,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.example.reunion.MyApplication
 import com.example.reunion.R
+import kotlin.math.roundToInt
 
 class FaceBean() :Parcelable {
 
@@ -20,16 +21,17 @@ class FaceBean() :Parcelable {
 
     var introduce:String? = null //简介
 
-    var groupId:String? = null //分组ID，地区码
-
-    var groupName:String? = null //分组名，地区名
-
-    var probability:Int = 0 //概率 0 - 100
+    var probability:Float = 0f //概率 0 - 100
 
     /**
      * 下面属性用于view
      */
     var flagDelete = false //标记删除
+
+    fun getProString(num:Float):String{
+        val num2 =(((num * 100).roundToInt()) /100f)
+        return "匹配度 ${num2}%"
+    }
 
 
     constructor(parcel: Parcel) : this() {
@@ -39,9 +41,7 @@ class FaceBean() :Parcelable {
         header = parcel.readString()
         nickName = parcel.readString()
         introduce = parcel.readString()
-        groupId = parcel.readString()
-        groupName = parcel.readString()
-        probability = parcel.readInt()
+        probability = parcel.readFloat()
     }
 
     override fun toString(): String {
@@ -52,8 +52,6 @@ class FaceBean() :Parcelable {
             header:${header}
             nickName:${nickName}
             introduce:${introduce}
-            groupId:${groupId}
-            groupName:${groupName}
             probability:${probability}
         """.trimIndent()
     }
@@ -61,14 +59,19 @@ class FaceBean() :Parcelable {
     class normalBean{
         var code = 0
 
+        var msg:String? = null
+
         var data:FaceBean? = null
     }
 
     class ListBean{
         var code = 0
 
+        var msg:String? = null
+
         var data:ArrayList<FaceBean>? = null
     }
+
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(url)
@@ -77,9 +80,7 @@ class FaceBean() :Parcelable {
         parcel.writeString(header)
         parcel.writeString(nickName)
         parcel.writeString(introduce)
-        parcel.writeString(groupId)
-        parcel.writeString(groupName)
-        parcel.writeInt(probability)
+        parcel.writeFloat(probability)
     }
 
     override fun describeContents(): Int {

@@ -55,4 +55,5 @@
     <style name="snakeTransTheme" parent="AppTheme">
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
 </resources>

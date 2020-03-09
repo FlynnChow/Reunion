@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable
-            name="viewModel"
-            type="com.example.reunion.view_model.NewsViewModel" />
+
     </data>
 
     <LinearLayout

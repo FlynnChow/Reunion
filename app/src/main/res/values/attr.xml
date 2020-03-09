@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="MyTabLayout">
+        <attr name="tabMarginBottom" format="dimension"/>
+    </declare-styleable>
+</resources>

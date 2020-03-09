@@ -50,11 +50,15 @@ class NewsViewModel: BaseViewModel() {
             when(bean.status){
                 0->{
                     page+=40
-                    for (news in (bean.result as NewsBean.Result).list!!){
-                        news.src = news.src.replace(" ","")
-                        news.src = news.src.replace("\n","")
+                    val list = (bean.result as NewsBean.Result).list!!
+                    for (index in (list.size -1) downTo 0){
+                        list[index].src = list[index].src.replace(" ","")
+                        list[index].src = list[index].src.replace("\n","")
+                        if (list[index].content.contains("video")){
+                            list.remove(list[index])
+                        }
                     }
-                    news.value = (bean.result as NewsBean.Result).list!!
+                    news.value = list
                 }
             }
             isLoadEnd.value = true

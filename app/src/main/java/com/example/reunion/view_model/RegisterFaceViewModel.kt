@@ -209,19 +209,27 @@ class RegisterFaceViewModel:BaseViewModel() {
             val uploadBody = UploadRequestBody.getRequestBody(file,"image")
             val body = MultipartBody.Builder()
                 .addFormDataPart("uId",UserHelper.getUser()?.uId?:"")
-                .addFormDataPart("image",file.name,uploadBody)
+                .addFormDataPart("file",file.name,uploadBody)
                 .build()
             val data = remote.createNewFace(body)
             launchUI {
                 when(data.code){
                     200 ->{
                         toast.value = "录入成功！"
+                        uploadSuccess = true
+                        newBean = data.data
                         endTime()
-                    }else->{
-                    uploading = false
-                    state.value = 15
-                    toast.value = "面部录入失败，请重试"
-                }
+                    }
+                    405 ->{
+                        uploading = false
+                        state.value = 15
+                        toast.value = "面部录入失败：录入的面部与之前的差距过大"
+                    }
+                    else->{
+                        uploading = false
+                        state.value = 15
+                        toast.value = "面部录入失败："+data.msg
+                    }
                 }
             }
         },{

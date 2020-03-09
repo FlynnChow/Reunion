@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="isShow"
+            type="Boolean" />
+        <variable
+            name="uri"
+            type="android.net.Uri" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/ripple_rect"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp"
+        android:layout_margin="5dp"
+        android:layout_width="106dp"
+        android:layout_height="106dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                app:uri="@{uri}"
+                android:id="@+id/topicSendImg"
+                android:scaleType="centerCrop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:visibility="@{isShow?View.VISIBLE:View.GONE}"
+                android:layout_gravity="center"
+                android:src="@drawable/insert_picture"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+        </FrameLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

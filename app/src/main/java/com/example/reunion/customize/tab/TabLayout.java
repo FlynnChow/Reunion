@@ -193,7 +193,6 @@ TabLayout extends HorizontalScrollView {
         this.tabPaddingEnd = a.getDimensionPixelSize(styleable.TabLayout_tabPaddingEnd, this.tabPaddingEnd);
         this.tabPaddingBottom = a.getDimensionPixelSize(styleable.TabLayout_tabPaddingBottom, this.tabPaddingBottom);
         this.tabTextAppearance = a.getResourceId(styleable.TabLayout_tabTextAppearance, style.TextAppearance_Design_Tab);
-        this.indicatorMarginBottom = (int)MyApplication.resource().getDimension(R.dimen.tab_indicator_bottom);
 
         TypedArray ta = context.obtainStyledAttributes(this.tabTextAppearance, androidx.appcompat.R.styleable.TextAppearance);
 
@@ -230,6 +229,10 @@ TabLayout extends HorizontalScrollView {
         this.tabTextMultiLineSize = (float)res.getDimensionPixelSize(dimen.design_tab_text_size_2line);
         this.scrollableTabMinWidth = res.getDimensionPixelSize(dimen.design_tab_scrollable_min_width);
         this.applyModeAndGravity();
+
+        TypedArray mType = context.obtainStyledAttributes(attrs, R.styleable.MyTabLayout);
+        this.indicatorMarginBottom = mType.getDimensionPixelSize(R.styleable.MyTabLayout_tabMarginBottom,0);
+        mType.recycle();
     }
 
     public void setSelectedTabIndicatorColor(@ColorInt int color) {

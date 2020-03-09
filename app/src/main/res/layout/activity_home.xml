@@ -32,6 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <androidx.cardview.widget.CardView
+                android:onClick="@{activity::startSendBodyActivity}"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="2dp"
                 android:id="@+id/sendFindBd"
@@ -77,6 +78,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
+                android:onClick="@{activity::startSendPeopleActivity}"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="2dp"
                 android:id="@+id/sendHelp"

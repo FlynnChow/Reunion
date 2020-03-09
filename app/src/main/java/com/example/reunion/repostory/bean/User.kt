@@ -78,4 +78,17 @@ class User {
         var uSignature = ""
         var uBirthday = ""
     }
+
+    class UserBeans{
+        var code = 0
+        var msg = ""
+        var data:ArrayList<User.Data>? = null
+
+        fun getFirstUser():User.Data?{
+            if (data != null && data!!.size > 0){
+                return data!![0]
+            }
+            return null
+        }
+    }
 }

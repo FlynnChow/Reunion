@@ -2,6 +2,7 @@ package com.example.reunion.repostory.local_resource
 
 import android.R.attr
 import android.app.Activity
+import android.app.Application
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.net.Uri
@@ -84,6 +85,32 @@ class PictureHelper {
         }
     }
 
+    fun obtainPathsFromUris(uris:ArrayList<Uri>,name:String = "cache"): ArrayList<String>{
+        val arrays = ArrayList<String>()
+        for (uri in uris){
+            val cachePath = MyApplication.app.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.absolutePath+File.separator+name+File.separator
+            if (!File(cachePath).exists()){
+                File(cachePath).mkdirs()
+            }
+            val cacheFile = File(cachePath + System.currentTimeMillis() + ".jpg")
+            val inStream: InputStream = MyApplication.app.contentResolver.openInputStream(uri)?:return arrays
+            val outStream: OutputStream = FileOutputStream(cacheFile)
+            val bytes = ByteArray(1024)
+            var len = -1
+            try {
+                while ({len = inStream.read(bytes);len}()!=-1)
+                    outStream.write(bytes,0,len)
+                arrays.add(cacheFile.absolutePath)
+            } catch (e: Exception) {
+                null
+            } finally {
+                inStream.close()
+                outStream.close()
+            }
+        }
+        return arrays
+    }
+
     fun cropImage(activity: Activity,uri: Uri){
         CropImage.activity(uri)
             .setGuidelines(CropImageView.Guidelines.ON)
@@ -122,7 +149,37 @@ class PictureHelper {
         return Luban.with(activity).load(source).ignoreBy(size).setTargetDir(cachePath).get()[0].absolutePath
     }
 
+    suspend fun compressImage(app: Application,source:String?,name:String? = "cache",size:Int = 150):String{
+        val cachePath = MyApplication.app.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.absolutePath+File.separator+name
+        return Luban.with(app).load(source).ignoreBy(size).setTargetDir(cachePath).get()[0].absolutePath
+    }
+
     suspend fun compressImages(activity: Activity,sources:ArrayList<File>,name:String = "cache",size:Int = 150):ArrayList<String>{
+        val cachePath = MyApplication.app.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.absolutePath+File.separator+name
+        val list = Luban.with(activity).load(sources).ignoreBy(size).setTargetDir(cachePath).get()
+        val paths = ArrayList<String>()
+        for (file in list){
+            paths.add(file.absolutePath)
+        }
+        return paths
+    }
+
+    suspend fun compressImageFromUri(activity: Activity,source:Uri?,name:String? = "cache",size:Int = 150):String{
+        val cachePath = MyApplication.app.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.absolutePath+File.separator+name
+        return Luban.with(activity).load(source).ignoreBy(size).setTargetDir(cachePath).get()[0].absolutePath
+    }
+
+    suspend fun compressImagesFromUris(activity: Activity,sources:ArrayList<Uri>,name:String = "cache",size:Int = 150):ArrayList<String>{
+        val cachePath = MyApplication.app.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.absolutePath+File.separator+name
+        val list = Luban.with(activity).load(sources).ignoreBy(size).setTargetDir(cachePath).get()
+        val paths = ArrayList<String>()
+        for (file in list){
+            paths.add(file.absolutePath)
+        }
+        return paths
+    }
+
+    suspend fun compressImagesFromPaths(activity: Activity,sources:ArrayList<String>,name:String = "cache",size:Int = 150):ArrayList<String>{
         val cachePath = MyApplication.app.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.absolutePath+File.separator+name
         val list = Luban.with(activity).load(sources).ignoreBy(size).setTargetDir(cachePath).get()
         val paths = ArrayList<String>()

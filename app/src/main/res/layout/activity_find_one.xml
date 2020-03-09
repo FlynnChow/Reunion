@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
             type="com.example.reunion.view_model.FindOneViewModel" />
@@ -11,7 +12,6 @@
             name="activity"
             type="com.example.reunion.view.FindOneActivity" />
     </data>
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -50,6 +50,7 @@
                 android:layout_height="match_parent" />
 
             <LinearLayout
+                android:visibility="@{viewModel.uploading?View.VISIBLE:View.GONE}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"

@@ -194,6 +194,7 @@
                         android:layout_height="22dp"/>
                 </FrameLayout>
                 <FrameLayout
+                    android:onClick="@{activity::startMyTopic}"
                     android:focusable="true"
                     android:clickable="true"
                     android:foreground="@drawable/ripple_rect_borderless"

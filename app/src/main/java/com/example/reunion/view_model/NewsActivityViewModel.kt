@@ -54,13 +54,15 @@ class NewsActivityViewModel:BaseViewModel() {
     private var currentPage = 1
     var replyPage = 1
 
+    val replySum = MutableLiveData(0)
+
     fun getCommentString(commentNum:Int):String{
         var num = commentNum
         if (num >= 10000){
             num = (num - num%1000)/1000
-            return num.toString()+"万评论"
+            return "$num 万评论"
         }
-        return num.toString()+"评论"
+        return "$num 评论"
     }
 
     fun getReadString(commentNum:Int):String{
@@ -101,7 +103,10 @@ class NewsActivityViewModel:BaseViewModel() {
                         toast.value = MyApplication.resource().getString(R.string.comment_success)
                         if (data.data!=null)
                             comment.value = data.data
+                        Log.d("测试头像",data.data?.uHeadPortrait.toString())
                         commentContent.value = ""
+                        val sum = commentNum.value?:0
+                        commentNum.value = sum + 1
                     }
                     202->{
                         toast.value = "错误"
@@ -131,10 +136,15 @@ class NewsActivityViewModel:BaseViewModel() {
                     sendBean!!.fromUid,content)
                 when(data.code){
                     200->{
+                        showEdit.value = false
                         toast.value = MyApplication.resource().getString(R.string.comment_success)
                         if (data.data!=null)
                             reply.value = data.data
                         replyContent.put(floor,"")
+                        replyFloor.value = 0
+                        val sum = replySum.value?:0
+                        replySum.value = sum + 1
+                        Log.d("测试",""+replySum.value)
                     }
                     202->{
                         toast.value = "错误"
@@ -174,6 +184,9 @@ class NewsActivityViewModel:BaseViewModel() {
                 }else{
                     commentLoadType.value = 0
                     if (data.data!!.records != null){
+                        if (data.data?.records?.size?:0>0){
+                            commentNum.value = data.data?.records!![0].commentSum
+                        }
                         comments.value = data.data!!.records
                         currentPage +=1
                     }

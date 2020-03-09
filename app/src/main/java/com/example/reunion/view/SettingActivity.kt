@@ -3,6 +3,7 @@ package com.example.reunion.view
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.ActivityManager
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -20,8 +21,11 @@ import com.example.reunion.MyApplication
 import com.example.reunion.R
 import com.example.reunion.base.BaseActivity
 import com.example.reunion.databinding.ActivitySettingBinding
+import com.example.reunion.databinding.FragmentSettingAdviceBinding
 import com.example.reunion.repostory.local_resource.PictureHelper
 import com.example.reunion.repostory.local_resource.UserHelper
+import com.example.reunion.util.NormalUtil
+import com.example.reunion.util.ViewUtil
 import com.example.reunion.view.setting_view.*
 import com.example.reunion.view_model.SettingViewModel
 import com.lljjcoder.Interface.OnCityItemClickListener
@@ -31,6 +35,7 @@ import com.lljjcoder.bean.ProvinceBean
 import com.lljjcoder.citywheel.CityConfig
 import com.lljjcoder.style.citypickerview.CityPickerView
 import kotlinx.coroutines.*
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -56,6 +61,11 @@ class SettingActivity : BaseActivity() {
     private lateinit var mTimePicker: TimePickerView
     private var mode = 0
 
+    private lateinit var logoutDialog:Dialog
+    private lateinit var clearCacheDialog:Dialog
+    private lateinit var clearImDialog:Dialog
+    private lateinit var clearSystemDialog:Dialog
+
 
 
     override fun create(savedInstanceState: Bundle?) {
@@ -70,8 +80,58 @@ class SettingActivity : BaseActivity() {
             this.mode = mode
             showMessageFragment()
         }
+
+        mViewModel.onBack.observe(this, androidx.lifecycle.Observer {
+            if(it)
+                onBackClick()
+        })
         initPicker()
+
+        initDialog()
     }
+
+    private fun initDialog(){
+        logoutDialog = ViewUtil.createNormalDialog(this,
+            "是否确定退出登录？","确定",{
+                logoutDialog.dismiss()
+                if (UserHelper.isLogin()){
+                    UserHelper.logout()
+                    mViewModel.header.value = ""
+                    toast("退出账号成功")
+                }else{
+                    toast("已经退出登录")
+                }
+            },{
+                logoutDialog.dismiss()
+            })
+
+        clearCacheDialog = ViewUtil.createNormalDialog(this,
+            "是否清空应用的所有缓存？应用缓存已占用了 ${NormalUtil.getFormatDirSize(File(PictureHelper.getCachePath()))} 大小的空间。",
+            "清空缓存",{
+                clearCacheDialog.dismiss()
+                NormalUtil.deleteDirOrFile(PictureHelper.getCachePath())
+                toast("清空完成")
+            },{
+                clearCacheDialog.dismiss()
+            })
+
+        clearImDialog = ViewUtil.createNormalDialog(this,
+            "是否清空本地所有的聊天记录？清空后无法再恢复。",
+            "清空记录",{
+                clearImDialog.dismiss()
+            },{
+                clearImDialog.dismiss()
+            })
+
+        clearSystemDialog = ViewUtil.createNormalDialog(this,
+            "是否清空本地所有的系统消息？清空后无法再恢复。",
+            "清空消息",{
+                clearSystemDialog.dismiss()
+            },{
+                clearSystemDialog.dismiss()
+            })
+    }
+
 
     @SuppressLint("SimpleDateFormat")
     private fun initPicker(){
@@ -257,6 +317,30 @@ class SettingActivity : BaseActivity() {
         PictureHelper.instance.openPhoto(this)
     }
 
+    fun onClickFeedBackPicture(view:View){
+        PictureHelper.instance.openPhoto(this,requestCode = AdviceStFragment.ADAVICE_PHOTO)
+    }
+
+    fun onClickSendAdvice(view:View){
+        mViewModel.onSendAdvice()
+    }
+
+    fun onClickLogout(view:View){
+        logoutDialog.show()
+    }
+
+    fun onClickClearCache(view:View){
+        clearCacheDialog.show()
+    }
+
+    fun onClickClearIm(view:View){
+        clearImDialog.show()
+    }
+
+    fun onClickClearSystem(view:View){
+        clearSystemDialog.show()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK){
@@ -287,6 +371,10 @@ class SettingActivity : BaseActivity() {
                             mBinding.viewModel!!.uploadHeader()
                         }
                     }
+                }
+                AdviceStFragment.ADAVICE_PHOTO ->{
+                    val uri = PictureHelper.instance.obtainUriFromPhoto(data)
+                    mViewModel.fdUri.value = uri
                 }
             }
         }

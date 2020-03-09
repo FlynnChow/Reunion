@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<data>
+</data>
+
+<androidx.cardview.widget.CardView
+    app:cardCornerRadius="25dp"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="18dp"
+        android:layout_gravity="bottom"
+        android:elevation="2dp"
+        android:background="@drawable/dialog_bg"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_gravity="center"
+            android:text="@string/picture_upload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <com.daimajia.numberprogressbar.NumberProgressBar
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center"
+            android:id="@+id/progressBar"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:padding="2dp"
+            android:id="@+id/switchBackground"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ripple_rect"
+            android:textColor="@color/retryOK"
+            android:textSize="14sp"
+            android:text="@string/switch_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
+</layout>
+

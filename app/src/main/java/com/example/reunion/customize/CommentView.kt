@@ -3,6 +3,7 @@ package com.example.reunion.customize
 import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
+import android.util.TypedValue
 import android.view.MotionEvent
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -42,11 +43,13 @@ class CommentView @JvmOverloads constructor(context:Context, attrs:AttributeSet?
                 if (isIntercept == 0){
                     return super.onInterceptTouchEvent(ev)
                 }else if (isIntercept == 2){
-                    if (moveY > startY){
+                    if (moveY - startY > TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5f, context.resources.displayMetrics)){
                         isIntercept = 1
                         return true
-                    }else{
+                    }else if(startY - moveY > TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5f, context.resources.displayMetrics)){
                         isIntercept = 0
+                        return super.onInterceptTouchEvent(ev)
+                    }else{
                         return super.onInterceptTouchEvent(ev)
                     }
                 }else if(isIntercept == 1){

@@ -12,4 +12,6 @@ class SettingRemoteModel:BaseRemoteResource() {
 
     suspend fun upInformation(body:RequestBody)
             = getServiceRemote().updateUserInformation(body).await()
+
+    suspend fun insertFeedBack(body:RequestBody) = getServiceRemote().insertFeedBack(body).await()
 }

@@ -71,9 +71,10 @@ class FaceItemAdapter:RecyclerView.Adapter<BaseViewHolder<ItemFaceBinding>>() {
 
     fun getDeleteItem():ArrayList<FaceBean>{
         val deletes = ArrayList<FaceBean>()
-        for (item in deletes){
-            if (item.flagDelete)
+        for (item in list){
+            if (item.flagDelete){
                 deletes.add(item)
+            }
         }
         return deletes
     }
@@ -98,14 +99,5 @@ class FaceItemAdapter:RecyclerView.Adapter<BaseViewHolder<ItemFaceBinding>>() {
         else
             listener?.invoke(0)
         notifyDataSetChanged()
-    }
-
-    init {
-        for (index in 1 .. 5){
-            val bean = FaceBean()
-            bean.url = "http://img1.imgtn.bdimg.com/it/u=178224941,13016582&fm=26&gp=0.jpg"
-            list.add(bean)
-            notifyDataSetChanged()
-        }
     }
 }

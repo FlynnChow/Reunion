@@ -1,6 +1,7 @@
 package com.example.reunion.view
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
@@ -20,6 +21,7 @@ import com.example.reunion.databinding.ActivityFaceManagerBinding
 import com.example.reunion.databinding.DialogConfirmDeleteBinding
 import com.example.reunion.databinding.DialogLoadingBinding
 import com.example.reunion.databinding.DialogRegisterFaceBinding
+import com.example.reunion.repostory.bean.FaceBean
 import com.example.reunion.view.adapter.FaceItemAdapter
 import com.example.reunion.view_model.FaceMgViewModel
 import kotlinx.android.synthetic.main.activity_face_manager.*
@@ -72,6 +74,7 @@ class FaceManager : BaseActivity() {
         }
 
         initView()
+        mViewModel.initFaceList()
     }
 
     private fun initView(){
@@ -82,7 +85,6 @@ class FaceManager : BaseActivity() {
             adapter.setShowDelete(it)
         })
         adapter.listener = {
-            Log.d("测试",it.toString())
             mViewModel.deleteCount.value = it
         }
         mViewModel.deleteSuccess.observe(this, Observer {
@@ -93,6 +95,16 @@ class FaceManager : BaseActivity() {
                     faceDelete.performClick()
                 }
             }
+        })
+
+        mViewModel.newFace.observe(this, Observer {
+            adapter.list.add(it)
+            adapter.notifyItemInserted(adapter.list.size - 1)
+        })
+
+        mViewModel.faceList.observe(this, Observer {
+            adapter.list.addAll(it)
+            adapter.notifyDataSetChanged()
         })
 
         mViewModel.isShowLoading.observe(this, Observer {
@@ -149,7 +161,7 @@ class FaceManager : BaseActivity() {
         layoutParams?.gravity = Gravity.CENTER
         window?.setWindowAnimations(R.style.DialogAnim)
         dialog.show()
-        dialog.hide()
+        dialog.dismiss()
         dialog.setCanceledOnTouchOutside(false)
         return dialog
     }
@@ -221,10 +233,18 @@ class FaceManager : BaseActivity() {
         if (count == 0)
             return "选择项目"
         else
-            return "已选择 ${count} 张图片"
+            return "已选择 $count 张图片"
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == RegisterFaceActivity.QUEQUEST_CODE && resultCode == Activity.RESULT_OK){
+            val newBean = data?.getParcelableExtra<FaceBean>("newFace")?:return
+            mViewModel.newFace.value = newBean
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     fun getDeleteDialog(count:Int):String{
-        return "是否将 ${count} 张人脸认证图片删除"
+        return "是否将 $count 张人脸认证图片删除"
     }
 }

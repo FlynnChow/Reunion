@@ -18,6 +18,11 @@ android {
 
         renderscriptTargetApi 19
         renderscriptSupportModeEnabled true
+
+        ndk {
+            //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
+            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+        }
     }
     buildTypes {
         release {
@@ -145,4 +150,11 @@ dependencies {
     //高斯模糊
     implementation 'com.github.jrvansuita:GaussianBlur:1.0.3'
     implementation files('libs/sun.misc.BASE64Decoder.jar')
+
+    //number进度
+    implementation 'com.daimajia.numberprogressbar:library:1.4@aar'
+
+    //map
+    implementation 'com.amap.api:3dmap:latest.integration'
+    implementation 'com.amap.api:location:latest.integration'
 }

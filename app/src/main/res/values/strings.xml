@@ -83,6 +83,11 @@
     <string name="setting_basic">认证信息</string>
     <string name="setting_save">保存</string>
 
+    <string name="setting_logout">退出当前账号</string>
+    <string name="setting_clear_cache">清空缓存</string>
+    <string name="setting_clear_im">清空聊天记录</string>
+    <string name="setting_clear_system">清空系统消息</string>
+
     <string name="setting_header">头像</string>
     <string name="setting_name">昵称</string>
     <string name="setting_real_name">姓名</string>
@@ -119,8 +124,9 @@
     <string name="find_title">扫脸结果</string>
     <string name="finding">正在寻人..</string>
 
-    <string name="picture_compressing">图片正在压缩..</string>
-    <string name="picture_uploading">图片正在上传..</string>
+    <string name="picture_compressing">正在压缩图片..</string>
+    <string name="picture_uploading">正在上传图片..</string>
+    <string name="picture_upload">正在上传图片</string>
 
     <string name="dialog_use_camera">使用相机</string>
     <string name="dialog_use_photo">使用相册</string>
@@ -128,7 +134,7 @@
 
     <string name="send_find_body">发布认领启示</string>
     <string name="send_find_body_content">快来认领丢失的东西</string>
-    <string name="send_find_people">发布求助</string>
+    <string name="send_find_people">发布寻人</string>
     <string name="send_find_people_content">让大家一起帮助你寻人</string>
     <string name="find_face">扫脸寻人</string>
     <string name="find_face_content">通过扫脸识别，查询用户信息</string>
@@ -138,17 +144,41 @@
     <string name="face_delete_all_cancel">取消全选</string>
     <string name="face_delete_all">全选</string>
     <string name="face_delete_ok">删除</string>
+    <string name="face_dialog_ok">确定</string>
     <string name="face_delete_button">删除人脸信息</string>
     <string name="face_create_button">录入人脸信息</string>
 
     <string name="face_on_click_message">每位用户最多可以录入5张人脸信息，请先删除现有的再录入</string>
     <string name="face_load_delete">正在删除中,请稍等</string>
+    <string name="compressing">正在处理图片中,请稍等</string>
 
+    <string name="send_find_people_title">发布寻人</string>
     <string name="send_find_people_time">失联时间</string>
     <string name="send_find_people_area">失联地点</string>
     <string name="send_find_people_age">失联人年龄</string>
 
+    <string name="send_find_body_title">发布认领启示</string>
     <string name="send_find_body_time">时间</string>
     <string name="send_find_body_area">地点</string>
     <string name="send_find_body_age">年龄</string>
+
+    <string name="send_topic_button">发布</string>
+    <string name="send_topic_edit_title">请输入标题</string>
+    <string name="send_topic_edit_content">添加详细描述</string>
+
+    <string name="switch_background">切换到后台</string>
+    <string name="map_help">你可以通过点击地图进行标记，通过地图上三个标记能够大致估计出你寻找对象的范围。</string>
+    <string name="ok">我知道了</string>
+
+    <string name="my_topic_people">寻人求助</string>
+    <string name="my_topic_body">认领信息</string>
+    <string name="my_topic_im">发送消息</string>
+    <string name="my_topic_follow">关注</string>
+    <string name="my_topic_follow_cancel">取消关注</string>
+
+    <string name="community_follow">关注</string>
+    <string name="community_community">重逢圈</string>
+    <string name="community_mine">我的</string>
+
+
 </resources>

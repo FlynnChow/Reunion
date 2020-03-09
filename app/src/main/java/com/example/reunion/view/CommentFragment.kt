@@ -84,7 +84,7 @@ class CommentFragment(private val listener:(Int)->Unit):BaseFragment() {
                 }
                 NewsReplyAdapter.SHOW_EDIT->{
                     viewModel.sendBean = comment
-                    viewModel.replyFloor.value = comment?.rFloor!!
+                    viewModel.replyFloor.value = comment?.rFloor!! + 1
                     ViewUtil.showInput(activity!!,replySend)
                 }
             }
@@ -106,12 +106,15 @@ class CommentFragment(private val listener:(Int)->Unit):BaseFragment() {
         })
         viewModel.reply.observe(this, Observer {
             adapter.comments!!.add(it)
-            ViewUtil.hideInput(activity!!)
             nestedView.fullScroll(NestedScrollView.FOCUS_DOWN)
         })
         viewModel.showEdit.observe(this, Observer {
             if (it)
                 ViewUtil.showInput(activity!!,replySend)
+            else{
+                ViewUtil.hideInput(activity!!)
+                replySend.clearFocus()
+            }
         })
         replySend.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus){

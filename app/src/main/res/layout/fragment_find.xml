@@ -1,18 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.example.reunion.view_model.TopicFragViewModel" />
+        <variable
+            name="fragment"
+            type="com.example.reunion.view.FindFragment" />
+        <variable
+            name="age"
+            type="String" />
+        <variable
+            name="time"
+            type="String" />
+        <variable
+            name="area"
+            type="String" />
     </data>
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <TextView
+        <LinearLayout
+            android:elevation="1dp"
+            android:background="@drawable/home_frame"
             android:gravity="center"
-            android:text="寻人"
-            android:textSize="30sp"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="44dp">
+            <LinearLayout
+                android:paddingEnd="20dp"
+                android:gravity="end"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <include layout="@layout/view_selector"
+                    app:name = "@{viewModel.ageView}"
+                    android:onClick="@{fragment::onClickAge}"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:paddingEnd="20dp"
+                android:gravity="end"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <include layout="@layout/view_selector"
+                    app:name = "@{viewModel.time}"
+                    android:onClick="@{fragment::onClickTime}"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:paddingEnd="20dp"
+                android:gravity="end"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <include layout="@layout/view_selector"
+                    app:name = "@{viewModel.areaView}"
+                    android:onClick="@{fragment::onClickArea}"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+        <com.example.reunion.customize.RefreshChange
+            android:id="@+id/newsRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.example.reunion.customize.RefreshChange>
     </LinearLayout>
 </layout>

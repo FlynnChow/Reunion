@@ -8,16 +8,17 @@ import retrofit2.http.*
 
 interface FaceApi {
 
-    @POST("")
+    @POST("face/addFace")
     fun createNewFace(@Body body: RequestBody):Call<FaceBean.normalBean>
 
-    @GET("")
+    @POST("face/searchFace")
+    fun searchFace(@Body body: RequestBody):Call<FaceBean.ListBean>
+
+    @POST("face/deleteFace")
     fun deleteFace(@Body body: RequestBody):Call<FaceBean.normalBean>
 
-    @POST("")
-    fun researchFace(@Query("groupId") groupId:String,@Query("uId") uid:String? = UserHelper.getUser()?.uId):Call<FaceBean.ListBean>
 
-    @GET("")
-    fun getFaceList(@Query("uId") uid:String? = UserHelper.getUser()?.uId):Call<FaceBean.ListBean>
+    @GET("face/selectUserId")
+    fun getFaceList(@Query("userId") uid:String? = UserHelper.getUser()?.uId):Call<FaceBean.ListBean>
 
 }

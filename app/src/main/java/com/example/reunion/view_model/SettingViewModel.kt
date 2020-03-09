@@ -1,5 +1,6 @@
 package com.example.reunion.view_model
 
+import android.net.Uri
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
@@ -7,10 +8,13 @@ import com.example.reunion.MyApplication
 import com.example.reunion.R
 import com.example.reunion.base.BaseViewModel
 import com.example.reunion.customize.UploadRequestBody
+import com.example.reunion.repostory.bean.FeedBack
 import com.example.reunion.repostory.bean.User
 import com.example.reunion.repostory.local_resource.HomePageSt
+import com.example.reunion.repostory.local_resource.PictureHelper
 import com.example.reunion.repostory.local_resource.UserHelper
 import com.example.reunion.repostory.remote_resource.SettingRemoteModel
+import com.example.reunion.util.NormalUtil
 import com.google.gson.Gson
 import okhttp3.MultipartBody
 import retrofit2.HttpException
@@ -33,6 +37,7 @@ class SettingViewModel:BaseViewModel() {
 
     var currentPage = 0
 
+    val onBack = MutableLiveData<Boolean>()
     /**
      * 首页管理
      */
@@ -102,6 +107,11 @@ class SettingViewModel:BaseViewModel() {
     var weChat = MutableLiveData("")
     var phone = MutableLiveData("")
 
+    //反馈
+    val fdUri = MutableLiveData<Uri>(null)
+    val fdPath = MutableLiveData<String>()
+    val fdContent = MutableLiveData("")
+    val fdPhoneNumber = MutableLiveData("")
 
     fun getAreaString(province: String?, city: String?, district: String?): String {
         val builder = StringBuilder()
@@ -219,5 +229,60 @@ class SettingViewModel:BaseViewModel() {
     }
 
 
+    private var isAdaviceing = false
     //用户反馈
+    fun onSendAdvice(){
+        if (isAdaviceing){
+            return
+        }
+        isAdaviceing = true
+        if (fdContent.value == null||fdContent.value!!.isEmpty()){
+            toast.value = "请写下您的反馈内容"
+            isAdaviceing = false
+            return
+        }
+        if(fdPhoneNumber.value == null||fdPhoneNumber.value!!.isNotEmpty()){
+            if (!NormalUtil.isMobile(fdPhoneNumber.value)){
+                toast.value = "请填写正确的电话号码"
+                isAdaviceing = false
+                return
+            }
+        }
+
+        val feedBean = FeedBack()
+        launch ({
+            if (fdUri.value != null){
+                val tempPath = PictureHelper.instance.obtainPathFromUri(fdUri.value!!)
+                val comPath = PictureHelper.instance.compressImage(
+                    MyApplication.app,tempPath)
+                fdPath.value = comPath
+            }
+            feedBean.fContent = fdContent.value
+            feedBean.fTele = fdPhoneNumber.value
+            val bodyBuilder = MultipartBody.Builder()
+            if (fdPath.value != null && fdPath.value != ""){
+                val file = File(fdPath.value!!)
+                val uploadBody = UploadRequestBody.getRequestBody(file,"image")
+                bodyBuilder.addFormDataPart("file",file.name,uploadBody)
+            }
+            bodyBuilder.addFormDataPart("feedBackJson",Gson().toJson(feedBean))
+            val result = remoteModel.insertFeedBack(bodyBuilder.build())
+            when(result.code){
+                200 ->{
+                    toast.value = "反馈成功"
+                    onBack.value = true
+                    fdUri.value = null
+                    fdContent.value = ""
+                    fdPhoneNumber.value = ""
+                }
+                else ->{
+                    toast.value = "反馈失败，请重新尝试"
+                }
+            }
+            isAdaviceing = false
+        },{
+            toast.value = it.message
+            isAdaviceing = false
+        })
+    }
 }

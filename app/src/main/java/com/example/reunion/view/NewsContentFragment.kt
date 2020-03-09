@@ -35,7 +35,6 @@ class NewsContentFragment(private val contentIndex:Int = 0):BaseFragment() {
     ): View? {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.view_recycler_view,container,false)
         mBinding.lifecycleOwner = this
-        mBinding.viewModel = mViewModel
         return mBinding.root
     }
 

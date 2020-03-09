@@ -1,6 +1,5 @@
 package com.example.reunion.view_model
 
-import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import com.example.reunion.base.BaseViewModel
@@ -8,12 +7,9 @@ import com.example.reunion.repostory.bean.User
 import com.example.reunion.repostory.local_resource.HomePageSt
 import com.example.reunion.repostory.local_resource.UserHelper
 import com.example.reunion.repostory.remote_resource.HomeRemoteModel
-import com.example.reunion.util.StringDealerUtil
 import com.example.reunion.view.*
 import java.net.ConnectException
 import java.net.UnknownHostException
-import java.security.Key
-import javax.crypto.spec.SecretKeySpec
 
 
 class HomeViewModel:BaseViewModel() {
@@ -29,12 +25,12 @@ class HomeViewModel:BaseViewModel() {
 
     //以下为homePager的adapter所有
     val isHomeUpdate = MutableLiveData(false)
-    val followFragment = FollowFragment()
-    val recommendFragment = RecommendFragment()
-    val nearbyFragment = NearbyFragment()
-    val findFragment = FindFragment()
+    val followFragment = TopicItemFragment("follow")
+    val recommendFragment = TopicItemFragment("recommend")
+    val nearbyFragment = TopicItemFragment("nearby")
+    val findFragment = FindFragment("people")
     val newsFragment = NewsFragment()
-    val claimFragment = ClaimFragment()
+    val claimFragment = FindFragment("body")
     val fragmentList by lazy { ArrayList<Fragment>().apply {
         add(followFragment)
         add(recommendFragment)

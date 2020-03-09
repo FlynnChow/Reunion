@@ -6,44 +6,37 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.example.reunion.R
 import com.example.reunion.base.BaseViewHolder
-import com.example.reunion.databinding.ItemNewsBinding
-import com.example.reunion.repostory.bean.NewsBean
-import com.example.reunion.view.NewsActivity
+import com.example.reunion.databinding.ItemFindOneBinding
+import com.example.reunion.repostory.bean.FaceBean
 
-class FindOneAdapter:RecyclerView.Adapter<BaseViewHolder<ItemNewsBinding>>() {
+class FindOneAdapter:RecyclerView.Adapter<BaseViewHolder<ItemFindOneBinding>>() {
 
-    val newsList:ArrayList<NewsBean.News> = ArrayList()
+    var listener:((String)->Unit)? = null
+    val list:ArrayList<FaceBean> = ArrayList()
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): BaseViewHolder<ItemNewsBinding> {
-        val mBinding:ItemNewsBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context),
-            R.layout.item_news,parent,false)
+    ): BaseViewHolder<ItemFindOneBinding> {
+        val mBinding:ItemFindOneBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context),
+            R.layout.item_find_one,parent,false)
         return BaseViewHolder(mBinding)
     }
 
     override fun getItemCount(): Int {
-        return newsList.size
+        return list.size
     }
 
-    override fun onBindViewHolder(holder: BaseViewHolder<ItemNewsBinding>, position: Int) {
+    override fun onBindViewHolder(holder: BaseViewHolder<ItemFindOneBinding>, position: Int) {
         val mBinding = holder.mBinding
-        mBinding.bean = newsList[position]
+        mBinding.bean = list[position]
         mBinding.root.setOnClickListener {
-            if (newsList[position] != null){
-                val intent = Intent(mBinding.root.context,NewsActivity::class.java)
-                val bundle = Bundle()
-                bundle.putParcelable("news",newsList[position])
-                intent.putExtras(bundle)
-                mBinding.root.context.startActivity(intent)
-            }
+            listener?.invoke(list[position].uid.toString())
         }
         mBinding.executePendingBindings()
     }
+
+
 }

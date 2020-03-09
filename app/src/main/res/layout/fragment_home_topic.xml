@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.reunion.view_model.TopicFragViewModel" />
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <View
+            android:background="#33C8C8C8"
+            android:elevation="1dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.75dp"/>
+        <com.example.reunion.customize.RefreshChange
+            android:id="@+id/newsRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.example.reunion.customize.RefreshChange>
+    </LinearLayout>
+</layout>

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="tab_indicator_bottom">12dp</dimen>
+    <dimen name="community_indicator_bottom">12dp</dimen>
+    <dimen name="my_tab_indicator_bottom">8dp</dimen>
 
     <dimen name="firstTitle">14sp</dimen>
     <dimen name="secondTitle">12sp</dimen>
@@ -13,7 +15,7 @@
     <dimen name="back_margin_top">8dp</dimen>
     <dimen name="back_margin_start">15dp</dimen>
 
-    <dimen name="comment_scroll_max">150dp</dimen>
+    <dimen name="comment_scroll_max">100dp</dimen>
 
     <dimen name="camera_zoom_height">10dp</dimen>
     <dimen name="camera_zoom_whole_height">12dp</dimen>
