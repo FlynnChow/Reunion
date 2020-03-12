@@ -102,7 +102,8 @@ data class SystemMessageBean(
     //由客户端生成
     var time:Long? = null
 
-    //消息 目标用户的uid
+    //消息来源用户的uid
+    //没有就null
     var targetUid:String? = null
 
     //消息标题
@@ -114,10 +115,11 @@ data class SystemMessageBean(
     //是否已经被读，服务器默认发送false
     var isRead:Boolean = false
 
-    //目标用户的头像URL
+    //消息来源用户的头像URL
+    //没有就null
     var header:String? = null
 
-    //目标用户的昵称
+    //消息来源用户的昵称
     var nickName:String? = null
 
 }
