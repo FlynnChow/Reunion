@@ -75,8 +75,8 @@ data class ImMessageBean(
     //聊天信息
     var content:String? = null
 
-    //默认true 由客户端控制
-    var isRead:Boolean? = null
+    //默认false 由客户端控制
+    var isRead:Boolean = false
 
     //发送消息时 发送者的头像URL
     var header:String? = null
@@ -111,8 +111,8 @@ data class SystemMessageBean(
     //消息内容
     var content:String? = null
 
-    //是否已经被读，服务器默认true
-    var isRead:Boolean? = null
+    //是否已经被读，服务器默认发送false
+    var isRead:Boolean = false
 
     //目标用户的头像URL
     var header:String? = null
