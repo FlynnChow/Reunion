@@ -1,6 +1,6 @@
 # 重逢圈 BEAN
 
-### 重逢圈主题内容
+## 重逢圈主题内容
 
 ```
     var communityId:String? = null // 主题的 id 主键
@@ -22,8 +22,8 @@
     var commentNum = 0 //评论总数
 ```
 
-### 评论
-**评论没有主次之分**
+## 评论
+**评论无主次之分**
 
 ```
 class Comment{
@@ -53,7 +53,7 @@ class Comment{
 
 # 消息
 
-### 即时通讯信息
+## 即时通讯信息
 ```
 @Entity(tableName = "im_message")
 data class ImMessageBean(
@@ -89,7 +89,7 @@ data class ImMessageBean(
 }
 ```
 
-### 系统信息
+## 系统信息
 ```
 @Entity(tableName = "system_message")
 data class SystemMessageBean(
