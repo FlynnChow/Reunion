@@ -12,13 +12,13 @@ class CommunityBean {
     var content:String? = null // 内容文字
     var locate:String? = null // 位置信息 [省市]
     var images:ArrayList<String>? = null // 内容图片URL
+    var commentNum = 0 //评论总数
 
     /**
      * 首次获取主题时候默认会包含主题的 1 - 3 楼的评论
      * 没有评论，则为null
      */
     var comments:ArrayList<Comment>? = null
-    var commentNum = 0 //评论总数
 }
 ```
 ## 重逢圈 评论Bean类(没有父子评论之分)
@@ -33,8 +33,8 @@ class Comment{
         var cId:String? = null //  评论的id 主键
         var comment:String? = null // 评论内容
 
-        var toUId:String? = null // 被评论用户的UID,如果为null表面评论的是主题
-        var toName:String? = null // 被评论用户的昵称,如果为null表面评论的是主题
+        var toUId:String? = null // 被评论用户的UID,如果为null表示评论的是主题
+        var toName:String? = null // 被评论用户的昵称,如果为null表示评论的是主题
         var floor:Int = 1 //评论的楼层 从 1 开始计数
 }
 ```
