@@ -38,7 +38,7 @@ class Comment{
         var floor:Int = 1 //评论的楼层 从 1 开始计数
 }
 ```
-## 发布重逢圈
+## 1. 发布重逢圈
 ### POST (community/sendMain)
 ### 请求参数
 * uId(String) 发布用户uid
@@ -68,7 +68,7 @@ class ResponseBean{
 * data 发布好的重逢帖子
 
 
-## 发布重逢圈 评论
+## 2. 发布重逢圈 评论
 ### GET (community/sendComment)
 ### 请求参数
 * communityId(String) 请求目标帖子的id
@@ -91,18 +91,18 @@ class CommentBean{
 * msg 请求的结果的一些异常信息
 * data 发布好的重逢评论内容
 
-## 获取重逢圈关注用户发布的内容
+## 3. 获取重逢圈关注用户发布的内容
 ### GET (community/obtainFollow)
 ### 请求参数
 * uId(String) 请求用户的uid
 * page(Int) 页码，从 1 开始
 
-## 获取重逢圈推荐(按热度)内容
+## 4. 获取重逢圈推荐(按热度)内容
 ### GET (community/obtainRecommend)
 ### 请求参数
 * page(Int) 页码，从 1 开始
 
-## 获取重逢圈 某个用户的发布内容
+## 5. 获取重逢圈 某个用户的发布内容
 ### GET (community/obtainRecommend)
 ### 请求参数
 * uId(String) 目标用户的uid
@@ -124,7 +124,7 @@ class ResponseBeans{
 * msg 请求的结果一些异常信息
 * data 发布好的重逢帖子
 
-## 获取重逢圈 获取评论内容
+## 6. 获取重逢圈 获取评论内容
 ### GET (community/obtainComment)
 ### 请求参数
 * communityId(String) 请求目标帖子的id
