@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="activity"
+            type="com.example.reunion.view.TopicSearchActivity" />
+    </data>
+
+    <TextView
+        android:id="@+id/textView"
+        android:onClick="@{activity::onClickSearch}"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:background="@drawable/search_item_background"
+        android:textSize="12sp"
+        android:textColor="@color/comment_text_color"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</layout>

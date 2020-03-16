@@ -62,6 +62,16 @@ abstract class BaseViewModel:ViewModel() {
         }
     }
 
+    protected fun launch(block:suspend ()->Unit,throws:suspend (T:Throwable)->Unit,final:suspend ()->Unit) = viewModelScope.launch {
+        try{
+            block()
+        }catch (e:Exception){
+            throws.invoke(e)
+        }finally {
+            final.invoke()
+        }
+    }
+
     protected fun launchIO(block:suspend ()->Unit,throws:suspend (T:Throwable)->Unit) = viewModelScope.launch(Dispatchers.IO) {
         try{
             block()

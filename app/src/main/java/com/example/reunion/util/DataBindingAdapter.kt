@@ -21,9 +21,25 @@ object DataBindingAdapter {
     }
 
     @JvmStatic
+    @BindingAdapter("image")
+    fun loadImageViewCanNull(imageView:ImageView,url:String?){
+        if (url!=null){
+            Glide.with(imageView).load(url).apply(NormalUtil.getGlideOption()).into(imageView)
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("resource")
+    fun loadImageFromResource(imageView:ImageView,url:Int?){
+        if (url!=null){
+            Glide.with(imageView).load(url).apply(NormalUtil.getGlideOption()).into(imageView)
+        }
+    }
+
+    @JvmStatic
     @BindingAdapter("head")
     fun loadHeaderView(imageView:ImageView,url:String?){
-        if (url!=null){
+        if (url!=null &&url.isNotEmpty()){
             Glide.with(imageView).load(url).apply(NormalUtil.getGlideHeaderOption()).into(imageView)
         }else{
             Glide.with(imageView).load(R.drawable.user).into(imageView)

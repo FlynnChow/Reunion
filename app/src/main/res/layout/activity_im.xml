@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="activity"
+            type="com.example.reunion.view.ImActivity" />
+        <variable
+            name="viewModel"
+            type="com.example.reunion.view_model.ImViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.ImActivity">
+
+        <FrameLayout
+            android:elevation="2dp"
+            android:background="@color/color_white"
+            android:layout_width="match_parent"
+            android:layout_height="47dp">
+
+            <ImageView
+                android:layout_marginTop="@dimen/back_margin_top"
+                android:layout_marginStart="@dimen/back_margin_start"
+                android:onClick="@{activity::onBack}"
+                android:background="@drawable/ripple_back_oval"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/fanhui"
+                android:padding="2dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp" />
+
+            <TextView
+                android:textSize="16sp"
+                android:textColor="@color/color_black"
+                android:text="@{viewModel.toUser.UName}"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:onClick="@{activity::onClickShowUserMenu}"
+                android:layout_marginEnd="9dp"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginStart="@dimen/back_margin_start"
+                android:background="@drawable/ripple_back_oval"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/menu"
+                android:padding="5dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+        </FrameLayout>
+        <com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
+            android:id="@+id/newsRefresh"
+            android:layout_marginTop="47dp"
+            android:layout_marginBottom="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout>
+        <RelativeLayout
+            android:id="@+id/imEditLayout"
+            android:elevation="2dp"
+            android:background="@color/color_white"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+            <EditText
+                android:textCursorDrawable="@drawable/edit_curor"
+                android:id="@+id/imEdit"
+                android:text="@={viewModel.editContent}"
+                android:layout_toStartOf="@id/im_send"
+                android:maxLines="1"
+                android:paddingStart="13dp"
+                android:paddingEnd="13dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="5dp"
+                android:textSize="12sp"
+                android:textColor="@color/comment_text_color"
+                android:background="@drawable/comment_background"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="24dp"
+                android:layout_width="match_parent"
+                android:layout_height="27dp"/>
+            <TextView
+                android:onClick="@{viewModel::onSendMessage}"
+                android:focusable="true"
+                android:id="@+id/im_send"
+                android:layout_marginEnd="12dp"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/color_white"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:text="@string/comment_send"
+                android:textSize="14sp"
+                android:clickable="@{viewModel.isCanSend(viewModel.editContent)}"
+                android:background="@{viewModel.getSendBg(viewModel.editContent)}"
+                android:layout_width="46dp"
+                android:layout_height="24dp"/>
+        </RelativeLayout>
+    </FrameLayout>
+</layout>

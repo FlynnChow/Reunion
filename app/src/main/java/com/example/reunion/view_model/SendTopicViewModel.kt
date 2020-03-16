@@ -16,7 +16,7 @@ import okhttp3.MultipartBody
 import java.io.File
 
 class SendTopicViewModel:BaseViewModel() {
-    lateinit var type:String
+    val type = MutableLiveData<String>()
 
     val title = MutableLiveData<String>()
 
@@ -80,7 +80,7 @@ class SendTopicViewModel:BaseViewModel() {
             toast.value = "请输入地区"
             return
         }
-        if (topicAgeView.value == null || topicAgeView.value!!.isEmpty()){
+        if ((topicAgeView.value == null || topicAgeView.value!!.isEmpty())&&type.value == "people"){
             toast.value = "请输入年龄"
             return
         }
@@ -97,7 +97,7 @@ class SendTopicViewModel:BaseViewModel() {
     }
 
     fun onUploading(){
-        if ("people" == type)
+        if ("people" == type.value)
             uploadPeopleTopic()
         else
             uploadBodyTopic()
@@ -106,7 +106,8 @@ class SendTopicViewModel:BaseViewModel() {
     private fun uploadPeopleTopic(){
         val requestBuilder =  MultipartBody.Builder()
         val data = TopicBean()
-        data.age = topicAge.value
+        if (type.value == "people")
+            data.age = topicAge.value
         data.sCity = city.value
         data.sDistrict = district.value
         data.sProvince = province.value
@@ -156,4 +157,13 @@ class SendTopicViewModel:BaseViewModel() {
         else
             return "点击标记范围"
     }
+
+    fun getVisible(type:String):Int{
+        if (type == "people"){
+            return View.VISIBLE
+        }else{
+            return View.GONE
+        }
+    }
+
 }

@@ -7,10 +7,8 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
@@ -29,7 +27,7 @@ import com.example.reunion.databinding.DialogLoadingBinding
 import com.example.reunion.databinding.DialogScheduleBinding
 import com.example.reunion.repostory.bean.TopicBean
 import com.example.reunion.repostory.local_resource.PictureHelper
-import com.example.reunion.repostory.remote_resource.UploadServer
+import com.example.reunion.repostory.server.UploadServer
 import com.example.reunion.view.adapter.SendTopicAdapter
 import com.example.reunion.view_model.SendTopicViewModel
 import com.lljjcoder.Interface.OnCityItemClickListener
@@ -38,12 +36,10 @@ import com.lljjcoder.bean.DistrictBean
 import com.lljjcoder.bean.ProvinceBean
 import com.lljjcoder.citywheel.CityConfig
 import com.lljjcoder.style.citypickerview.CityPickerView
-import kotlinx.android.synthetic.main.cust_city_select.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.io.File
 import java.lang.StringBuilder
 import java.text.SimpleDateFormat
 import java.util.*
@@ -55,7 +51,7 @@ class SendTopicActivity : BaseActivity() {
     private lateinit var progressBinding: DialogScheduleBinding
 
     private val adapter = SendTopicAdapter()
-    private lateinit var mBinder:UploadServer.UpLoadBinder
+    private lateinit var mBinder: UploadServer.UpLoadBinder
 
     private lateinit var mTimePicker: TimePickerView
     private val mCityPicker by lazy { CityPickerView() }
@@ -136,7 +132,7 @@ class SendTopicActivity : BaseActivity() {
 
     @SuppressLint("SimpleDateFormat")
     private fun initView(){
-        mViewModel.type = intent.getStringExtra("type")?:"people"
+        mViewModel.type.value = intent.getStringExtra("type")?:"people"
         if("people".equals(mViewModel.type)){
             mViewModel.title.value = resources.getString(R.string.send_find_people_title)
             mViewModel.time.value = resources.getString(R.string.send_find_people_time)
@@ -257,7 +253,8 @@ class SendTopicActivity : BaseActivity() {
 
     fun onBack(view: View){
         onBackPressed()
-        stopService(Intent(this,UploadServer::class.java))
+        stopService(Intent(this,
+            UploadServer::class.java))
     }
 
     fun onSelectTime(view: View){

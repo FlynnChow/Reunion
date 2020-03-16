@@ -52,7 +52,7 @@
                     <ImageView
                         android:layout_marginTop="11dp"
                         android:layout_marginStart="16dp"
-                        android:src="@drawable/temp_icon"
+                        android:src="@drawable/faburenling"
                         android:layout_width="47dp"
                         android:layout_height="47dp"/>
                     <LinearLayout
@@ -144,7 +144,7 @@
                     <ImageView
                         android:layout_marginTop="11dp"
                         android:layout_marginStart="16dp"
-                        android:src="@drawable/temp_icon"
+                        android:src="@drawable/saolianshibie"
                         android:layout_width="47dp"
                         android:layout_height="47dp"/>
                     <LinearLayout

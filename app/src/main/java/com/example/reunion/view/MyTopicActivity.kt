@@ -1,6 +1,7 @@
 package com.example.reunion.view
 
 import android.app.Dialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
@@ -9,6 +10,8 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -37,6 +40,9 @@ class MyTopicActivity : BaseActivity() {
         initDialog()
     }
 
+    private val peopleFragment = MyTopicRecyFragment("people")
+    private val bodyFragment = MyTopicRecyFragment("body")
+
     override fun create(savedInstanceState: Bundle?) {
         mBinding = DataBindingUtil.setContentView(this,R.layout.activity_my_topic)
         mBinding.viewModel = mViewModel
@@ -59,12 +65,13 @@ class MyTopicActivity : BaseActivity() {
         }else if (UserHelper.isLogin()){
             UserHelper.getUser()?.apply {
                 mViewModel.user = UserHelper.getUser()
-                mViewModel.uid = uId
+                mViewModel.uid.value = uId
                 mViewModel.nickName.value = uName
                 mViewModel.header.value = uHeadPortrait
                 mViewModel.signature.value = uSignature
-                //mViewModel.loadPeopleData()
-                //mViewModel.loadBodyData()
+                mViewModel.initFollowState()
+                mViewModel.loadPeopleData()
+                mViewModel.loadBodyData()
             }
         }else{
             toast("Need login your user number")
@@ -75,8 +82,8 @@ class MyTopicActivity : BaseActivity() {
     private fun initView(){
 
         val adapter = MyTopicAdapter(this,arrayListOf(
-            MyTopicRecyFragment("people"),
-            MyTopicRecyFragment("body")
+            peopleFragment,
+            bodyFragment
         ))
         mBinding.mViewpager.adapter = adapter
 
@@ -130,10 +137,23 @@ class MyTopicActivity : BaseActivity() {
 
     fun onClickFollow(view:View){
         dialog.dismiss()
+        mViewModel.onFollow()
     }
 
     fun onClickSendMessage(view:View){
+        startActivity(Intent(this,ImActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            putExtra("user",mViewModel.user)
+        })
+        finish()
         dialog.dismiss()
+    }
+
+    fun onClickMoreMessage(view:View){
+        dialog.dismiss()
+        startActivity(Intent(this,MoreMessageActivity::class.java).apply {
+            putExtra("userBean",mViewModel.user)
+        })
     }
 
     fun onClickCancelDialog(view:View){

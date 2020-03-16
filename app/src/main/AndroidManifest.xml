@@ -18,14 +18,37 @@
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo_r"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/http_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        tools:ignore="LockedOrientationActivity"
         tools:targetApi="n">
-        <activity android:name=".view.MyTopicActivity"></activity>
+        <activity android:name=".view.CommunityActivity"></activity>
+        <activity android:name=".view.CommunitySendActivity" />
+
+        <service
+            android:name=".repostory.server.ImNotificationService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".repostory.server.WebSocketServer"
+            android:enabled="true"
+            android:exported="true"
+            android:priority="1000" />
+
+        <activity android:name=".view.ImActivity" />
+        <activity android:name=".view.SearchUserActivity" />
+        <activity android:name=".view.TopicSearchListActivity" />
+        <activity
+            android:name=".view.TopicSearchActivity"
+            android:windowSoftInputMode="stateVisible" />
+        <activity android:name=".view.StarActivity" />
+        <activity android:name=".view.FollowActivity" />
+        <activity android:name=".view.MoreMessageActivity" />
+        <activity android:name=".view.MyTopicActivity" />
         <activity android:name=".view.MapActivity" />
         <activity android:name=".view.TopicActivity" />
         <activity android:name=".view.SendTopicActivity" />
@@ -34,17 +57,17 @@
         <activity android:name=".view.FindOneActivity" />
         <activity
             android:name=".view.FaceImageActivity"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.CameraActivity"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="portrait" />
         <activity android:name=".view.EditStActivity" />
         <activity android:name=".view.SettingActivity" />
         <activity android:name=".view.TestActivity" />
         <activity android:name=".view.NewsActivity" />
         <activity
             android:name=".view.HomeActivity"
-            android:screenOrientation="fullSensor">
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -57,7 +80,7 @@
             android:theme="@style/Base.Theme.AppCompat" />
         <activity android:name=".customize.CityListSelectActivity" />
 
-        <service android:name=".repostory.remote_resource.UploadServer" />
+        <service android:name=".repostory.server.UploadServer" />
 
         <meta-data
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"

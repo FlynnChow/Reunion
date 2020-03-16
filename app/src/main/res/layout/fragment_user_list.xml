@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.example.reunion.customize.RefreshChange
+            android:id="@+id/newsRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.example.reunion.customize.RefreshChange>
+
+        <com.allenliu.sidebar.SideBar
+            app:openCount="7"
+            app:A="200"
+            app:gapBetweenText="100"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="50dp"
+            android:layout_gravity="end"
+            android:textColor="@color/colorAccent"
+            android:textSize="10sp"
+            android:paddingEnd="10dp"
+            android:layout_width="wrap_content"
+            android:id="@+id/sideBar"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+</layout>

@@ -1,5 +1,6 @@
 package com.example.reunion.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,14 +14,15 @@ import com.example.reunion.base.BaseFragment
 import com.example.reunion.databinding.FragmentLoginPhoneBinding
 import com.example.reunion.databinding.ViewRecyclerView2Binding
 import com.example.reunion.databinding.ViewRecyclerViewBinding
+import com.example.reunion.view.adapter.CommunityItemAdapter
 import com.example.reunion.view.adapter.TopicItemAdapter
 import com.example.reunion.view_model.ComunityViewModel
 import com.example.reunion.view_model.LoginViewModel
 import com.example.reunion.view_model.MyTopicViewModel
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
 
-class CommunityRecyFragment(private val type:String):BaseFragment() {
-    private val mAdapter = TopicItemAdapter()
+class CommunityRecyFragment(private val type:String = ""):BaseFragment() {
+    private val mAdapter = CommunityItemAdapter()
     private lateinit var mBinding: ViewRecyclerView2Binding
     private val mViewModel by lazy {
         setViewModel(this,ComunityViewModel::class.java)

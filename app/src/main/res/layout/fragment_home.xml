@@ -6,6 +6,9 @@
         <variable
             name="viewModel"
             type="com.example.reunion.view_model.HomeViewModel" />
+        <variable
+            name="activity"
+            type="com.example.reunion.view.HomeActivity" />
     </data>
 
     <LinearLayout
@@ -17,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp">
             <ImageView
+                android:onClick="@{activity::startSearch}"
                 android:clickable="true"
                 android:layout_marginStart="9dp"
                 android:layout_gravity="center_vertical"

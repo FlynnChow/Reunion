@@ -18,8 +18,7 @@ import com.example.reunion.repostory.bean.NewsBean
 import com.example.reunion.repostory.bean.TopicBean
 import com.example.reunion.view.NewsActivity
 
-class TopicItemAdapter:RecyclerView.Adapter<BaseViewHolder<ItemHomeBinding>>() {
-
+class TopicItemAdapter(private val listener:((TopicBean)->Unit)? = null):RecyclerView.Adapter<BaseViewHolder<ItemHomeBinding>>() {
     val list:ArrayList<TopicBean> = ArrayList()
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -37,18 +36,9 @@ class TopicItemAdapter:RecyclerView.Adapter<BaseViewHolder<ItemHomeBinding>>() {
     override fun onBindViewHolder(holder: BaseViewHolder<ItemHomeBinding>, position: Int) {
         val mBinding = holder.mBinding
         mBinding.bean = list[position]
-        mBinding.executePendingBindings()
-    }
-
-    init {
-        for (index in 0 .. 10){
-            list.add(TopicBean().apply {
-                nickName = "测试名字"
-                sTitle = "测试标题"
-                pictures = arrayListOf("https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1361433311,1491821341&fm=26&gp=0.jpg")
-                header = "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2142586472,3495055421&fm=26&gp=0.jpg"
-            })
+        mBinding.root.setOnClickListener {
+            listener?.invoke(list[position])
         }
-        notifyDataSetChanged()
+        mBinding.executePendingBindings()
     }
 }

@@ -5,24 +5,41 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.app.Activity
 import android.content.Intent
+import android.content.IntentFilter
+import android.graphics.Bitmap
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.view.animation.*
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
+import com.example.reunion.MyApplication
 import com.example.reunion.R
 import com.example.reunion.base.BaseActivity
 import com.example.reunion.databinding.ActivityHomeBinding
+import com.example.reunion.repostory.local_resource.ClearReceiver
 import com.example.reunion.repostory.local_resource.UserHelper
-import com.example.reunion.repostory.remote_resource.UploadServer
+import com.example.reunion.repostory.server.ImNotificationService
+import com.example.reunion.util.NotificationUtil
 import com.example.reunion.view_model.HomeViewModel
-import com.lljjcoder.style.citylist.utils.CityListLoader
+import com.example.reunion.view_model.MessageViewModel
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+
 
 class HomeActivity : BaseActivity() {
-    val LOGIN_USER = 100
-    val SETTING_REQUEST = 101
+    companion object{
+        const val LOGIN_USER = 100
+        const val SETTING_REQUEST = 101
+    }
     private lateinit var mBinding:ActivityHomeBinding
     private lateinit var fragments:Array<Fragment>
     private var lastFragmentIndex = 0
@@ -34,6 +51,7 @@ class HomeActivity : BaseActivity() {
         mBinding.viewModel!!.updateUser()
         mBinding.viewModel!!.checkLogin()//登录检查
         initBottomNavigation()//初始化fragment
+        initMessageReceiver()
 
         insertView.post {
             insertView.visibility = View.GONE
@@ -86,17 +104,6 @@ class HomeActivity : BaseActivity() {
         }
     }
 
-    fun onClickUser(view:View? = null){
-        if (UserHelper.isLogin()){
-            val intent = Intent(this,SettingActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
-            startActivityForResult(intent,SETTING_REQUEST)
-        }else{
-            val intent = Intent(this,LoginActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
-            startActivityForResult(intent,LOGIN_USER)
-        }
-    }
 
     fun onCloseSendWindow(view:View?){
         if (mBinding.viewModel!!.isShowSendWondow){
@@ -223,6 +230,58 @@ class HomeActivity : BaseActivity() {
             addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
         })
         onResetSendWindow()
+    }
+
+    fun startUserActivity(view: View?){
+        if (UserHelper.isLogin()){
+            startActivity(Intent(this,FollowActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            })
+        }else{
+            toast("需要登录才可以使用该功能")
+        }
+        onResetSendWindow()
+    }
+
+    fun startStarActivity(view: View?){
+        if (UserHelper.isLogin()){
+            startActivity(Intent(this,StarActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            })
+        }else{
+            toast("需要登录才可以使用该功能")
+        }
+        onResetSendWindow()
+    }
+
+    fun startSearch(view: View?){
+        startActivity(Intent(this,TopicSearchActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+        })
+        onResetSendWindow()
+    }
+
+    fun onClickUser(view:View? = null){
+        if (UserHelper.isLogin()){
+            startActivity(Intent(this,MoreMessageActivity::class.java).apply {
+                putExtra("userBean",UserHelper.getUser())
+            })
+        }else{
+            val intent = Intent(this,LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivityForResult(intent,LOGIN_USER)
+        }
+    }
+
+    fun initMessageReceiver(){
+        val viewModel = setViewModel(this,MessageViewModel::class.java)
+        val mReceiver = ClearReceiver{
+            viewModel.clearMessage.value = it
+        }
+        val intentFilter = IntentFilter()
+        intentFilter.addAction("reunion.message.im.clear")
+        intentFilter.addAction("reunion.message.sys.clear")
+        registerReceiver(mReceiver,intentFilter)
     }
 
 }

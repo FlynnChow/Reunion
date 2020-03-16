@@ -10,6 +10,7 @@ import com.example.reunion.base.BaseViewModel
 import com.example.reunion.customize.UploadRequestBody
 import com.example.reunion.repostory.bean.FeedBack
 import com.example.reunion.repostory.bean.User
+import com.example.reunion.repostory.local_resource.AppDataBase
 import com.example.reunion.repostory.local_resource.HomePageSt
 import com.example.reunion.repostory.local_resource.PictureHelper
 import com.example.reunion.repostory.local_resource.UserHelper
@@ -205,12 +206,12 @@ class SettingViewModel:BaseViewModel() {
         user.uName = name.value?:""
         user.uRealName = realName.value?:""
         user.uSignature = signature.value?:""
-        val gsonString = Gson().toJson(user)
+        val jsonString = Gson().toJson(user)
         val body = MultipartBody.Builder()
             .addFormDataPart("uId",UserHelper.getUser()?.uId?:"")
             .addFormDataPart("time",UserHelper.time.toString())
             .addFormDataPart("enCode", UserHelper.enCode)
-            .addFormDataPart("userJson",gsonString)
+            .addFormDataPart("userJson",jsonString)
             .build()
         launch({
             val userBean = remoteModel.upInformation(body)
@@ -284,5 +285,18 @@ class SettingViewModel:BaseViewModel() {
             toast.value = it.message
             isAdaviceing = false
         })
+    }
+
+    fun clearMessage(){
+        launch {
+            AppDataBase.instance.getImMessageDao().clearMessages(UserHelper.getUser()?.uId?:"")
+            AppDataBase.instance.getIndexDao().clearIndex(UserHelper.getUser()?.uId?:"")
+        }
+    }
+
+    fun clearSysMessage(){
+        launch {
+            AppDataBase.instance.getSysMessageDao().clearIndex(UserHelper.getUser()?.uId?:"")
+        }
     }
 }

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="activity"
             type="com.example.reunion.view.SendTopicActivity" />
@@ -42,6 +43,7 @@
                 android:layout_height="wrap_content"/>
         </FrameLayout>
         <androidx.cardview.widget.CardView
+            android:paddingBottom="10dp"
             android:layout_marginStart="9dp"
             android:layout_marginEnd="9dp"
             app:cardCornerRadius="15dp"
@@ -54,6 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <EditText
+                    android:textCursorDrawable="@drawable/edit_curor"
                     android:text="@={viewModel.topicTitle}"
                     android:layout_marginTop="2dp"
                     android:paddingTop="10dp"
@@ -73,6 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.2dp"/>
                 <EditText
+                    android:textCursorDrawable="@drawable/edit_curor"
                     android:gravity="top|start"
                     android:text="@={viewModel.topicContent}"
                     android:paddingTop="10dp"
@@ -193,8 +197,8 @@
                 </FrameLayout>
 
                 <FrameLayout
+                    android:visibility='@{viewModel.getVisible(viewModel.type)}'
                     android:onClick="@{activity::onSelectAge}"
-                    android:layout_marginBottom="10dp"
                     android:foreground="@drawable/ripple_rect_borderless"
                     android:background="@color/color_white"
                     android:clickable="true"

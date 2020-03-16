@@ -32,6 +32,7 @@ import kotlinx.android.synthetic.main.view_comment_dialog.*
  * 你tm的把它复制一个给我看看有多容易
  */
 class TopicCommentFragment(private val listener:(Int)->Unit):BaseFragment() {
+    constructor():this({}){}
     companion object{
         val MODE_CLOSE = 0
         val MODE_HIDE_INPUT = 1

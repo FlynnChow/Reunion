@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
             type="com.example.reunion.view_model.TopicFragViewModel" />
@@ -24,52 +25,95 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <LinearLayout
-            android:elevation="1dp"
-            android:background="@drawable/home_frame"
-            android:gravity="center"
-            android:orientation="horizontal"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="44dp">
             <LinearLayout
-                android:paddingEnd="20dp"
-                android:gravity="end"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content">
-                <include layout="@layout/view_selector"
-                    app:name = "@{viewModel.ageView}"
-                    android:onClick="@{fragment::onClickAge}"
-                    />
+                android:visibility="@{viewModel.type == 1?View.GONE:View.VISIBLE}"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:elevation="1dp"
+                android:background="@drawable/home_frame"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="44dp">
+                <LinearLayout
+                    android:paddingEnd="20dp"
+                    android:gravity="end"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+                    <include layout="@layout/view_selector"
+                        app:name = "@{viewModel.ageView}"
+                        android:onClick="@{fragment::onClickAge}"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:paddingEnd="20dp"
+                    android:gravity="end"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+                    <include layout="@layout/view_selector"
+                        app:name = "@{viewModel.time}"
+                        android:onClick="@{fragment::onClickTime}"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:paddingEnd="20dp"
+                    android:gravity="end"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+                    <include layout="@layout/view_selector"
+                        app:name = "@{viewModel.areaView}"
+                        android:onClick="@{fragment::onClickArea}"
+                        />
+                </LinearLayout>
+
             </LinearLayout>
             <LinearLayout
-                android:paddingEnd="20dp"
-                android:gravity="end"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content">
-                <include layout="@layout/view_selector"
-                    app:name = "@{viewModel.time}"
-                    android:onClick="@{fragment::onClickTime}"
-                    />
-            </LinearLayout>
+                android:visibility="@{viewModel.type == 0?View.GONE:View.VISIBLE}"
+                android:elevation="1dp"
+                android:background="@drawable/home_frame"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:paddingStart="30dp"
+                android:paddingEnd="30dp"
+                android:layout_height="44dp">
+                <LinearLayout
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+                    <include layout="@layout/view_selector"
+                        app:name = "@{viewModel.time}"
+                        android:onClick="@{fragment::onClickTime}"
+                        />
+                </LinearLayout>
 
-            <LinearLayout
-                android:paddingEnd="20dp"
-                android:gravity="end"
-                android:orientation="vertical"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content">
-                <include layout="@layout/view_selector"
-                    app:name = "@{viewModel.areaView}"
-                    android:onClick="@{fragment::onClickArea}"
-                    />
-            </LinearLayout>
+                <LinearLayout
+                    android:paddingEnd="0dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content">
+                    <include layout="@layout/view_selector"
+                        app:name = "@{viewModel.areaView}"
+                        android:onClick="@{fragment::onClickArea}"
+                        />
+                </LinearLayout>
 
-        </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
         <com.example.reunion.customize.RefreshChange
             android:id="@+id/newsRefresh"
             android:layout_width="match_parent"

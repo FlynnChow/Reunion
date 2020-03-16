@@ -1,5 +1,6 @@
 package com.example.reunion.view_model
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.reunion.base.BaseViewModel
 import com.example.reunion.repostory.bean.FaceBean
@@ -10,23 +11,27 @@ import com.example.reunion.repostory.remote_resource.HomeRemoteModel
 class TopicFragViewModel:BaseViewModel() {
     private val remote = HomeRemoteModel()
     // 寻人和寻物
+    var type = MutableLiveData(0)
     var province = MutableLiveData("")
     var city = MutableLiveData("")
     var district = MutableLiveData("")
     var ageView = MutableLiveData("")
     var areaView = MutableLiveData("")
 
-    var age = MutableLiveData("")
+    var age = MutableLiveData<String>(null)
     var time = MutableLiveData("")
-    var area = MutableLiveData("")
+    var area = MutableLiveData<String>()
 
+    var timeSelected = false
+
+    // 普通混杂的
     val newData = MutableLiveData<ArrayList<TopicBean>>()
 
     val refreshing = MutableLiveData<Boolean>()
     val loading = MutableLiveData<Boolean>()
     private var nextPage = 1
 
-    var locate = ""
+    var locate = "0,0"
 
     fun updateItems(type:String){
         if (loading.value == true) return
@@ -39,15 +44,12 @@ class TopicFragViewModel:BaseViewModel() {
                 "people" -> updatePeople()
                 "body" -> updateBody()
             }
-
-            loading.value = false
-            if (refreshing.value == true)
-                refreshing.value = false
+        },{
+            toast.value = it.message
         },{
             loading.value = false
             if (refreshing.value == true)
                 refreshing.value = false
-            toast.value = it.message
         })
     }
 
@@ -112,7 +114,7 @@ class TopicFragViewModel:BaseViewModel() {
     private suspend fun updatePeople(){
         val bean = remote.obtainPeopleTopic(
             nextPage,
-            if (time.value != null&&time.value != "") time.value else null,
+            if (time.value != null&&time.value != ""&&timeSelected) time.value else null,
             if (age.value != null&&age.value != "") age.value else null,
             if (province.value != null&&province.value != "") city.value else null,
             if (city.value != null&&city.value != "") city.value else null,
@@ -135,7 +137,13 @@ class TopicFragViewModel:BaseViewModel() {
     }
 
     private suspend fun updateBody(){
-        val bean = remote.obtainNearbyTopic(locate,nextPage)
+        val bean = remote.obtainBodyTopic(
+            nextPage,
+            if (time.value != null&&time.value != ""&&timeSelected) time.value else null,
+            if (province.value != null&&province.value != "") city.value else null,
+            if (city.value != null&&city.value != "") city.value else null,
+            if (district.value != null&&district.value != "") district.value else null
+        )
         when(bean.code){
             200 ->{
                 if (bean.data != null){

@@ -37,6 +37,12 @@ class HomeRemoteModel:BaseRemoteResource() {
     suspend fun obtainPeopleTopic(page:Int = 1,time:String?,age:String?,province:String?,city:String?,district:String?)
             = getServiceRemote().obtainPeopleTopic(page,time,age,province,city,district).await()
 
-    suspend fun obtainBodyTopic(page:Int = 1,time:String?,age:String?,province:String?,city:String?,district:String?)
-            = getServiceRemote().obtainBodyTopic(page,time,age,province,city,district).await()
+    suspend fun obtainBodyTopic(page:Int = 1,time:String?,province:String?,city:String?,district:String?)
+            = getServiceRemote().obtainBodyTopic(page,time,province,city,district).await()
+
+    suspend fun onFollowUser(uid:String,targetUid:String,follow:Boolean)
+            = getServiceRemote().onFollowUser(uid,targetUid,if (follow) 0 else 1).await()
+
+    suspend fun isFollowUser(uid:String,targetUid:String)
+            = getServiceRemote().isFollowUser(uid,targetUid).await()
 }

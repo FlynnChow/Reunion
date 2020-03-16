@@ -100,10 +100,10 @@ class NewsActivityViewModel:BaseViewModel() {
                 val data = remoteModel.onInsertComment(id,UserHelper.getUser()!!.uId,commentContent.value!!)
                 when(data.code){
                     200->{
+                        data.data?.time = System.currentTimeMillis() //服务器返回的数据没有time
                         toast.value = MyApplication.resource().getString(R.string.comment_success)
                         if (data.data!=null)
                             comment.value = data.data
-                        Log.d("测试头像",data.data?.uHeadPortrait.toString())
                         commentContent.value = ""
                         val sum = commentNum.value?:0
                         commentNum.value = sum + 1
@@ -144,7 +144,6 @@ class NewsActivityViewModel:BaseViewModel() {
                         replyFloor.value = 0
                         val sum = replySum.value?:0
                         replySum.value = sum + 1
-                        Log.d("测试",""+replySum.value)
                     }
                     202->{
                         toast.value = "错误"

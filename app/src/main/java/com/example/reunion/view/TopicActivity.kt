@@ -1,11 +1,14 @@
 package com.example.reunion.view
 
+import android.app.Dialog
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
 import android.util.Log
+import android.view.Gravity
 import android.view.View
+import android.view.WindowManager
 import android.widget.TextView
 import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
@@ -14,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.reunion.R
 import com.example.reunion.base.BaseActivity
 import com.example.reunion.databinding.ActivityTopicBinding
+import com.example.reunion.databinding.DialogTopicBinding
 import com.example.reunion.repostory.bean.TopicBean
 import com.example.reunion.util.HtmlImageGetter
 import com.example.reunion.util.ViewUtil
@@ -23,10 +27,17 @@ import com.example.reunion.view_model.TopicViewModel
 class TopicActivity : BaseActivity() {
     private var isShowReply = false //记录回复是否被打开
     private lateinit var mBinding:ActivityTopicBinding
+    private lateinit var mDialogBinding:DialogTopicBinding
     private val mViewModel:TopicViewModel by lazy {
         setViewModel(this,TopicViewModel::class.java)
     }
     private lateinit var replyFragment: TopicCommentFragment
+
+    private val dialog by lazy {
+        initDialog()
+    }
+
+    private lateinit var deleteDialog:Dialog
 
     override fun create(savedInstanceState: Bundle?) {
         mBinding = DataBindingUtil.setContentView(this,R.layout.activity_topic)
@@ -34,6 +45,10 @@ class TopicActivity : BaseActivity() {
         mBinding.viewModel = mViewModel
         mBinding.lifecycleOwner = this
 
+        mDialogBinding = DataBindingUtil.inflate(layoutInflater,R.layout.dialog_topic,null,false)
+        mDialogBinding.lifecycleOwner = this
+        mDialogBinding.activity = this
+        mDialogBinding.viewModel = mViewModel
         initView()
         initReplyComment()
         mViewModel.initData(intent.getParcelableExtra("data"))
@@ -92,6 +107,30 @@ class TopicActivity : BaseActivity() {
                 adapter.notifyDataSetChanged()
             }
         })
+
+        deleteDialog = ViewUtil.createNormalDialog(this,
+            "是否确定删除您发布的话题？删除后无法再恢复。","删除",{
+                deleteDialog.dismiss()
+                mViewModel.onDeleteTopic()
+            },{
+                deleteDialog.dismiss()
+            })
+    }
+
+    private fun initDialog(): Dialog {
+        val dialog =  Dialog(this,R.style.CustomizeDialog)
+        dialog.setContentView(mDialogBinding.root)
+
+        val window = dialog.window
+        val layoutParams = window?.attributes
+        layoutParams?.width = WindowManager.LayoutParams.MATCH_PARENT
+        layoutParams?.height = WindowManager.LayoutParams.WRAP_CONTENT
+        layoutParams?.gravity = Gravity.BOTTOM
+        window?.setWindowAnimations(R.style.DialogAnim)
+        dialog.show()
+        dialog.dismiss()
+        dialog.setCanceledOnTouchOutside(true)
+        return dialog
     }
 
     private fun initReplyComment(){
@@ -157,5 +196,22 @@ class TopicActivity : BaseActivity() {
             super.onBackPressed()
         else
             replyFragment.onClose()
+    }
+
+    fun onClickStar(view:View){
+        dialog.dismiss()
+    }
+
+    fun onClickDelete(view:View){
+        dialog.dismiss()
+        deleteDialog.show()
+    }
+
+    fun onClickCancel(view:View){
+        dialog.dismiss()
+    }
+
+    fun onClickShowDialog(view:View){
+        dialog.show()
     }
 }

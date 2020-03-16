@@ -24,6 +24,8 @@ class TopicViewModel: BaseViewModel() {
 
     val commentContent = MutableLiveData("")
 
+    val topicStar = MutableLiveData(false) // 是否收藏
+
     /**
      * 0.可以加载评论
      * 1.正在加载中
@@ -98,15 +100,6 @@ class TopicViewModel: BaseViewModel() {
         }
     }
 
-    fun getReadString(commentNum:Int):String{
-        var num = commentNum
-        if (num >= 10000){
-            num = (num - num%1000)/1000
-            return num.toString()+"万阅读"
-        }
-        return num.toString()+"阅读"
-    }
-
     fun isCanSend(commentContent:String?):Boolean{
         if (commentContent == null) return false
         return commentContent.isNotEmpty()&& UserHelper.isLogin()
@@ -174,7 +167,6 @@ class TopicViewModel: BaseViewModel() {
             if (it is HttpException || it is UnknownHostException)
                 toast.value = it.message
             else
-                Log.d("测试",it.message.toString())
                 toast.value = "评论失败 " + it.message
         })
     }
@@ -247,6 +239,17 @@ class TopicViewModel: BaseViewModel() {
                     toast.value = "评论失败"
             })
         }
+    }
+
+    fun onDeleteTopic(){
+
+    }
+
+    fun getStarString(star:Boolean):String{
+        if (star)
+            return MyApplication.resource().getString(R.string.topic_star_cancel)
+        else
+            return MyApplication.resource().getString(R.string.topic_star)
     }
 
 }

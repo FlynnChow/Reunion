@@ -50,6 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <EditText
+                    android:textCursorDrawable="@drawable/edit_curor"
                     android:text="@={viewModel.fdContent}"
                     android:paddingStart="15dp"
                     android:paddingBottom="19dp"
@@ -60,6 +61,7 @@
                     android:lines="2"
                     android:maxLines="2"
                     android:background="@null"
+                    android:textSize="16sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
                 <ImageView
@@ -68,7 +70,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginStart="15dp"
                     android:layout_marginBottom="13dp"
-                    android:src="@drawable/temp_icon"
+                    android:src="@drawable/tianjia_2"
                     android:layout_width="79dp"
                     android:layout_height="79dp"/>
             </LinearLayout>
@@ -92,6 +94,8 @@
                     android:textSize="16sp"
                     />
                 <EditText
+                    android:textSize="16sp"
+                    android:textCursorDrawable="@drawable/edit_curor"
                     android:text="@={viewModel.fdPhoneNumber}"
                     android:paddingStart="39dp"
                     android:paddingBottom="12dp"

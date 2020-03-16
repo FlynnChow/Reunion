@@ -61,13 +61,13 @@ class NewsViewModel: BaseViewModel() {
                     news.value = list
                 }
             }
-            isLoadEnd.value = true
         },{
-            isLoadEnd.value = true
             if (it is HttpException || it is UnknownHostException)
                 toast.value = it.message
             else
                 toast.value = MyApplication.resource().getString(R.string.fail_load)
+        },{
+            isLoadEnd.value = true
         })
     }
 
@@ -95,12 +95,12 @@ class NewsViewModel: BaseViewModel() {
                     news.value = (bean.result as NewsBean.Result).list!!
                 }
             }
-            isRefreshEnd.value = true
         },{
             if (it is HttpException || it is UnknownHostException)
                 toast.value = it.message
             else
                 toast.value = "刷新错误"
+        },{
             isRefreshEnd.value = true
         })
     }

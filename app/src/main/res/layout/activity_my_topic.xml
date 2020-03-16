@@ -52,6 +52,7 @@
                 android:layout_width="55dp"
                 android:layout_height="55dp">
                 <ImageView
+                    android:id="@+id/header"
                     app:head="@{viewModel.header}"
                     android:scaleType="centerCrop"
                     android:layout_width="match_parent"

@@ -12,8 +12,7 @@ import android.widget.TextView;
 
 import com.example.reunion.R;
 import com.lljjcoder.style.citylist.sortlistview.SortModel;
-import com.lljjcoder.style.citypickerview.R.id;
-import com.lljjcoder.style.citypickerview.R.layout;
+
 import java.util.List;
 
 public class SortAdapter extends BaseAdapter implements SectionIndexer {

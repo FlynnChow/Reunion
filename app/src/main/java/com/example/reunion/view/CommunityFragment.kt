@@ -1,5 +1,6 @@
 package com.example.reunion.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -25,6 +26,7 @@ class CommunityFragment:BaseFragment() {
     ): View? {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_community,container,false)
         mBinding.lifecycleOwner = this
+        mBinding.fragment = this
         return mBinding.root
     }
 
@@ -74,4 +76,9 @@ class CommunityFragment:BaseFragment() {
             override fun onTabReselected(var1: TabLayout.Tab?) {}
         })
     }
+
+    fun onSendCommunity(view:View){
+        startActivity(Intent(activity,CommunitySendActivity::class.java))
+    }
+
 }

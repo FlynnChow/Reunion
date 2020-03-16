@@ -1,11 +1,13 @@
 package com.example.reunion.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.amap.api.location.AMapLocationClient
 import com.amap.api.location.AMapLocationClientOption
@@ -19,9 +21,16 @@ import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
 import kotlinx.android.synthetic.main.view_recycler_view.*
 
 
-class TopicItemFragment(private val type:String):BaseFragment() {
+class TopicItemFragment(private val type:String = ""):BaseFragment() {
+    constructor():this(""){
+
+    }
     private lateinit var mBinding: FragmentHomeTopicBinding
-    private val adapter = TopicItemAdapter()
+    private val adapter = TopicItemAdapter{
+        startActivity(Intent(activity,TopicActivity::class.java).apply {
+            putExtra("data",it)
+        })
+    }
     private val mViewModel by lazy { setViewModel(this,TopicFragViewModel::class.java) }
 
     override fun onCreateView(
@@ -38,9 +47,6 @@ class TopicItemFragment(private val type:String):BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         mBinding.recyclerView
         mBinding.viewModel = mViewModel
-        if (type == "nearby"){
-            initLocate()
-        }
         initView()
         initViewModel()
 
@@ -60,7 +66,10 @@ class TopicItemFragment(private val type:String):BaseFragment() {
     }
 
     private fun initViewModel(){
-
+        mViewModel.newData.observe(this, Observer {
+            adapter.list.addAll(it)
+            adapter.notifyDataSetChanged()
+        })
     }
 
     private fun initRefreshView(){
@@ -83,6 +92,10 @@ class TopicItemFragment(private val type:String):BaseFragment() {
         mViewModel.refreshing.observe(this, androidx.lifecycle.Observer {
             if (!it)
                 newsRefresh.isRefreshing = false
+            else{
+                adapter.list.clear()
+                adapter.notifyDataSetChanged()
+            }
         })
 
         newsRefresh.setOnPushLoadMoreListener(object : SuperSwipeRefreshLayout.OnPushLoadMoreListener{

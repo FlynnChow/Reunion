@@ -1,6 +1,26 @@
 package com.example.reunion.util;
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.provider.Settings;
+import android.telephony.TelephonyManager;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+
+import androidx.core.content.ContextCompat;
+
 import com.example.reunion.MyApplication;
+import com.example.reunion.R;
+import com.xujiaji.happybubble.BubbleDialog;
+import com.xujiaji.happybubble.BubbleLayout;
+
+import net.sourceforge.pinyin4j.PinyinHelper;
+import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
+import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
+import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -126,5 +146,85 @@ public class StringDealerUtil {
         return encoder.encode(Objects.requireNonNull(data));
     }
 
+
+
+    public static String getPinYinString(String chines) {
+        StringBuilder sb = new StringBuilder();
+        sb.setLength(0);
+        char[] nameChar = chines.toCharArray();
+        HanyuPinyinOutputFormat defaultFormat = new HanyuPinyinOutputFormat();
+        defaultFormat.setCaseType(HanyuPinyinCaseType.LOWERCASE);
+        defaultFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
+        for (int i = 0; i < nameChar.length; i++) {
+            if (nameChar[i] > 128) {
+                try {
+                    sb.append(PinyinHelper.toHanyuPinyinStringArray(nameChar[i], defaultFormat)[0]);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                sb.append(nameChar[i]);
+            }
+        }
+        return sb.toString();
+    }
+
+    public static void showBubbleDialog(Activity activity, View view,View targetView){
+//        BubbleLayout bl = new BubbleLayout(activity);
+//        bl.setBubbleColor(Color.BLUE);
+//        bl.setShadowColor(Color.RED);
+//        new BubbleDialog(activity)
+//                .addContentView(view)
+//                .setClickedView(targetView)
+//                .setPosition(BubbleDialog.Position.BOTTOM)
+//                .calBar(true)
+//                .setBubbleLayout(bl)
+//                .show();
+
+        new BubbleDialog(activity)
+                .addContentView(LayoutInflater.from(activity).inflate(R.layout.dialog_bubble, null))
+                .setClickedView(targetView)
+                .calBar(true)
+                .show();
+    }
+
+    public static String getDeviceId(Context context){
+        StringBuilder sb = new StringBuilder();
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED){
+            TelephonyManager phoneManager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
+            try {
+                String DEVICE_ID = phoneManager.getDeviceId();
+                if (DEVICE_ID != null){
+                    sb.append(DEVICE_ID);
+                }
+            } catch (Exception e) { }
+        }
+        sb.append(getAndroidId());
+        return getStringToMD5(sb.toString());
+    }
+
+    public static int length(String value) {
+        int valueLength = 0;
+        String chinese = "[\u0391-\uFFE5]";
+        /* 获取字段值的长度，如果含中文字符，则每个中文字符长度为2，否则为1 */
+        for (int i = 0; i < value.length(); i++) {
+            /* 获取一个字符 */
+            String temp = value.substring(i, i + 1);
+            /* 判断是否为中文字符 */
+            if (temp.matches(chinese)) {
+                /* 中文字符长度为2 */
+                valueLength += 2;
+            } else {
+                /* 其他字符长度为1 */
+                valueLength += 1;
+            }
+        }
+        return valueLength;
+    }
+
+    public static Boolean isChinese(String str){
+        String chinese = "[\u0391-\uFFE5]";
+        return str.matches(chinese);
+    }
 
 }

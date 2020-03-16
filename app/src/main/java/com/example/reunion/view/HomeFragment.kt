@@ -42,6 +42,7 @@ class HomeFragment:BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mBinding.viewModel = mViewModel
+        mBinding.activity = activity as HomeActivity
         initFragments()
         homeViewpager.setCurrentItem(mViewModel.currentIndex,false)
     }
@@ -60,7 +61,9 @@ class HomeFragment:BaseFragment() {
                 else -> adapter.titleList[5]
             }
         }.attach()
-        homeTabLayout.getTabAt(0)?.customView = textView.apply { text = homeTabLayout.getTabAt(0)?.text }
+
+
+        homeTabLayout.getTabAt(1)?.customView = textView.apply { text = homeTabLayout.getTabAt(1)?.text }
         homeTabLayout.addOnTabSelectedListener(object :TabLayout.BaseOnTabSelectedListener<TabLayout.Tab>{
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.customView = textView.apply { text = tab?.text }

@@ -1,6 +1,7 @@
 package com.example.reunion.view
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -31,13 +32,17 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class FindFragment(private val type:String):BaseFragment() {
+class FindFragment(private val type:String = ""):BaseFragment() {
     private val mCityPicker by lazy { CityPickerView() }
     private lateinit var mAgePicker: OptionsPickerView<*>
     private lateinit var mTimePicker: TimePickerView
 
     private lateinit var mBinding:FragmentFindBinding
-    private val adapter = TopicItemAdapter()
+    private val adapter = TopicItemAdapter{
+        startActivity(Intent(activity,TopicActivity::class.java).apply {
+            putExtra("data",it)
+        })
+    }
     private val mViewModel by lazy { setViewModel(this,TopicFragViewModel::class.java) }
 
     override fun onCreateView(
@@ -56,10 +61,12 @@ class FindFragment(private val type:String):BaseFragment() {
         mBinding.recyclerView
         mBinding.viewModel = mViewModel
         if (type == "people"){
+            mViewModel.type.value = 0
             mViewModel.ageView.value = activity?.resources?.getString(R.string.send_find_people_age)
             mViewModel.time.value = activity?.resources?.getString(R.string.send_find_people_time)
             mViewModel.areaView.value = activity?.resources?.getString(R.string.send_find_people_area)
         }else{
+            mViewModel.type.value = 1
             mViewModel.ageView.value= activity?.resources?.getString(R.string.send_find_body_age)
             mViewModel.time.value = activity?.resources?.getString(R.string.send_find_body_time)
             mViewModel.areaView.value= activity?.resources?.getString(R.string.send_find_body_area)
@@ -81,7 +88,10 @@ class FindFragment(private val type:String):BaseFragment() {
     }
 
     private fun initViewModel(){
-
+        mViewModel.newData.observe(this, androidx.lifecycle.Observer {
+            adapter.list.addAll(it)
+            adapter.notifyDataSetChanged()
+        })
     }
 
     private fun initRefreshView(){
@@ -104,6 +114,10 @@ class FindFragment(private val type:String):BaseFragment() {
         mViewModel.refreshing.observe(this, androidx.lifecycle.Observer {
             if (!it)
                 newsRefresh.isRefreshing = false
+            else{
+                adapter.list.clear()
+                adapter.notifyDataSetChanged()
+            }
         })
 
         newsRefresh.setOnPushLoadMoreListener(object : SuperSwipeRefreshLayout.OnPushLoadMoreListener{
@@ -210,7 +224,7 @@ class FindFragment(private val type:String):BaseFragment() {
             OnTimeSelectListener { time, _ ->
                 val format = SimpleDateFormat("yyyy-MM-dd")
                 mViewModel.time.value = format.format(time)
-
+                mViewModel.timeSelected = true
                 mViewModel.onRefresh(type)
             })
             .setTitleText("选择${ if (type == "people")

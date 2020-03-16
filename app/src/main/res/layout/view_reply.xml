@@ -43,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <TextView
-                    android:text="@{bean.toUname}"
+                    android:text="@{bean.fromUname}"
                     android:textColor="@color/comment_text_name"
                     android:textSize="10sp"
                     android:layout_width="wrap_content"

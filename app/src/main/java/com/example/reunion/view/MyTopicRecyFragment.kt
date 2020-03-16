@@ -1,10 +1,13 @@
 package com.example.reunion.view
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.reunion.R
 import com.example.reunion.base.BaseActivity
@@ -17,23 +20,16 @@ import com.example.reunion.view_model.LoginViewModel
 import com.example.reunion.view_model.MyTopicViewModel
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
 
-class MyTopicRecyFragment(private val type:String):BaseFragment() {
-    private val mAdapter = TopicItemAdapter()
+class MyTopicRecyFragment(private val type:String = ""):BaseFragment() {
+    private val mAdapter = TopicItemAdapter{
+        startActivity(Intent(activity,TopicActivity::class.java).apply {
+            putExtra("data",it)
+        })
+    }
     private lateinit var mBinding: ViewRecyclerView2Binding
-    private lateinit var mViewModel:MyTopicViewModel
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        mViewModel = setViewModel(activity as BaseActivity,MyTopicViewModel::class.java)
-        mBinding.lifecycleOwner = this
-        when(type){
-            "people" ->{
-                initPeopleView(mBinding)
-            }
-            else ->{
-                initBodyView(mBinding)
-            }
-        }
+    private val mViewModel:MyTopicViewModel by lazy {
+        setViewModel(activity as BaseActivity,MyTopicViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -43,7 +39,37 @@ class MyTopicRecyFragment(private val type:String):BaseFragment() {
     ): View? {
         mBinding = DataBindingUtil.inflate(inflater,R.layout.view_recycler_view2,container,false)
         mBinding.lifecycleOwner = this
+        mBinding.viewModel = mViewModel
         return mBinding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        initViewModel()
+
+        when(type){
+            "people" ->{
+                initPeopleView(mBinding)
+            }
+            else ->{
+                initBodyView(mBinding)
+            }
+        }
+
+    }
+
+    private fun initViewModel(){
+        if (type == "people"){
+            mViewModel.peopleData.observe(this, Observer {
+                mAdapter.list.addAll(it)
+                mAdapter.notifyDataSetChanged()
+            })
+        }else{
+            mViewModel.bodyData.observe(this, Observer {
+                mAdapter.list.addAll(it)
+                mAdapter.notifyDataSetChanged()
+            })
+        }
     }
 
     private fun initPeopleView(mPeopleBinding:ViewRecyclerView2Binding){
@@ -68,9 +94,13 @@ class MyTopicRecyFragment(private val type:String):BaseFragment() {
                 mViewModel.onRefreshPeople()
             }
         })
-        mViewModel.refreshingBody.observe(this, androidx.lifecycle.Observer {
+        mViewModel.refreshingPeople.observe(this, androidx.lifecycle.Observer {
             if (!it)
                 mPeopleBinding.newsRefresh.isRefreshing = false
+            else{
+                mAdapter.list.clear()
+                mAdapter.notifyDataSetChanged()
+            }
         })
 
         mPeopleBinding.newsRefresh.setOnPushLoadMoreListener(object : SuperSwipeRefreshLayout.OnPushLoadMoreListener{
@@ -91,7 +121,7 @@ class MyTopicRecyFragment(private val type:String):BaseFragment() {
             }
         })
         mPeopleBinding.newsRefresh.setFooterView(footView)
-        mViewModel.loadingBody.observe(this, androidx.lifecycle.Observer {
+        mViewModel.loadingPeople.observe(this, androidx.lifecycle.Observer {
             if (!it){
                 mPeopleBinding.newsRefresh.setLoadMore(false)
                 setFootViewState(3,footView)
@@ -124,6 +154,10 @@ class MyTopicRecyFragment(private val type:String):BaseFragment() {
         mViewModel.refreshingBody.observe(this, androidx.lifecycle.Observer {
             if (!it)
                 mBodyBinding.newsRefresh.isRefreshing = false
+            else{
+                mAdapter.list.clear()
+                mAdapter.notifyDataSetChanged()
+            }
         })
 
         mBodyBinding.newsRefresh.setOnPushLoadMoreListener(object : SuperSwipeRefreshLayout.OnPushLoadMoreListener{

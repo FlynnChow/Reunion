@@ -28,10 +28,11 @@ FindOneViewModel:BaseViewModel() {
             launch ({
                 val file = File(path)
                 val uploadBody = UploadRequestBody.getRequestBody(file,"image")
-                val body = MultipartBody.Builder()
+                val bodyBuilder = MultipartBody.Builder()
                     .addFormDataPart("file",file.name,uploadBody)
-                    .build()
-                val data = remote.searchFace(body)
+                if (UserHelper.isLogin())
+                    bodyBuilder.addFormDataPart("uId",UserHelper.getUser()!!.uId)
+                val data = remote.searchFace(bodyBuilder.build())
                 when(data.code){
                     200 ->{
                         faceList.value = data.data
@@ -41,7 +42,6 @@ FindOneViewModel:BaseViewModel() {
                 }
                 uploading.value = false
             },{
-                Log.d("测试",it.message)
                 toast.value = "错误："+it.message
             })
         }else{

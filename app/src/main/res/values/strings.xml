@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Reunion</string>
+    <string name="app_name">重逢</string>
 
     <string name="tencent_ai_app_key">ptWTkIRx0yPw3J5A</string>
     <string name="tencent_ai_app_id">2123552337</string>
@@ -46,9 +46,15 @@
         <item>公益</item>
     </string-array>
 
+    <string-array name="userTitle">
+        <item>关注</item>
+        <item>粉丝</item>
+    </string-array>
+
     <string name="more_load_no">上拉加载更多</string>
-    <string name="more_load_ok">松手开始加载</string>
+    <string name="more_load_ok">松手加载</string>
     <string name="more_load_start">正在加载中</string>
+    <string name="more_load_up">下拉加载更多</string>
 
     <string name="load_all">全部加载了</string>
     <string name="fail_refresh">刷新失败</string>
@@ -173,12 +179,39 @@
     <string name="my_topic_people">寻人求助</string>
     <string name="my_topic_body">认领信息</string>
     <string name="my_topic_im">发送消息</string>
+    <string name="my_topic_more">更多资料</string>
     <string name="my_topic_follow">关注</string>
     <string name="my_topic_follow_cancel">取消关注</string>
+    <string name="my_topic_more_message">更多资料</string>
 
     <string name="community_follow">关注</string>
     <string name="community_community">重逢圈</string>
     <string name="community_mine">我的</string>
 
+    <string name="topic_star">收藏</string>
+    <string name="topic_star_cancel">取消收藏</string>
+    <string name="topic_edit">编辑</string>
+    <string name="topic_delete">删除</string>
 
+    <string name="friend_title">我的好友</string>
+
+    <string name="message_system">系统</string>
+    <string name="message_im">消息</string>
+    <string name="message_friend">联系人</string>
+
+    <string name="insert_friend">添加朋友</string>
+    <string name="insert_group">发起群聊</string>
+
+    <string name="search_history">搜索历史</string>
+    <string name="search_open">展开</string>
+    <string name="search_close">收起</string>
+    <string name="search_cancel">取消</string>
+    <string name="search_clear">清空搜索历史</string>
+
+    <string name="message_system_circle">1</string>
+    <string name="message_im_error">!</string>
+
+    <string name="community_send_title">发布重逢圈</string>
+    <string name="community_send_hint">分享你的喜悦</string>
+    <string name="community_send_loading">正在发布到重逢圈..</string>
 </resources>

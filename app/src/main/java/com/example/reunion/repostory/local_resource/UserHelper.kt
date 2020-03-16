@@ -3,9 +3,9 @@ package com.example.reunion.repostory.local_resource
 import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.util.Base64
-import android.util.Log
 import com.example.reunion.MyApplication
 import com.example.reunion.repostory.bean.User
+import com.example.reunion.repostory.server.WebSocketServer
 import com.example.reunion.util.StringDealerUtil
 import java.security.Key
 import javax.crypto.Cipher
@@ -43,6 +43,7 @@ object UserHelper {
             isFirst = false
         if(isLogin){
             user = getUserFromLocal(userPre)
+            WebSocketServer.setUid(user?.uId?:"")
             return user
         }else{
             return null
@@ -53,6 +54,7 @@ object UserHelper {
     fun logout(){
         val userPre = MyApplication.app.getSharedPreferences("userFile",0)
         this.isLogin = false
+        WebSocketServer.setUid("")
         userPre.edit().clear().apply()
     }
 
@@ -65,6 +67,8 @@ object UserHelper {
         this.isLogin = true
         if (isFirst)
             isFirst = false
+
+        WebSocketServer.setUid(user.data?.uId?:"")
         saveUser(user,editor)
     }
 

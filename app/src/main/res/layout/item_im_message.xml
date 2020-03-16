@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="data"
+            type="com.example.reunion.repostory.bean.ImMessageBean" />
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:visibility="@{data.showTime?View.VISIBLE:View.GONE}"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:text="@{data.formatTime}"
+            android:textColor="@color/button_cant_click"
+            android:textSize="8sp"
+            />
+        <LinearLayout
+            android:visibility="@{data.mine?View.GONE:View.VISIBLE}"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.cardview.widget.CardView
+                android:layout_marginStart="10dp"
+                android:layout_gravity="top"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="0dp"
+                android:layout_width="34dp"
+                android:layout_height="34dp">
+                <ImageView
+                    app:head="@{data.header}"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </androidx.cardview.widget.CardView>
+            <TextView
+                android:focusable="true"
+                android:clickable="true"
+                android:layout_marginEnd="60dp"
+                android:layout_marginStart="10dp"
+                android:padding="6dp"
+                android:textColor="@color/comment_text_color"
+                android:textSize="14sp"
+                android:background="@drawable/message_im"
+                android:text="@{data.content}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout
+            android:visibility="@{data.mine?View.VISIBLE:View.GONE}"
+            android:gravity="end"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/sendError"
+                android:visibility="@{data.getCircleVisible()}"
+                android:layout_marginStart="80dp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:background="@drawable/shape_message"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:text="@string/message_im_error"
+                android:textColor="@color/color_white"
+                android:textSize="9sp" />
+            <TextView
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="10dp"
+                android:padding="6dp"
+                android:textColor="@color/color_white"
+                android:textSize="14sp"
+                android:background="@drawable/message_im_mine"
+                android:text="@{data.content}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <androidx.cardview.widget.CardView
+                android:layout_marginEnd="10dp"
+                android:layout_gravity="top"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="0dp"
+                android:layout_width="34dp"
+                android:layout_height="34dp">
+                <ImageView
+                    app:head="@{data.header}"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

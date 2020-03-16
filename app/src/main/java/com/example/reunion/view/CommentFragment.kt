@@ -26,6 +26,8 @@ import kotlinx.android.synthetic.main.activity_news.*
 import kotlinx.android.synthetic.main.view_comment_dialog.*
 
 class CommentFragment(private val listener:(Int)->Unit):BaseFragment() {
+    constructor():this({})
+
     companion object{
         val MODE_CLOSE = 0
         val MODE_HIDE_INPUT = 1

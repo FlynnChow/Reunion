@@ -114,6 +114,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="41dp">
                 <EditText
+                    android:textCursorDrawable="@drawable/edit_curor"
                     android:id="@+id/newsEdit"
                     android:text="@={viewModel.commentContent}"
                     android:hint="@string/comment_edit"

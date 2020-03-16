@@ -150,6 +150,7 @@
             android:layout_height="41dp">
             <EditText
                 android:text="@={viewModel.replyEdit}"
+                android:textCursorDrawable="@drawable/edit_curor"
                 android:id="@+id/replySend"
                 android:hint="@string/comment_edit"
                 android:layout_toStartOf="@id/comment_send"

@@ -1,19 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="fragment"
+            type="com.example.reunion.view.MessageFragment" />
     </data>
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:gravity="center"
-            android:text="消息"
-            android:textSize="30sp"
+        <FrameLayout
+            android:background="@drawable/my_topic_frame"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="47dp">
+
+            <com.example.reunion.customize.tab.TabLayout
+                android:id="@+id/homeTabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="80dp"
+                android:layout_marginEnd="80dp"
+                app:tabBackground="@android:color/transparent"
+                app:tabIndicator="@drawable/home_tab_indicator"
+                app:tabIndicatorColor="@color/mainColor"
+                app:tabIndicatorHeight="50dp"
+                app:tabMaxWidth="0dp"
+                app:tabMinWidth="0dp"
+                app:tabMarginBottom="@dimen/community_indicator_bottom"
+                app:tabPaddingEnd="6dp"
+                app:tabPaddingStart="6dp"
+                app:tabRippleColor="@android:color/transparent"
+                app:tabTextAppearance="@style/MessageTabTextStyle"
+                app:tabTextColor="#757575" />
+            <ImageView
+                android:id="@+id/showDialog"
+                android:background="@drawable/ripple_back_oval"
+                android:focusable="true"
+                android:clickable="true"
+                android:onClick="@{fragment::showDialog}"
+                android:layout_marginEnd="16dp"
+                android:layout_gravity="center_vertical|end"
+                android:padding="5dp"
+                android:src="@drawable/tianjia"
+                android:layout_width="30dp"
+                android:layout_height="30dp"/>
+        </FrameLayout>
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/mViewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </LinearLayout>
 </layout>

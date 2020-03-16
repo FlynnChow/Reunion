@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="user"
+            type="com.example.reunion.repostory.bean.User.Data" />
+        <variable
+            name="isFirst"
+            type="Boolean" />
+        <variable
+            name="text"
+            type="String" />
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:visibility="@{isFirst?View.VISIBLE:View.GONE}"
+            android:orientation="horizontal"
+            android:gravity="center|start"
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+            <TextView
+                android:textColor="@color/comment_read_num"
+                android:textSize="13sp"
+                android:layout_marginStart="20dp"
+                android:text="@{text}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <View
+                android:visibility="@{isFirst?View.GONE:View.VISIBLE}"
+                android:layout_marginStart="62dp"
+                android:background="#ffd1d1d1"
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/item"
+            android:foreground="@drawable/ripple_rect_borderless"
+            android:focusable="true"
+            android:clickable="true"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <androidx.cardview.widget.CardView
+                android:layout_marginStart="12dp"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="0dp"
+                android:layout_width="34dp"
+                android:layout_height="34dp">
+                <ImageView
+                    app:head="@{user.uHeadPortrait}"
+                    android:scaleType="centerCrop"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </androidx.cardview.widget.CardView>
+            <TextView
+                android:textColor="@color/comment_text_color"
+                android:textSize="16sp"
+                android:layout_marginStart="16dp"
+                android:text="@{user.uName}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </LinearLayout>
+</layout>

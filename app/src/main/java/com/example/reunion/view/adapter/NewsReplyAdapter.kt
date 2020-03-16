@@ -69,7 +69,7 @@ class NewsReplyAdapter(private val listener:(Int, CommentBean.Comment?)->Unit):R
             val mBinding = holder.mBinding as ViewReplyBinding
             mBinding.bean = comments!![position]
             val contentText:TextView = mBinding.root.findViewById(R.id.replyContent)
-            val htmlStr = "<font color='#007AFF'>@${comments!![position].fromUname}:</font>${comments!![position].rComment}"
+            val htmlStr = "<font color='#007AFF'>@${comments!![position].toUname}:</font>${comments!![position].rComment}"
             contentText.text = Html.fromHtml(htmlStr)
             mBinding.root.setOnClickListener {
                 listener.invoke(SHOW_EDIT,comments!![position])

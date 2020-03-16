@@ -21,4 +21,6 @@
     <dimen name="camera_zoom_whole_height">12dp</dimen>
     <dimen name="camera_zoom_whole_width">2dp</dimen>
     <dimen name="camera_zoom_width">1dp</dimen>
+
+    <dimen name="message_select_text">15sp</dimen>
 </resources>

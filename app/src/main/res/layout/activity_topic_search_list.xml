@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="activity"
+            type="com.example.reunion.view.TopicSearchListActivity" />
+        <variable
+            name="viewModel"
+            type="com.example.reunion.view_model.SearchViewModel" />
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:context=".view.TopicSearchListActivity">
+            <EditText
+                app:layout_constraintTop_toTopOf="parent"
+                android:textCursorDrawable="@drawable/edit_curor"
+                android:text="@={viewModel.keyword}"
+                android:textSize="13sp"
+                android:gravity="center_vertical"
+                android:inputType="text"
+                android:singleLine="true"
+                android:imeOptions="actionSearch"
+                android:paddingStart="30dp"
+                android:id="@+id/searchEdit"
+                android:paddingEnd="4dp"
+                android:paddingTop="1dp"
+                android:paddingBottom="1dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="55dp"
+                android:background="@drawable/search_background"
+                android:layout_width="match_parent"
+                android:layout_height="26dp" />
+            <ImageView
+                app:layout_constraintTop_toTopOf="@id/searchEdit"
+                app:layout_constraintStart_toStartOf="@id/searchEdit"
+                app:layout_constraintBottom_toBottomOf="@id/searchEdit"
+                android:id="@+id/searchImg"
+                android:layout_marginStart="7dp"
+                android:src="@drawable/sousuo"
+                android:layout_width="20dp"
+                android:layout_height="20dp"/>
+            <TextView
+                app:layout_constraintTop_toTopOf="@id/searchEdit"
+                app:layout_constraintStart_toEndOf="@id/searchEdit"
+                app:layout_constraintBottom_toBottomOf="@id/searchEdit"
+                android:onClick="@{activity::onBack}"
+                android:layout_marginStart="12dp"
+                android:padding="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/search_cancel"
+                android:textColor="#ff757575"
+                android:textSize="13sp"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
+            android:layout_marginTop="8dp"
+            android:id="@+id/newsRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout>
+    </LinearLayout>
+</layout>

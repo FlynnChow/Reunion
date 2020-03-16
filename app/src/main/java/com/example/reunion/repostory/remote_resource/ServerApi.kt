@@ -83,7 +83,6 @@ interface ServerApi {
     @GET("home/body")
     fun obtainBodyTopic(@Query("page") page:Int,
                         @Query("time") time:String?,
-                        @Query("age") age:String?,
                         @Query("province") province:String?,
                         @Query("city") city:String?,
                         @Query("district") district:String?):Call<TopicBean.Beans>
@@ -94,5 +93,29 @@ interface ServerApi {
     @FormUrlEncoded
     @POST("user/publicInfo")
     fun obtainUserMessage(@Field("uIdListJson") body:String):Call<User.UserBeans>
+
+    @GET("user/follow")
+    fun onFollowUser(@Query("uId") uid: String,@Query("targetUId") targetUId: String,@Query("follow") follow: Int):Call<FollowBean>
+
+    @GET("follow/whether")
+    fun isFollowUser(@Query("uId") uid: String,@Query("targetUId") targetUId: String):Call<FollowBean>
+
+    @POST("community/sendMain")
+    fun sendCommunityMain(@Body body:RequestBody):Call<CommunityBean.ResponseBean>
+
+    @GET("community/sendComment")
+    fun sendCommunityComment(@Query("communityId") id:String,@Query("comment") comment:String,@Query("uId") uId:String,@Query("toUId") toUId:String):Call<CommunityBean.CommentBean>
+
+    @GET("community/obtainFollow")
+    fun obtainCommunityFollow(@Query("uId") uid:String,@Query("page") page: Int):Call<CommunityBean.ResponseBeans>
+
+    @GET("community/obtainRecommend")
+    fun obtainCommunityRecommend(@Query("page") page: Int):Call<CommunityBean.ResponseBeans>
+
+    @GET("community/obtainUser")
+    fun obtainCommunityUser(@Query("uId") uid:String,@Query("page") page: Int):Call<CommunityBean.ResponseBeans>
+
+    @GET("community/obtainComment")
+    fun obtainCommunityComment(@Query("communityId") id:String,@Query("page") page: Int):Call<CommunityBean.CommentBeans>
 
 }

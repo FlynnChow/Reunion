@@ -80,7 +80,6 @@ class FaceMgViewModel:BaseViewModel() {
             when(data.code){
                 200 ->{
                     faceList.value = data.data
-                    Log.d("测试,"," ${data.data?.size}")
                 }
                 else->{
                     toast.value = "获取面部信息失败："+data.msg

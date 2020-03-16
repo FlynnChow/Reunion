@@ -119,6 +119,8 @@ class SettingActivity : BaseActivity() {
             "是否清空本地所有的聊天记录？清空后无法再恢复。",
             "清空记录",{
                 clearImDialog.dismiss()
+                sendBroadcast(Intent("reunion.message.im.clear"))
+                mViewModel.clearMessage()
             },{
                 clearImDialog.dismiss()
             })
@@ -127,6 +129,8 @@ class SettingActivity : BaseActivity() {
             "是否清空本地所有的系统消息？清空后无法再恢复。",
             "清空消息",{
                 clearSystemDialog.dismiss()
+                sendBroadcast(Intent("reunion.message.sys.clear"))
+                mViewModel.clearSysMessage()
             },{
                 clearSystemDialog.dismiss()
             })

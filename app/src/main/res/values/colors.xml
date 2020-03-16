@@ -67,4 +67,11 @@
     <color name="topic_default_color">#FFA5F0</color>
     <color name="map_stroke">#B3FF1744</color>
     <color name="map_fill">#26FF6868</color>
+
+    <color name="bubble_color">#757575</color>
+
+    <color name="im_message_focus">#D7D7D7</color>
+
+    <color name="im_message_mine_0">#40C4FF</color>
+    <color name="im_message_mine_1">#00B0FF</color>
 </resources>

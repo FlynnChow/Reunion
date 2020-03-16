@@ -122,6 +122,7 @@
                     android:layout_gravity="bottom|end"
                     android:layout_marginEnd="49dp"
                     android:layout_marginBottom="63dp"
+                    android:src="@drawable/change_camera"
                     android:id="@+id/exchangeCamera"
                     android:text="exchange Camera"
                     android:layout_width="34dp"

@@ -3,6 +3,7 @@ package com.example.reunion.util
 import android.app.Activity
 import android.app.Dialog
 import android.content.Context
+import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.WindowManager

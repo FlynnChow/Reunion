@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="data"
+            type="com.example.reunion.repostory.bean.SystemMessageBean" />
+    </data>
+
+    <FrameLayout
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@color/color_white"
+        android:foreground="@drawable/ripple_rect_borderless"
+        android:layout_width="match_parent"
+        android:layout_height="68dp">
+
+        <ImageView
+            app:resource="@{data.getTypeImage()}"
+            android:layout_marginStart="13dp"
+            android:layout_gravity="center_vertical"
+            android:layout_width="38dp"
+            android:layout_height="38dp" />
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="63dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{data.title}"
+            android:textColor="@color/comment_text_color"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_marginTop="34dp"
+            android:layout_marginStart="63dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/content"
+            android:textColor="@color/comment_read_num"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="12dp"
+            android:layout_gravity="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{data.getFormatTime()}"
+            android:textColor="@color/comment_read_num"
+            android:textSize="10sp" />
+
+        <TextView
+            android:visibility="@{data.read?View.GONE:View.VISIBLE}"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:background="@drawable/shape_message"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="12dp"
+            android:layout_gravity="end|bottom"
+            android:layout_width="13dp"
+            android:layout_height="13dp"
+            android:text="@string/message_system_circle"
+            android:textColor="@color/color_white"
+            android:textSize="9sp" />
+    </FrameLayout>
+</layout>

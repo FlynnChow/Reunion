@@ -51,11 +51,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <ImageView
-                android:scaleType="centerInside"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:scaleType="fitCenter"
                 app:bitmap="@{mViewModel.imageBitmap}"
                 android:id="@+id/faceImageView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content"/>
             <LinearLayout
                 android:visibility="@{mViewModel.isLoading?View.VISIBLE:View.GONE}"
                 android:layout_gravity="center"

@@ -1,6 +1,7 @@
 package com.example.reunion.base
 import android.Manifest
 import android.app.Application
+import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.os.Build
@@ -110,6 +111,11 @@ abstract class BaseActivity: AppCompatActivity() {
     protected fun allPermissionsGranted() = mustPermissions.all {
         ContextCompat.checkSelfPermission(
             baseContext, it) == PackageManager.PERMISSION_GRANTED
+    }
+
+    override fun onResume() {
+        sendBroadcast(Intent("reunion.application.intoForeground"))
+        super.onResume()
     }
 
     protected open fun onNormalPermissionFail(permission:String){}
