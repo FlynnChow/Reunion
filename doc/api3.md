@@ -103,7 +103,7 @@ class CommentBean{
 * page(Int) 页码，从 1 开始
 
 ## 5. 获取重逢圈 某个用户的发布内容
-### GET (community/obtainRecommend)
+### GET (community/obtainUser)
 ### 请求参数
 * uId(String) 目标用户的uid
 * page(Int) 页码，从 1 开始
