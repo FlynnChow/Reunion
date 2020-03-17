@@ -20,13 +20,14 @@
 * 2020-02-17：新闻及评论
 * 2020-02-19：个人资料及滑动冲突初步解决
 * 2020-02-29：识别，camera，人脸录入视图逻辑
-* 2020-03-09：community,topic,and my send topic
+* 2020-03-09：社区,寻人,与我到发布
 * 2020-03-16：完成即时通讯和系统推送以及几乎全部的视图逻辑
+* 2020-03-17：App第一版开发完毕->Debug
 ## 开发状态
-* 开发中
+* Debug
 ****
 # 关于应用
-## 开源许可
-[开源许可说明](https://github.com/CappuccinoZero/Reunion/blob/master/LICENSE)
+## 开源说明
+[开源说明](https://github.com/CappuccinoZero/Reunion/blob/master/LICENSE)
 ## 版权声明
 © 开发者保留所有权利，未经许可不可用于商业用途
