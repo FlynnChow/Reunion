@@ -35,7 +35,7 @@ class Comment{
 
         var toUId:String? = null // 被评论用户的UID,如果为null表示评论的是主题
         var toName:String? = null // 被评论用户的昵称,如果为null表示评论的是主题
-        var floor:Int = 1 //评论的楼层 从 1 开始计数
+        var floor:Int = 1 //评论的楼层 从 1 开始计数 (重要)
 }
 ```
 ## 1. 发布重逢圈
