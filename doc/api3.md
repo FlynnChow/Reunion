@@ -91,13 +91,13 @@ class CommentBean{
 * msg 请求的结果的一些异常信息
 * data 发布好的重逢评论内容
 
-## 3. 获取重逢圈关注用户发布的内容
+## 3. 获取重逢圈 关注用户发布的内容
 ### GET (community/obtainFollow)
 ### 请求参数
 * uId(String) 请求用户的uid
 * page(Int) 页码，从 1 开始
 
-## 4. 获取重逢圈推荐(按热度)内容
+## 4. 获取重逢圈 推荐(按热度)内容
 ### GET (community/obtainRecommend)
 ### 请求参数
 * page(Int) 页码，从 1 开始
