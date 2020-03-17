@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.reunion.R
@@ -61,12 +62,20 @@ class StarActivity : BaseActivity() {
                 mViewModel.onRefresh()
             }
         })
+
         mViewModel.refreshing.observe(this, androidx.lifecycle.Observer {
             if (!it)
                 mBinding.newsRefresh.isRefreshing = false
             else{
                 adapter.list.clear()
                 adapter.notifyDataSetChanged()
+            }
+        })
+
+        mViewModel.topicData.observe(this, Observer {
+            for (item in it){
+                adapter.list.add(item)
+                adapter.notifyItemInserted(adapter.list.size - 1)
             }
         })
 

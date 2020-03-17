@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.reunion.R
 import com.example.reunion.base.BaseActivity
@@ -65,6 +66,11 @@ class UserFragment(private val type:String = "") : BaseFragment() {
                 mViewModel.onRefresh(type)
             }
         })
+
+        mViewModel.userData.observe(this, Observer {
+            adapter.addNewUser(it)
+        })
+
         mViewModel.refreshing.observe(this, androidx.lifecycle.Observer {
             if (!it)
                 newsRefresh.isRefreshing = false

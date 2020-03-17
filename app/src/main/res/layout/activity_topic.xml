@@ -303,14 +303,10 @@
                     android:layout_marginTop="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
-                <FrameLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/newsRecyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/newsRecyclerView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
-                </FrameLayout>
+                    android:layout_height="match_parent"/>
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
         <RelativeLayout
@@ -323,6 +319,7 @@
             <EditText
                 android:text="@={viewModel.commentContent}"
                 android:id="@+id/newsEdit"
+                android:singleLine="true"
                 android:hint="@string/comment_edit"
                 android:layout_toStartOf="@id/comment_send"
                 android:maxLines="1"

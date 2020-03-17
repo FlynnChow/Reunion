@@ -54,6 +54,7 @@ object UserHelper {
     fun logout(){
         val userPre = MyApplication.app.getSharedPreferences("userFile",0)
         this.isLogin = false
+        user = null
         WebSocketServer.setUid("")
         userPre.edit().clear().apply()
     }

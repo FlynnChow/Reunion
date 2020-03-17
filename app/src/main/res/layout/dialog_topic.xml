@@ -30,6 +30,7 @@
             android:layout_height="48dp" />
 
         <TextView
+            android:visibility="@{viewModel.getDeleteVisible(viewModel.beanData.uId)}"
             android:onClick="@{activity::onClickDelete}"
             android:padding="10dp"
             android:gravity="center"

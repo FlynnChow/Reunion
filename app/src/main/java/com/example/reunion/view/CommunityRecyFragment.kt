@@ -1,38 +1,43 @@
 package com.example.reunion.view
 
-import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.reunion.R
-import com.example.reunion.base.BaseActivity
 import com.example.reunion.base.BaseFragment
-import com.example.reunion.databinding.FragmentLoginPhoneBinding
 import com.example.reunion.databinding.ViewRecyclerView2Binding
-import com.example.reunion.databinding.ViewRecyclerViewBinding
 import com.example.reunion.view.adapter.CommunityItemAdapter
-import com.example.reunion.view.adapter.TopicItemAdapter
-import com.example.reunion.view_model.ComunityViewModel
-import com.example.reunion.view_model.LoginViewModel
-import com.example.reunion.view_model.MyTopicViewModel
+import com.example.reunion.view_model.CommunityItemViewModel
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
 
 class CommunityRecyFragment(private val type:String = ""):BaseFragment() {
     private val mAdapter = CommunityItemAdapter()
     private lateinit var mBinding: ViewRecyclerView2Binding
     private val mViewModel by lazy {
-        setViewModel(this,ComunityViewModel::class.java)
+        setViewModel(this,CommunityItemViewModel::class.java)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mBinding.lifecycleOwner = this
 
-        initRefresh()
+        initView()
+        initViewModel()
+        mViewModel.onLoadCommunity(type,true)
+    }
+
+    private fun initViewModel(){
+        mViewModel.communityData.observe(this, Observer {
+            for (item in it){
+                mAdapter.datas.add(item)
+                mAdapter.notifyItemInserted(mAdapter.datas.size - 1)
+            }
+        })
     }
 
     override fun onCreateView(
@@ -45,7 +50,7 @@ class CommunityRecyFragment(private val type:String = ""):BaseFragment() {
         return mBinding.root
     }
 
-    private fun initRefresh(){
+    private fun initView(){
 
         val manager = LinearLayoutManager(activity,LinearLayoutManager.VERTICAL,false)
         mBinding.recyclerView.layoutManager = manager
@@ -64,12 +69,17 @@ class CommunityRecyFragment(private val type:String = ""):BaseFragment() {
             }
 
             override fun onRefresh() {
-
+                mViewModel.onRefresh(type)
             }
         })
         mViewModel.refreshing.observe(this, androidx.lifecycle.Observer {
-            if (!it)
+            if (!it){
                 mBinding.newsRefresh.isRefreshing = false
+            }
+            else{
+                mAdapter.datas.clear()
+                mAdapter.notifyDataSetChanged()
+            }
         })
 
         mBinding.newsRefresh.setOnPushLoadMoreListener(object : SuperSwipeRefreshLayout.OnPushLoadMoreListener{
@@ -86,6 +96,7 @@ class CommunityRecyFragment(private val type:String = ""):BaseFragment() {
 
             override fun onLoadMore() {
                 setFootViewState(2,footView)
+                mViewModel.onLoadCommunity(type)
             }
         })
         mBinding.newsRefresh.setFooterView(footView)

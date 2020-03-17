@@ -12,7 +12,6 @@
     </data>
 
     <LinearLayout
-        android:background="@color/windowBackground"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -51,8 +50,8 @@
         </LinearLayout>
         <View
             android:layout_marginBottom="6dp"
-            android:background="@drawable/news_round_bottom"
+            android:background="@drawable/round_bottom_15dp"
             android:layout_width="match_parent"
-            android:layout_height="10dp"/>
+            android:layout_height="15dp"/>
     </LinearLayout>
 </layout>

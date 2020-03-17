@@ -104,7 +104,7 @@ interface ServerApi {
     fun sendCommunityMain(@Body body:RequestBody):Call<CommunityBean.ResponseBean>
 
     @GET("community/sendComment")
-    fun sendCommunityComment(@Query("communityId") id:String,@Query("comment") comment:String,@Query("uId") uId:String,@Query("toUId") toUId:String):Call<CommunityBean.CommentBean>
+    fun sendCommunityComment(@Query("communityId") id:String,@Query("comment") comment:String,@Query("uId") uId:String,@Query("toUId") toUId:String?):Call<CommunityBean.CommentBean>
 
     @GET("community/obtainFollow")
     fun obtainCommunityFollow(@Query("uId") uid:String,@Query("page") page: Int):Call<CommunityBean.ResponseBeans>
@@ -117,5 +117,35 @@ interface ServerApi {
 
     @GET("community/obtainComment")
     fun obtainCommunityComment(@Query("communityId") id:String,@Query("page") page: Int):Call<CommunityBean.CommentBeans>
+
+    @GET("community/delete")
+    fun deleteCommunity(@Query("communityId") id:String,@Query("uId") uid: String):Call<CommunityBean.ResponseBean>
+
+    @GET("search/star")
+    fun topicStar(@Query("sId") id:String,@Query("uId") uid: String,@Query("star") star:Int):Call<NormalBean>
+
+    @GET("home/search")
+    fun topicSearch(@Query("keyword") keyword:String,@Query("page") page:Int):Call<TopicBean.Beans>
+
+    @GET("search/delete")
+    fun topicDelete(@Query("uId") uId:String,@Query("sId") sId:String):Call<NormalBean>
+
+    @GET("user/search")
+    fun userSearch(@Query("keyword") keyword:String,@Query("page") page:Int):Call<User.UserBeans>
+
+    @GET("follow/search")
+    fun userFollow(@Query("uId") uid:String):Call<User.UserBeans>
+
+    @GET("fan/search")
+    fun userFan(@Query("uId") uid:String):Call<User.UserBeans>
+
+    @GET("friend/search")
+    fun userFriends(@Query("uId") uid:String):Call<User.UserBeans>
+
+    @GET("star/search")
+    fun topicStarSearch(@Query("uId") uid:String,@Query("page") page:Int):Call<TopicBean.Beans>
+
+    @GET("star/search")
+    fun topicStarWhether(@Query("uId") uid:String,@Query("sId") sId:String):Call<FollowBean>
 
 }

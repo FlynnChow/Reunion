@@ -83,17 +83,11 @@ class TopicSearchActivity : BaseActivity() {
             val pair2 = Pair<View,String>(mBinding.searchImg,"searchImg")
             val compat: ActivityOptionsCompat =
                 ActivityOptionsCompat.makeSceneTransitionAnimation(this, pair,pair2)
-            startActivityForResult(Intent(this,TopicSearchListActivity::class.java).apply {
+            startActivity(Intent(this,TopicSearchListActivity::class.java).apply {
                 addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
                 putExtra("keyword",mViewModel.keyword.value)
-            },3211,compat.toBundle())
+            },compat.toBundle())
         }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == 3211 && resultCode == Activity.RESULT_OK)
-            finish()
-        super.onActivityResult(requestCode, resultCode, data)
     }
 
     fun onClickSearch(view:View){

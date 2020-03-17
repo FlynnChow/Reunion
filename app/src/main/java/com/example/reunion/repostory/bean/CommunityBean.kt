@@ -40,6 +40,20 @@ class CommunityBean() :Parcelable {
         parcel.readStringList(images)
     }
 
+    fun getImageFromIndex(index:Int):String{
+        return if (images != null && index < images?.size?:0)
+            images!![index]
+        else
+            ""
+    }
+
+    fun getImageVisible(index:Int):Int{
+        return if (images != null && index < images?.size?:0)
+            View.VISIBLE
+        else
+            View.GONE
+    }
+
     fun getCommentContent(index:Int):String{
         if (comments == null || comments!!.size < index){
             return ""
@@ -49,7 +63,7 @@ class CommunityBean() :Parcelable {
                 toName = ""
             else
                 toName = "回复@${toName}"
-            return "${comments!![index].nickName}${toName}:${comments!![index].comment}"
+            return "${comments!![index].nickName}${toName}: ${comments!![index].comment}"
         }
     }
 
@@ -133,13 +147,11 @@ class CommunityBean() :Parcelable {
         var toName:String? = null // 被评论用户的昵称,如果为null表示评论的是主题
         var floor:Int = 1 //评论的楼层 从 1 开始计数
 
-        constructor()
-
-        fun getCommentContent():String{
+        fun formatComment():String{
             if (toName == null)
                 toName = ""
             else
-                toName = "@${toName}:"
+                toName = "@${toName}: "
             return "${toName}${comment}"
         }
 
@@ -154,7 +166,7 @@ class CommunityBean() :Parcelable {
             }else if (nowTime - time <= 1000 * 60 * 60 * 24 * 3){
                 format = SimpleDateFormat("前天HH:mm")
             }else{
-                format = SimpleDateFormat("yyyy年MM月dd日HH:mm")
+                format = SimpleDateFormat("yyyy-MM-dd HH:mm")
             }
             val date = Date(time)
 

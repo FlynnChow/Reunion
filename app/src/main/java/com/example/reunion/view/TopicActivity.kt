@@ -108,6 +108,12 @@ class TopicActivity : BaseActivity() {
             }
         })
 
+        mViewModel.deleteResult.observe(this, Observer {
+            if (it){
+                finish()
+            }
+        })
+
         deleteDialog = ViewUtil.createNormalDialog(this,
             "是否确定删除您发布的话题？删除后无法再恢复。","删除",{
                 deleteDialog.dismiss()
@@ -200,6 +206,7 @@ class TopicActivity : BaseActivity() {
 
     fun onClickStar(view:View){
         dialog.dismiss()
+        mViewModel.onStarTopic()
     }
 
     fun onClickDelete(view:View){

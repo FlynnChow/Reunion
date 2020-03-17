@@ -52,20 +52,6 @@ class UserAdapter(
         mBinding.executePendingBindings()
     }
 
-    init {
-        val names = arrayOf("A","CCC","DDD","EEE","GGG","SSS","OK","帽子","太远","多少","明明","草拟","妈的","日单","伙计","屁股","123气死")
-
-        val users = ArrayList<User.Data>()
-        for (name in names){
-            val user = User.Data().apply {
-                uName = name
-                uId = "2"
-                uHeadPortrait = "http://img1.imgtn.bdimg.com/it/u=1938295758,4042523261&fm=26&gp=0.jpg"
-            }
-            users.add(user)
-        }
-        addNewUser(users)
-    }
 
     private fun sortUsers(){
         users.sortWith(Comparator { o1, o2 ->

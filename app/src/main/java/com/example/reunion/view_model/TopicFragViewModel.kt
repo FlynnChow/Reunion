@@ -33,16 +33,16 @@ class TopicFragViewModel:BaseViewModel() {
 
     var locate = "0,0"
 
-    fun updateItems(type:String){
+    fun updateItems(type:String,first:Boolean = false){
         if (loading.value == true) return
         loading.value = true
         launch({
             when(type){
-                "follow" -> updateFollow()
-                "recommend" -> updateRecommend()
-                "nearby" -> updateNearby()
-                "people" -> updatePeople()
-                "body" -> updateBody()
+                "follow" -> updateFollow(first)
+                "recommend" -> updateRecommend(first)
+                "nearby" -> updateNearby(first)
+                "people" -> updatePeople(first)
+                "body" -> updateBody(first)
             }
         },{
             toast.value = it.message
@@ -59,8 +59,8 @@ class TopicFragViewModel:BaseViewModel() {
         updateItems(type)
     }
 
-    private suspend fun updateFollow(){
-        if (!UserHelper.isLogin()){
+    private suspend fun updateFollow(first:Boolean = false){
+        if (UserHelper.isLogin()){
             val bean = remote.obtainFollowTopic(UserHelper.getUser()?.uId!!,nextPage)
             when(bean.code){
                 200 ->{
@@ -70,7 +70,8 @@ class TopicFragViewModel:BaseViewModel() {
                     }
                 }
                 300 ->{
-                    toast.value = "已经没有内容了"
+                    if (!first)
+                        toast.value = "已经没有内容了"
                 }
                 400 ->{
                     toast.value = "UID异常"
@@ -81,7 +82,7 @@ class TopicFragViewModel:BaseViewModel() {
         }
     }
 
-    private suspend fun updateRecommend(){
+    private suspend fun updateRecommend(first:Boolean = false){
         val bean = remote.obtainRecommendTopic(nextPage)
         when(bean.code){
             200 ->{
@@ -91,12 +92,13 @@ class TopicFragViewModel:BaseViewModel() {
                 }
             }
             300 ->{
-                toast.value = "已经没有内容了"
+                if (!first)
+                    toast.value = "已经没有内容了"
             }
         }
     }
 
-    private suspend fun updateNearby(){
+    private suspend fun updateNearby(first:Boolean = false){
         val bean = remote.obtainNearbyTopic(locate,nextPage)
         when(bean.code){
             200 ->{
@@ -106,12 +108,13 @@ class TopicFragViewModel:BaseViewModel() {
                 }
             }
             300 ->{
-                toast.value = "已经没有内容了"
+                if (!first)
+                    toast.value = "已经没有内容了"
             }
         }
     }
 
-    private suspend fun updatePeople(){
+    private suspend fun updatePeople(first:Boolean = false){
         val bean = remote.obtainPeopleTopic(
             nextPage,
             if (time.value != null&&time.value != ""&&timeSelected) time.value else null,
@@ -128,7 +131,8 @@ class TopicFragViewModel:BaseViewModel() {
                 }
             }
             300 ->{
-                toast.value = "已经没有内容了"
+                if (!first)
+                    toast.value = "已经没有内容了"
             }
             400 ->{
                 toast.value = "UID异常"
@@ -136,7 +140,7 @@ class TopicFragViewModel:BaseViewModel() {
         }
     }
 
-    private suspend fun updateBody(){
+    private suspend fun updateBody(first:Boolean = false){
         val bean = remote.obtainBodyTopic(
             nextPage,
             if (time.value != null&&time.value != ""&&timeSelected) time.value else null,
@@ -152,7 +156,8 @@ class TopicFragViewModel:BaseViewModel() {
                 }
             }
             300 ->{
-                toast.value = "已经没有内容了"
+                if (!first)
+                    toast.value = "已经没有内容了"
             }
             400 ->{
                 toast.value = "UID异常"

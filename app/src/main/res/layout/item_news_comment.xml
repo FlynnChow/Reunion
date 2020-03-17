@@ -8,19 +8,15 @@
             type="com.example.reunion.repostory.bean.CommentBean.Comment" />
     </data>
     <LinearLayout
-        android:foreground="@drawable/ripple_rect_borderless"
+        android:elevation="1dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:clickable="true"
         android:focusable="true"
-        android:background="@color/color_white"
+        android:background="@drawable/ripple_rect_comment"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <View
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="18dp"
-            android:background="@color/news_line"
-            android:layout_width="match_parent"
-            android:layout_height="0.2dp"/>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -30,7 +26,7 @@
             <androidx.cardview.widget.CardView
                 app:cardElevation="0dp"
                 app:cardCornerRadius="6dp"
-                android:layout_marginEnd="4dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginTop="11dp"
                 android:layout_marginStart="15dp"
                 android:layout_width="36dp"
@@ -57,6 +53,11 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:background="@drawable/shape_comment_bg"
                     android:text="@{bean.xwcComment}"
                     android:layout_marginEnd="10dp"
                     android:textColor="@color/comment_text_color"
@@ -85,6 +86,7 @@
                 android:layout_height="wrap_content" />
 
             <TextView
+
                 android:layout_gravity="center"
                 android:text="@{bean.getReplyStr(bean.replySum)}"
                 android:layout_marginStart="14dp"

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="bean"
+            type="com.example.reunion.repostory.bean.CommentBean.Comment" />
+    </data>
+    <LinearLayout
+        android:elevation="1dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/ripple_rect_comment_bottom"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
+                app:cardElevation="0dp"
+                app:cardCornerRadius="6dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="11dp"
+                android:layout_marginStart="15dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp">
+
+                <ImageView
+                    app:head="@{bean.uHeadPortrait}"
+                    android:scaleType="centerCrop"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="@{bean.uName}"
+                    android:textColor="@color/comment_text_name"
+                    android:textSize="10sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:background="@drawable/shape_comment_bg"
+                    android:text="@{bean.xwcComment}"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/comment_text_color"
+                    android:textSize="12sp"
+                    android:layout_marginTop="6dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:paddingStart="62dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="13dp"
+            android:layout_marginBottom="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_gravity="center"
+                android:text="@{bean.getTimeFormat(bean.time)}"
+                android:textSize="8sp"
+                android:textColor="@color/comment_text_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_gravity="center"
+                android:text="@{bean.getReplyStr(bean.replySum)}"
+                android:layout_marginStart="14dp"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp"
+                android:textSize="7sp"
+                android:background="@drawable/reply_bg"
+                android:textColor="@color/comment_text_color"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>

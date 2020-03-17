@@ -9,6 +9,9 @@
         <item name="android:windowBackground">@color/windowBackground</item>
         <item name="android:textColorPrimary">@color/color_black</item>
     </style>
+    <style name="editTheme" parent="AppTheme">
+        <item name="colorControlActivated">@color/mainColor</item>
+    </style>
     <style name="CircleCheckBox" parent="Widget.AppCompat.CompoundButton.CheckBox">
         <item name="android:button">@drawable/circle_check_box</item>
     </style>

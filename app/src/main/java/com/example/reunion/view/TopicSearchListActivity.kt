@@ -12,6 +12,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.reunion.R
 import com.example.reunion.base.BaseActivity
@@ -57,12 +58,15 @@ class TopicSearchListActivity : BaseActivity() {
         set.addTarget(mBinding.searchEdit)
 
         window.sharedElementEnterTransition = set
+        window.sharedElementExitTransition = set
     }
 
     private fun initView(){
         initIntoAnim()
         mBinding.searchEdit.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH){
+                adapter.list.clear()
+                adapter.notifyDataSetChanged()
                 mViewModel.onSearch()
             }
             true
@@ -72,6 +76,13 @@ class TopicSearchListActivity : BaseActivity() {
         mBinding.recyclerView.layoutManager = manager
         mBinding.recyclerView.adapter = adapter
         initRefreshView()
+
+        mViewModel.topicData.observe(this, Observer {
+            for (item in it){
+                adapter.list.add(item)
+                adapter.notifyItemInserted(adapter.list.size - 1)
+            }
+        })
     }
 
     fun onBack(view: View) = onBackPressed()

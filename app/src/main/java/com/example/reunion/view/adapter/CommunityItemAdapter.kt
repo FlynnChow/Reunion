@@ -41,34 +41,4 @@ class CommunityItemAdapter:RecyclerView.Adapter<BaseViewHolder<ItemCommunityBind
         mBinding.data = datas[position]
         mBinding.executePendingBindings()
     }
-
-    init {
-        val names = arrayOf("A","CCC","DDD","EEE","GGG","SSS","OK","帽子","太远","多少","明明","草拟","妈的","日单","伙计","屁股","123气死")
-
-        for (mName in names){
-            val data = CommunityBean().apply {
-                nickName = mName
-                content = "啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊，嗷嗷嗷嗷嗷嗷嗷嗷哦嗷嗷嗷嗷哦啊，恶龙咆哮～"
-                header = "http://img1.imgtn.bdimg.com/it/u=1938295758,4042523261&fm=26&gp=0.jpg"
-                images = arrayListOf("https://dss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2618535490,1016593534&fm=26&gp=0.jpg")
-                comments = arrayListOf(
-                    CommunityBean.Comment().apply {
-                        nickName = mName
-                        comment = "哈哈哈哈哈哈哈哈www"
-                    },
-                    CommunityBean.Comment().apply {
-                        nickName = mName
-                        toName = "小强"
-                        comment = "哈哈哈哈哈哈哈哈www"
-                    },
-                    CommunityBean.Comment().apply {
-                        nickName = mName
-                        comment = "哈哈哈哈哈哈哈哈www"
-                    }
-                )
-            }
-            datas.add(data)
-        }
-        notifyDataSetChanged()
-    }
 }

@@ -13,7 +13,7 @@ class CommunityRemote:BaseRemoteResource() {
 
     suspend fun sendCommunityMain(body: RequestBody) = getServiceRemote().sendCommunityMain(body).await()
 
-    suspend fun sendCommunityComment(id:String, comment:String, uId:String,toUId:String)
+    suspend fun sendCommunityComment(id:String, comment:String, uId:String,toUId:String?)
             = getServiceRemote().sendCommunityComment(id,comment,uId,toUId).await()
 
     suspend fun obtainCommunityFollow( uid:String,page: Int)
@@ -25,7 +25,10 @@ class CommunityRemote:BaseRemoteResource() {
     suspend fun obtainCommunityUser( uid:String,  page: Int)
             = getServiceRemote().obtainCommunityUser(uid,page).await()
 
-    suspend fun obtainCommunityComment(@Query("communityId") id:String, @Query("page") page: Int)
+    suspend fun obtainCommunityComment(id:String, page: Int)
             = getServiceRemote().obtainCommunityComment(id,page).await()
+
+    suspend fun deleteCommunity( id:String,  uid: String)
+            = getServiceRemote().deleteCommunity(id,uid).await()
 
 }

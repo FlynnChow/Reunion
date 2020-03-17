@@ -13,10 +13,11 @@ import com.example.reunion.repostory.bean.TopicBean
 import com.example.reunion.repostory.local_resource.UserHelper
 import com.example.reunion.repostory.remote_resource.TopicRemoteModel
 import retrofit2.HttpException
+import java.lang.Exception
 import java.net.UnknownHostException
 
 class TopicViewModel: BaseViewModel() {
-    val remoteModel = TopicRemoteModel()
+    private val remoteModel = TopicRemoteModel()
 
     val beanData = MutableLiveData<TopicBean>()
 
@@ -26,6 +27,7 @@ class TopicViewModel: BaseViewModel() {
 
     val topicStar = MutableLiveData(false) // 是否收藏
 
+    val deleteResult = MutableLiveData<Boolean>()
     /**
      * 0.可以加载评论
      * 1.正在加载中
@@ -63,9 +65,27 @@ class TopicViewModel: BaseViewModel() {
                     0
                 else
                     bean.pictures!!.size
+            id = bean.sId.toString()
+            obtainStarState()
         }
+    }
 
-        id = bean?.sId.toString()
+    private fun obtainStarState(){
+        launch ({
+            if (UserHelper.isLogin()){
+                val bean = remoteModel.topicStarWhether(UserHelper.getUser()?.uId?:throw Exception("uid 异常"),id)
+                when(bean.code){
+                    200 ->{
+                        topicStar.value = bean.data
+                    }
+                    else ->{
+                        throw Exception(bean.msg)
+                    }
+                }
+            }
+        },{
+            Log.e("获取收藏异常",it.message.toString())
+        })
     }
 
     fun getPictureUrl(bean: TopicBean?,index:Int):String?{
@@ -91,6 +111,8 @@ class TopicViewModel: BaseViewModel() {
     }
 
     fun getCommentNum(num: Int):String?{
+        if(num == 0)
+            return "全部评论"
         if (num <= 10000){
             return "$num 条评论"
         }else{
@@ -242,7 +264,54 @@ class TopicViewModel: BaseViewModel() {
     }
 
     fun onDeleteTopic(){
+        if (!UserHelper.isLogin()||UserHelper.getUser()?.uId?:"" != beanData.value?.uId?:""){
+            return
+        }
+        launch({
+            val bean = remoteModel.topicDelete(UserHelper.getUser()?.uId?:throw Exception("uid异常"),id)
+            when(bean.code){
+                200 ->{
+                    toast.value = "删除成功"
+                    deleteResult.value = true
+                }
+                else->{
+                    throw Exception(bean.msg)
+                }
+            }
+        },{
+            toast.value = "删除失败: "+it.message
+        })
+    }
 
+    fun getDeleteVisible(uid:String?):Int{
+        val mUid = UserHelper.getUser()?.uId?:""
+        return if (uid == mUid)
+            View.VISIBLE
+        else
+            View.GONE
+    }
+
+    fun onStarTopic(){
+        if (!UserHelper.isLogin()){
+            toast.value = "请先登录账号再收藏"
+            return
+        }
+        val target = !(topicStar.value?:false)
+        topicStar.value = target
+        launch({
+            val bean = remoteModel.topicStar(id,UserHelper.getUser()?.uId?:throw Exception("uid 异常"),target)
+            when(bean.code){
+                200 ->{
+
+                }
+                else ->{
+                    throw Exception(bean.msg)
+                }
+            }
+        },{
+            topicStar.value = !target
+            toast.value = "收藏失败："+it.message
+        })
     }
 
     fun getStarString(star:Boolean):String{

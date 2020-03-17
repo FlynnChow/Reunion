@@ -64,6 +64,8 @@
             <EditText
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                android:theme="@style/editTheme"
+                android:singleLine="true"
                 android:textCursorDrawable="@drawable/edit_curor"
                 android:id="@+id/stEdit"
                 android:textSize="14sp"

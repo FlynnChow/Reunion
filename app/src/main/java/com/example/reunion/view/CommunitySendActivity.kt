@@ -153,7 +153,7 @@ class CommunitySendActivity : BaseActivity() {
     }
 
     private fun startCommunity(data:CommunityBean){
-        startActivity(Intent(this,CommunityBean::class.java).apply {
+        startActivity(Intent(this,CommunityActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
             putExtra("data",data)
         })

@@ -1,10 +1,12 @@
 package com.example.reunion.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.reunion.R
@@ -20,7 +22,12 @@ class SearchUserActivity : BaseActivity() {
     private lateinit var mBinding:ActivitySearchUserBinding
     private val mViewModel by lazy { setViewModel(this, SearchUserViewModel::class.java) }
 
-    private val adapter = SearchUserAdapter()
+    private val adapter = SearchUserAdapter(){
+        startActivity(Intent(this,MyTopicActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            putExtra("uid",it)
+        })
+    }
 
     override fun create(savedInstanceState: Bundle?) {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_search_user)
@@ -37,6 +44,8 @@ class SearchUserActivity : BaseActivity() {
     private fun initView(){
         mBinding.searchEdit.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH){
+                adapter.users.clear()
+                adapter.notifyDataSetChanged()
                 mViewModel.onSearch()
             }
             true
@@ -50,6 +59,13 @@ class SearchUserActivity : BaseActivity() {
 
         ViewUtil.showInput(this,mBinding.searchEdit)
         mBinding.searchEdit.requestFocus()
+
+        mViewModel.userData.observe(this, Observer {
+            for (item in it){
+                adapter.users.add(item)
+                adapter.notifyItemInserted(adapter.users.size - 1)
+            }
+        })
     }
 
     private fun initRefreshView(){

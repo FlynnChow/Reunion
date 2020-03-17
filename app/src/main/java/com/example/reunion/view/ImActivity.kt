@@ -3,6 +3,7 @@ package com.example.reunion.view
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import androidx.databinding.DataBindingUtil
@@ -79,14 +80,25 @@ class ImActivity : BaseActivity() {
             }
         })
 
+        mBinding.imEdit.setOnKeyListener { v, keyCode, event ->
+            if (event != null && KeyEvent.KEYCODE_ENTER == keyCode
+                && KeyEvent.ACTION_DOWN == event.action
+                && mViewModel.editContent.value != null && mViewModel.editContent.value!!.isNotEmpty()){
+                mViewModel.onSendMessage()
+                true
+            }
+                false
+        }
+
+    }
+
+    private fun initViewModel(){
         mViewModel.loading.observe(this, androidx.lifecycle.Observer {
             if (!it){
                 mBinding.newsRefresh.isRefreshing = false
             }
         })
-    }
 
-    private fun initViewModel(){
         mViewModel.messages.observe(this, Observer {
             adapter.list.addAll(it)
             adapter.notifyDataSetChanged()

@@ -214,5 +214,5 @@
     <string name="community_send_title">发布重逢圈</string>
     <string name="community_send_hint">分享你的喜悦</string>
     <string name="community_send_loading">正在发布到重逢圈..</string>
-
+    <string name="community_reply">回复</string>
 </resources>

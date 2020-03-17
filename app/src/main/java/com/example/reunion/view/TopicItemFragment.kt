@@ -53,7 +53,7 @@ class TopicItemFragment(private val type:String = ""):BaseFragment() {
         if (type == "nearby"){
             initLocate()
         }else{
-            mViewModel.updateItems(type)
+            mViewModel.updateItems(type,true)
         }
     }
 
@@ -129,7 +129,7 @@ class TopicItemFragment(private val type:String = ""):BaseFragment() {
         val mLocationListener = AMapLocationListener {
             if (it.longitude != 0.0||it.latitude != 0.0){
                 mViewModel.locate = "${it.longitude},${it.latitude}"
-                mViewModel.updateItems(type)
+                mViewModel.updateItems(type,true)
                 mLocationClient?.stopLocation()
                 mLocationClient?.onDestroy()
             }

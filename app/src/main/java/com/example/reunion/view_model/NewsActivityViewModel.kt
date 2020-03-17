@@ -58,6 +58,9 @@ class NewsActivityViewModel:BaseViewModel() {
 
     fun getCommentString(commentNum:Int):String{
         var num = commentNum
+        if (num == 0){
+            return "全部评论"
+        }
         if (num >= 10000){
             num = (num - num%1000)/1000
             return "$num 万评论"

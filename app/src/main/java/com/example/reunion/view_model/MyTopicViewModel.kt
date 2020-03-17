@@ -15,8 +15,8 @@ import java.lang.Exception
 class MyTopicViewModel:BaseViewModel() {
     val remote = HomeRemoteModel()
 
-    var nextPeoplePage = 1
-    var nextBodyPage = 1
+    private var nextPeoplePage = 1
+    private var nextBodyPage = 1
     var refreshingBody = MutableLiveData<Boolean>()
     var loadingBody = MutableLiveData<Boolean>()
     var refreshingPeople = MutableLiveData<Boolean>()
@@ -187,8 +187,8 @@ class MyTopicViewModel:BaseViewModel() {
     }
 
     fun isMine(uid:String):Int{
-        val myUid = UserHelper.getUser()?.uId?:""
-        return if (uid == myUid)
+        val myUid = UserHelper.getUser()?.uId?:"-1"
+        return if (uid == myUid||!UserHelper.isLogin())
             View.GONE
         else
             View.VISIBLE

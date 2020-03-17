@@ -76,7 +76,7 @@ class FindFragment(private val type:String = ""):BaseFragment() {
         initPicker()
         initViewModel()
 
-        mViewModel.updateItems(type)
+        mViewModel.updateItems(type,true)
     }
 
     private fun initView(){

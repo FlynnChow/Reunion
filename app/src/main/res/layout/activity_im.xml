@@ -83,6 +83,7 @@
                 android:paddingEnd="13dp"
                 android:paddingTop="4dp"
                 android:paddingBottom="5dp"
+                android:singleLine="true"
                 android:textSize="12sp"
                 android:textColor="@color/comment_text_color"
                 android:background="@drawable/comment_background"

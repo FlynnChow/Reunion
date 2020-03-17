@@ -18,7 +18,7 @@ import com.example.reunion.repostory.bean.NewsBean
 import com.example.reunion.repostory.bean.User
 import com.example.reunion.view.NewsActivity
 
-class SearchUserAdapter:RecyclerView.Adapter<BaseViewHolder<ItemSearchUserBinding>>() {
+class SearchUserAdapter(private val listener:(String)->Unit):RecyclerView.Adapter<BaseViewHolder<ItemSearchUserBinding>>() {
 
     val users:ArrayList<User.Data> = ArrayList()
     override fun onCreateViewHolder(
@@ -37,21 +37,9 @@ class SearchUserAdapter:RecyclerView.Adapter<BaseViewHolder<ItemSearchUserBindin
     override fun onBindViewHolder(holder: BaseViewHolder<ItemSearchUserBinding>, position: Int) {
         val mBinding = holder.mBinding
         mBinding.user = users[position]
-        mBinding.executePendingBindings()
-    }
-
-    init {
-        val names = arrayOf("A","CCC","DDD","EEE","GGG","SSS","OK","帽子","太远","多少","明明","草拟","妈的","日单","伙计","屁股","123气死")
-
-        val users = ArrayList<User.Data>()
-        for (name in names){
-            val user = User.Data().apply {
-                uName = name
-                uHeadPortrait = "http://img1.imgtn.bdimg.com/it/u=1938295758,4042523261&fm=26&gp=0.jpg"
-            }
-            users.add(user)
+        mBinding.root.setOnClickListener {
+            listener.invoke(users[position].uId)
         }
-        this.users.addAll(users)
-        notifyDataSetChanged()
+        mBinding.executePendingBindings()
     }
 }

@@ -205,8 +205,12 @@ class HomeActivity : BaseActivity() {
     }
 
     fun startFaceManagerActivity(view: View?){
-        startActivity(Intent(this,FaceManager::class.java).apply { addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP) })
-        onResetSendWindow()
+        if (UserHelper.isLogin()){
+            startActivity(Intent(this,FaceManager::class.java).apply { addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP) })
+            onResetSendWindow()
+        }else{
+            toast("需要登录账号才能管理人脸")
+        }
     }
 
     fun startSendPeopleActivity(view: View?){
@@ -226,10 +230,14 @@ class HomeActivity : BaseActivity() {
     }
 
     fun startMyTopic(view: View?){
-        startActivity(Intent(this,MyTopicActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-        })
-        onResetSendWindow()
+        if (UserHelper.isLogin()){
+            startActivity(Intent(this,MyTopicActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+            })
+            onResetSendWindow()
+        }else{
+            toast("需要登录后才能查看个人主页")
+        }
     }
 
     fun startUserActivity(view: View?){
