@@ -6,7 +6,7 @@ uId: 关注者用户 id
 
 targetUId: 被关注者用户 id
 
-follow：Boolean : 0 表示关注 1 表示取消关注
+follow：Int : 0 表示关注 1 表示取消关注
 
 ### 响应
 
@@ -28,7 +28,7 @@ uId: 关注者用户 id
 
 sId: 收藏的寻人/寻物 帖子的id
 
-star：Boolean : 0 表示收藏 1 表示取消收藏
+star：Int : 0 表示收藏 1 表示取消收藏
 
 ### 响应
 
@@ -60,7 +60,7 @@ code
 * 300 List为空
 * 400 异常，信息可以打印到msg上
 
-data List[FaceBean] 包含全部信息
+data List[Bean] 包含全部信息
 
 
 
@@ -85,6 +85,7 @@ msg：
 ### 内容：根据关键词对用户进行搜索(我觉得可以综合 uid，手机号，昵称和真实姓名四个条件)
 ### 请求参数：
 keyword:String,关键词
+
 page:int，页数
 
 ### 响应参数：
@@ -94,16 +95,16 @@ code
 * 300 List为空
 * 400 异常，信息可以打印到msg上
 
-data List[User] 包含用户可公开信息
+data List[Bean] 包含用户可公开信息
 
 msg
 
 
 ## 6. 关注 查询
 ### 路径: follow/search
-### 内容：查询目标uid用户关注的所有用户的公开信息
+### 内容：查询目标uid用户关注的所有用户
 ### 请求参数：
-uid:目标用户id
+uId:目标用户id
 
 ### 响应参数：
 
@@ -119,7 +120,7 @@ msg
 
 ## 7. 被关注 查询
 ### 路径: fan/search
-### 内容：查询关注目标uid用户的所有用户的公开信息
+### 内容：查询关注目标uid用户的所有用户
 ### 请求参数：
 uid:目标用户id
 
@@ -157,6 +158,8 @@ msg
 ### 请求参数：
 uid:目标用户id
 
+page:页码
+
 ### 响应参数：
 
 code
@@ -164,7 +167,7 @@ code
 * 300 List为空
 * 400 异常，信息可以打印到msg上
 
-data List[FaceBean] 包含全部信息
+data List[Bean] 包含全部信息
 
 msg
 
@@ -184,7 +187,7 @@ code
 * 200 成功
 * 400 异常，信息可以打印到msg上
 
-data result:Boolean,true:收藏，false:没收藏
+data Boolean,true:收藏，false:没收藏
 
 msg
 
@@ -201,6 +204,6 @@ code
 * 200 成功
 * 400 异常，信息可以打印到msg上
 
-data result:Boolean,true:关注，false:没关注
+data Boolean,true:关注，false:没关注
 
 msg

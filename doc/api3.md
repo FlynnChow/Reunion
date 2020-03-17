@@ -35,7 +35,7 @@ class Comment{
 
         var toUId:String? = null // 被评论用户的UID,如果为null表示评论的是主题
         var toName:String? = null // 被评论用户的昵称,如果为null表示评论的是主题
-        var floor:Int = 1 //评论的楼层 从 1 开始计数
+        var floor:Int = 1 //评论的楼层 从 1 开始计数 (重要)
 }
 ```
 ## 1. 发布重逢圈
@@ -91,13 +91,13 @@ class CommentBean{
 * msg 请求的结果的一些异常信息
 * data 发布好的重逢评论内容
 
-## 3. 获取重逢圈关注用户发布的内容
+## 3. 获取重逢圈 关注用户发布的内容
 ### GET (community/obtainFollow)
 ### 请求参数
 * uId(String) 请求用户的uid
 * page(Int) 页码，从 1 开始
 
-## 4. 获取重逢圈推荐(按热度)内容
+## 4. 获取重逢圈 推荐(按热度)内容
 ### GET (community/obtainRecommend)
 ### 请求参数
 * page(Int) 页码，从 1 开始
@@ -144,3 +144,15 @@ class CommentBeans{
 3. 其他:请求失败，将失败信息加在msg上
 * msg 请求的结果一些异常信息
 * data 发布好的重逢帖子
+
+## 7. 重逢圈 删除帖子
+### GET (community/delete)
+### 请求参数
+* communityId(String) 要删除帖子的id
+* uId 请求用户的uid（请求删除的uid和帖子发布的uid不是同一个返回异常）
+
+### 请求响应
+* code 
+1. 200:代表请求失败
+2. 其他:请求失败，将失败信息加在msg上
+* msg 请求的结果一些异常信息
