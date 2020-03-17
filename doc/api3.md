@@ -144,3 +144,15 @@ class CommentBeans{
 3. 其他:请求失败，将失败信息加在msg上
 * msg 请求的结果一些异常信息
 * data 发布好的重逢帖子
+
+## 7. 重逢圈 删除帖子
+### GET (community/delete)
+### 请求参数
+* communityId(String) 要删除帖子的id
+* uid 请求用户的uid（请求删除的uid和帖子发布的uid不是同一个返回异常）
+
+### 请求响应
+* code 
+1. 200:代表请求失败
+2. 其他:请求失败，将失败信息加在msg上
+* msg 请求的结果一些异常信息
