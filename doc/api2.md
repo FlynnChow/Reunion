@@ -186,7 +186,7 @@ code
 * 200 成功
 * 400 异常，信息可以打印到msg上
 
-data result:Boolean,true:收藏，false:没收藏
+data Boolean,true:收藏，false:没收藏
 
 msg
 
@@ -203,6 +203,6 @@ code
 * 200 成功
 * 400 异常，信息可以打印到msg上
 
-data result:Boolean,true:关注，false:没关注
+data Boolean,true:关注，false:没关注
 
 msg
