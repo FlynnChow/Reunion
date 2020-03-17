@@ -149,7 +149,7 @@ class CommentBeans{
 ### GET (community/delete)
 ### 请求参数
 * communityId(String) 要删除帖子的id
-* uid 请求用户的uid（请求删除的uid和帖子发布的uid不是同一个返回异常）
+* uId 请求用户的uid（请求删除的uid和帖子发布的uid不是同一个返回异常）
 
 ### 请求响应
 * code 
