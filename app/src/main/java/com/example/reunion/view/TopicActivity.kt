@@ -2,10 +2,8 @@ package com.example.reunion.view
 
 import android.app.Dialog
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
@@ -18,8 +16,7 @@ import com.example.reunion.R
 import com.example.reunion.base.BaseActivity
 import com.example.reunion.databinding.ActivityTopicBinding
 import com.example.reunion.databinding.DialogTopicBinding
-import com.example.reunion.repostory.bean.TopicBean
-import com.example.reunion.util.HtmlImageGetter
+import com.example.reunion.util.EasyImageGetter
 import com.example.reunion.util.ViewUtil
 import com.example.reunion.view.adapter.NewsCommentAdapter
 import com.example.reunion.view_model.TopicViewModel
@@ -188,13 +185,7 @@ class TopicActivity : BaseActivity() {
     }
 
     private fun setHtmlContent(textView: TextView, content:String){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
-            textView.text = Html.fromHtml(content, Html.FROM_HTML_MODE_LEGACY, HtmlImageGetter( this) {
-                textView.text = Html.fromHtml(content, Html.FROM_HTML_MODE_LEGACY, HtmlImageGetter(this),null)
-            },null)
-        }else{
-            textView.text = Html.fromHtml(content)
-        }
+        EasyImageGetter.create().setPlaceHolder(R.drawable.loading).setPlaceHolder(R.drawable.load_error).loadHtml(content,textView)
     }
 
     override fun onBackPressed() {

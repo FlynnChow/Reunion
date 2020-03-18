@@ -54,7 +54,7 @@ class NewsViewModel: BaseViewModel() {
                     for (index in (list.size -1) downTo 0){
                         list[index].src = list[index].src.replace(" ","")
                         list[index].src = list[index].src.replace("\n","")
-                        if (list[index].content.contains("video")){
+                        if (list[index].content.contains("video")||list[index].content.length < 100){
                             list.remove(list[index])
                         }
                     }

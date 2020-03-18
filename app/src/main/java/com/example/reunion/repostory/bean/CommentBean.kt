@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.os.Parcel
 import android.os.Parcelable
 import android.text.Html
+import android.util.TypedValue
 import android.widget.TextView
+import com.example.reunion.MyApplication
 import com.example.reunion.util.StringDealerUtil
 import java.text.SimpleDateFormat
 import java.util.*
@@ -57,6 +59,7 @@ class CommentBean {
             val format = SimpleDateFormat("yyyy MM-dd HH:mm")
             return format.format(date)
         }
+
     }
 
     class Data{

@@ -1,8 +1,7 @@
 package com.example.reunion.view
 
-import android.os.Build
 import android.os.Bundle
-import android.text.Html
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.TextView
@@ -13,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.reunion.R
 import com.example.reunion.base.BaseActivity
 import com.example.reunion.databinding.ActivityNewsBinding
-import com.example.reunion.util.HtmlImageGetter
+import com.example.reunion.util.EasyImageGetter
 import com.example.reunion.util.ViewUtil
 import com.example.reunion.view.adapter.NewsCommentAdapter
 import com.example.reunion.view_model.NewsActivityViewModel
@@ -106,13 +105,7 @@ class NewsActivity : BaseActivity() {
     }
 
     private fun setHtmlContent(textView:TextView, content:String){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
-            textView.text = Html.fromHtml(content, Html.FROM_HTML_MODE_LEGACY, HtmlImageGetter( this) {
-                textView.text = Html.fromHtml(content, Html.FROM_HTML_MODE_LEGACY, HtmlImageGetter(this),null)
-            },null)
-        }else{
-            textView.text = Html.fromHtml(content)
-        }
+        EasyImageGetter.create().setPlaceHolder(R.drawable.loading).setPlaceHolder(R.drawable.load_error).loadHtml(content,textView)
     }
 
     private fun initReplyComment(){
