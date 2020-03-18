@@ -36,4 +36,4 @@
  of this license document, but changing it is not allowed.
 ```
 ## 版权声明
-© 开发者保留所有权利，未经许可不可用于商业用途
+© 开发者保留所有权利，项目仅用于学习，未经许可不可用于商业用途
