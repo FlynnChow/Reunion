@@ -1,6 +1,5 @@
-# Reunion
-**“Reunion”(Android)项目开源**
-# Create by
+# Reunion(Android)
+### Create by
 **2020-01-09**
 # 关于应用
 ## 应用简介
@@ -28,6 +27,8 @@
 * Debug
 ****
 # 关于应用
+## 声明
+编写目的在于学习
 ## 开源
 ```
  Copyright (C) 1989, 1991 Free Software Foundation, Inc.,
@@ -35,6 +36,4 @@
  Everyone is permitted to copy and distribute verbatim copies
  of this license document, but changing it is not allowed.
 ```
-## 版权声明
-© 开发者保留所有权利，项目目的在于学习，不可用于商业用途
 
