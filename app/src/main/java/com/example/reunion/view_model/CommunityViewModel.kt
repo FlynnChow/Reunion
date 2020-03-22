@@ -1,5 +1,6 @@
 package com.example.reunion.view_model
 
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.util.SparseArray
 import android.view.View
@@ -103,7 +104,7 @@ class CommunityViewModel:BaseViewModel() {
                 }
                 300 ->{
                     if (!first){
-                        toast.value = "以及没有更多评论了"
+                        toast.value = "已经没有更多评论了"
                     }
                     isLoadAllComment = true
                 }
@@ -133,6 +134,9 @@ class CommunityViewModel:BaseViewModel() {
             when(bean.code){
                 200 ->{
                     toast.value = "成功删除"
+                    MyApplication.app.sendBroadcast(Intent("reunion.delete.community").apply {
+                        putExtra("id",this@CommunityViewModel.data.value?.communityId?:"")
+                    })
                     deleteResult.value = true
                 }
                 else ->{

@@ -1,12 +1,17 @@
 package com.example.reunion.view_model
 
+import android.content.IntentFilter
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.example.reunion.MyApplication
 import com.example.reunion.base.BaseViewModel
 import com.example.reunion.repostory.bean.TopicBean
 import com.example.reunion.repostory.local_resource.UserHelper
 import com.example.reunion.repostory.remote_resource.TopicRemoteModel
 
 class StarViewModel:BaseViewModel() {
+    lateinit var receiver:TopicFragViewModel.Receiver
+
     private val remote = TopicRemoteModel()
 
     private var nextPage = 1
@@ -17,6 +22,8 @@ class StarViewModel:BaseViewModel() {
 
     val loading = MutableLiveData<Boolean>()
 
+    val deleteData = MutableLiveData<Int>()
+
     fun onRefresh(first:Boolean = false){
         if (refreshing.value == true){
             return
@@ -25,6 +32,7 @@ class StarViewModel:BaseViewModel() {
         refreshing.value = true
         onLoading()
     }
+
 
     fun onLoading(first:Boolean = false){
         if (loading.value == true||!UserHelper.isLogin()){
@@ -36,6 +44,7 @@ class StarViewModel:BaseViewModel() {
             when(bean.code){
                 200 ->{
                     topicData.value = bean.data
+                    nextPage += 1
                 }
                 300 ->{
                     if (!first)

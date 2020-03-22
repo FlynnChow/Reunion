@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_news.*
 class NewsFragment:BaseFragment() {
     private lateinit var mBinding:FragmentNewsBinding
     private val mViewModel: NewsViewModel by lazy {
-        setViewModel(this, NewsViewModel::class.java)
+        setViewModel(NewsViewModel::class.java,"news")
     }
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,6 +45,7 @@ class NewsFragment:BaseFragment() {
         val fragments:Array<Fragment> = arrayOf<Fragment>(healthFragment,childFragment,publicFragment)
         val adapter = NewsAdapter(childFragmentManager,fragments,resources.getStringArray(R.array.newsTitle))
         newsViewPager.adapter = adapter
+        newsViewPager.offscreenPageLimit = 3
         newsTab.setupWithViewPager(newsViewPager)
         if (newsViewPager.currentItem != mViewModel.currentIndex){
             newsViewPager.currentItem = mViewModel.currentIndex

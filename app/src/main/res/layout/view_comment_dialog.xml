@@ -78,6 +78,7 @@
                             android:layout_width="36dp"
                             android:layout_height="36dp">
                             <ImageView
+                                android:onClick="@{fragment::onStartUserTopic}"
                                 app:head="@{viewModel.replyBean.uHeadPortrait}"
                                 android:scaleType="centerCrop"
                                 android:layout_width="match_parent"

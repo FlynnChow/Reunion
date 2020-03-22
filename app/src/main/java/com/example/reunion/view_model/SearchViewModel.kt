@@ -1,8 +1,10 @@
 package com.example.reunion.view_model
 
+import android.content.IntentFilter
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
+import com.example.reunion.MyApplication
 import com.example.reunion.base.BaseViewModel
 import com.example.reunion.repostory.bean.TopicBean
 import com.example.reunion.repostory.bean.TopicKeyword
@@ -11,6 +13,9 @@ import com.example.reunion.repostory.remote_resource.TopicRemoteModel
 import java.lang.Exception
 
 class SearchViewModel:BaseViewModel() {
+    lateinit var receiver:TopicFragViewModel.Receiver
+
+    val deleteData = MutableLiveData<Int>()
 
     private val remote = TopicRemoteModel()
 

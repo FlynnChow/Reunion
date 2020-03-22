@@ -64,7 +64,6 @@
             android:screenOrientation="portrait" />
         <activity android:name=".view.EditStActivity" />
         <activity android:name=".view.SettingActivity" />
-        <activity android:name=".view.TestActivity" />
         <activity android:name=".view.NewsActivity" />
         <activity
             android:name=".view.HomeActivity"

@@ -71,6 +71,9 @@ class TopicActivity : BaseActivity() {
                     showReplyComment()
                     mViewModel.getReplyComment(true)
                 }
+                NewsCommentAdapter.SHOW_USER->{
+                    MyTopicActivity.startActivity(this,comment?.uId)
+                }
             }
         }
 
@@ -137,7 +140,8 @@ class TopicActivity : BaseActivity() {
     }
 
     private fun initReplyComment(){
-        replyFragment = TopicCommentFragment{
+        replyFragment = TopicCommentFragment()
+        replyFragment.listener = {
             when(it){
                 CommentFragment.MODE_CLOSE->{
                     hideReplyComment()
@@ -198,6 +202,10 @@ class TopicActivity : BaseActivity() {
     fun onClickStar(view:View){
         dialog.dismiss()
         mViewModel.onStarTopic()
+    }
+
+    fun onClickStarMyTopic(view:View){
+        MyTopicActivity.startActivity(this,mViewModel.beanData.value?.uId)
     }
 
     fun onClickDelete(view:View){

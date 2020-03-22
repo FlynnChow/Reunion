@@ -20,9 +20,23 @@ import com.example.reunion.view_model.UserViewModel
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
 import kotlinx.android.synthetic.main.view_recycler_view.*
 
-class UserFragment(private val type:String = "") : BaseFragment() {
+class UserFragment() : BaseFragment() {
+    private var type = ""
+
+    companion object{
+        @JvmStatic
+        fun getInstance(arg:String):UserFragment{
+            val fragment = UserFragment()
+            val args = Bundle()
+            args.putString("type",arg)
+            fragment.arguments = args
+            return fragment
+        }
+
+    }
+
     private lateinit var mBinding:FragmentUserListBinding
-    private val mViewModel by lazy { setViewModel(this,UserViewModel::class.java) }
+    private lateinit var mViewModel:UserViewModel
     private val adapter = UserAdapter{
         startActivity(Intent(activity,MyTopicActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
@@ -37,6 +51,8 @@ class UserFragment(private val type:String = "") : BaseFragment() {
     ): View? {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_user_list,container,false)
         mBinding.lifecycleOwner = this
+        type = arguments?.getString("type")?:""
+        mViewModel = setViewModel(UserViewModel::class.java,type)
         return mBinding.root
     }
 
@@ -44,6 +60,7 @@ class UserFragment(private val type:String = "") : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initView()
+        mViewModel.onRefresh(type)
     }
 
     private fun initView(){

@@ -17,15 +17,23 @@ import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
 import kotlinx.android.synthetic.main.view_recycler_view.*
 import java.util.*
 
-class NewsContentFragment(private val contentIndex:Int = 0):BaseFragment() {
+class NewsContentFragment():BaseFragment() {
+    private var contentIndex = 0
+
     companion object{
-        val HEALTHY = 0
-        val Child = 1
-        val PUBLIC_WELFARE = 2
+        const val HEALTHY = 0
+        const val Child = 1
+        const val PUBLIC_WELFARE = 2
+        @JvmStatic
+        fun getInstance(arg:Int):NewsContentFragment{
+            val fragment = NewsContentFragment()
+            val args = Bundle()
+            args.putInt("type",arg)
+            fragment.arguments = args
+            return fragment
+        }
     }
-    private val mViewModel: NewsViewModel by lazy {
-        setViewModel(this, NewsViewModel::class.java)
-    }
+    private lateinit var mViewModel: NewsViewModel
     private lateinit var mBinding:ViewRecyclerViewBinding
 
     override fun onCreateView(
@@ -35,6 +43,8 @@ class NewsContentFragment(private val contentIndex:Int = 0):BaseFragment() {
     ): View? {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.view_recycler_view,container,false)
         mBinding.lifecycleOwner = this
+        contentIndex = arguments?.getInt("type")?:0
+        mViewModel = setViewModel(NewsViewModel::class.java,contentIndex.toString())
         return mBinding.root
     }
 
@@ -98,8 +108,10 @@ class NewsContentFragment(private val contentIndex:Int = 0):BaseFragment() {
             adapter.notifyDataSetChanged()
         })
         mViewModel.news.observe(this, androidx.lifecycle.Observer {
-            adapter.newsList.addAll(it)
-            adapter.notifyDataSetChanged()
+            for (item in it){
+                adapter.newsList.add(item)
+                adapter.notifyItemInserted(adapter.newsList.size - 1)
+            }
         })
     }
 

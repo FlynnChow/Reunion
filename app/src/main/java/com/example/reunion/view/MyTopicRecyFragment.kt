@@ -20,7 +20,21 @@ import com.example.reunion.view_model.LoginViewModel
 import com.example.reunion.view_model.MyTopicViewModel
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
 
-class MyTopicRecyFragment(private val type:String = ""):BaseFragment() {
+class MyTopicRecyFragment():BaseFragment() {
+    private var type = ""
+
+    companion object{
+        @JvmStatic
+        fun getInstance(arg:String):MyTopicRecyFragment{
+            val fragment = MyTopicRecyFragment()
+            val args = Bundle()
+            args.putString("type",arg)
+            fragment.arguments = args
+            return fragment
+        }
+
+    }
+
     private val mAdapter = TopicItemAdapter{
         startActivity(Intent(activity,TopicActivity::class.java).apply {
             putExtra("data",it)
@@ -39,6 +53,7 @@ class MyTopicRecyFragment(private val type:String = ""):BaseFragment() {
     ): View? {
         mBinding = DataBindingUtil.inflate(inflater,R.layout.view_recycler_view2,container,false)
         mBinding.lifecycleOwner = this
+        type = arguments?.getString("type")?:""
         mBinding.viewModel = mViewModel
         return mBinding.root
     }
@@ -70,6 +85,16 @@ class MyTopicRecyFragment(private val type:String = ""):BaseFragment() {
                 mAdapter.notifyDataSetChanged()
             })
         }
+        mViewModel.deleteData.observe(this, androidx.lifecycle.Observer {
+            for (index in 0 until mAdapter.list.size){
+                val id = mAdapter.list[index].sId
+                if (id == it){
+                    mAdapter.list.remove(mAdapter.list[index])
+                    mAdapter.notifyItemRemoved(index)
+                    break
+                }
+            }
+        })
     }
 
     private fun initPeopleView(mPeopleBinding:ViewRecyclerView2Binding){

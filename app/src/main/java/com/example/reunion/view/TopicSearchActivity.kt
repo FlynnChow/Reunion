@@ -8,6 +8,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
+import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.example.reunion.R
@@ -57,6 +58,7 @@ class TopicSearchActivity : BaseActivity() {
                 mBinding.flowLayout.removeViewAt(index)
             }
         })
+
     }
 
 
@@ -79,6 +81,7 @@ class TopicSearchActivity : BaseActivity() {
         }else{
             mViewModel.onSaveKeywordToDb()
 
+
             val pair = Pair<View,String>(mBinding.searchEdit,"search")
             val pair2 = Pair<View,String>(mBinding.searchImg,"searchImg")
             val compat: ActivityOptionsCompat =
@@ -87,6 +90,19 @@ class TopicSearchActivity : BaseActivity() {
                 addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
                 putExtra("keyword",mViewModel.keyword.value)
             },compat.toBundle())
+
+            for (child in mBinding.flowLayout.children){
+                val textView = child as TextView
+                val text = textView.text.toString()
+                if (text == mViewModel.keyword.value){
+                    mBinding.flowLayout.removeView(child)
+                    break
+                }
+            }
+            val textBinding: ItemSearchBinding = DataBindingUtil.inflate(layoutInflater,R.layout.item_search,null,false)
+            textBinding.activity = this
+            textBinding.textView.text = mViewModel.keyword.value
+            mBinding.flowLayout.addView(textBinding.root,0)
         }
     }
 

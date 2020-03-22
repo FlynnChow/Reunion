@@ -15,9 +15,6 @@ class WebSocketReceiver:BroadcastReceiver() {
             "android.intent.action.SCREEN_OFF" ->{
                 context?.stopService(Intent(context, WebSocketServer::class.java))
             }
-            "reunion.application.launch" ->{
-                context?.startService(Intent(context, WebSocketServer::class.java))
-            }
             "reunion.application.intoForeground" ->{
                 if (!WebSocketServer.isLife){
                     context?.startService(Intent(context, WebSocketServer::class.java))

@@ -29,6 +29,7 @@ class NewsReplyAdapter(private val listener:(Int, CommentBean.Comment?)->Unit):R
     companion object{
         val LOAD_REPLY = 0
         val SHOW_EDIT = 1
+        val SHOW_USER = 2
     }
     private val TYPE_COMMENT = 0
     private val TYPE_BOTTOM = 1
@@ -73,6 +74,9 @@ class NewsReplyAdapter(private val listener:(Int, CommentBean.Comment?)->Unit):R
             contentText.text = Html.fromHtml(htmlStr)
             mBinding.root.setOnClickListener {
                 listener.invoke(SHOW_EDIT,comments!![position])
+            }
+            mBinding.header.setOnClickListener {
+                listener.invoke(SHOW_USER,comments!![position])
             }
             mBinding.executePendingBindings()
         }else{

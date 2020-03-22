@@ -1,5 +1,6 @@
 package com.example.reunion.view_model
 
+import android.content.IntentFilter
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
@@ -13,6 +14,8 @@ import com.example.reunion.repostory.remote_resource.HomeRemoteModel
 import java.lang.Exception
 
 class MyTopicViewModel:BaseViewModel() {
+    lateinit var receiver:TopicFragViewModel.Receiver
+
     val remote = HomeRemoteModel()
 
     private var nextPeoplePage = 1
@@ -39,6 +42,8 @@ class MyTopicViewModel:BaseViewModel() {
     val bodyData = MutableLiveData<ArrayList<TopicBean>>()
 
     var stateFollow = MutableLiveData(false)
+
+    val deleteData = MutableLiveData<Int>()
 
     fun initUserMessage(uid:String){
         launch ({

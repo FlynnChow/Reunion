@@ -22,9 +22,9 @@ class NewsViewModel: BaseViewModel() {
     val clearList:MutableLiveData<Boolean> = MutableLiveData(false)
     private var page:Int = 0
 
-    val healthFragment = NewsContentFragment(NewsContentFragment.HEALTHY)
-    val childFragment = NewsContentFragment(NewsContentFragment.Child)
-    val publicFragment = NewsContentFragment(NewsContentFragment.PUBLIC_WELFARE)
+    val healthFragment = NewsContentFragment.getInstance(NewsContentFragment.HEALTHY)
+    val childFragment = NewsContentFragment.getInstance(NewsContentFragment.Child)
+    val publicFragment = NewsContentFragment.getInstance(NewsContentFragment.PUBLIC_WELFARE)
 
     fun onLoadNews(view: View? = null){
         if (isLoadEnd.value == false)
@@ -75,8 +75,8 @@ class NewsViewModel: BaseViewModel() {
         if (isRefreshEnd.value == false)
             return
         page = 0
+        isRefreshEnd.value = false
         launch ({
-            isRefreshEnd.value = false
             val bean:NewsBean = when(contentTypeIndex){
                 NewsContentFragment.HEALTHY->{
                     remoteModel.getHealthyNews(page)

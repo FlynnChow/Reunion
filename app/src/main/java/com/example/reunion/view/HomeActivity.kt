@@ -6,33 +6,22 @@ import android.animation.ObjectAnimator
 import android.app.Activity
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
-import androidx.core.app.ActivityOptionsCompat
-import androidx.core.util.Pair
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.SimpleTarget
-import com.bumptech.glide.request.transition.Transition
-import com.example.reunion.MyApplication
 import com.example.reunion.R
 import com.example.reunion.base.BaseActivity
 import com.example.reunion.databinding.ActivityHomeBinding
-import com.example.reunion.repostory.local_resource.ClearReceiver
+import com.example.reunion.repostory.local_resource.MessageReceiver
 import com.example.reunion.repostory.local_resource.UserHelper
-import com.example.reunion.repostory.server.ImNotificationService
-import com.example.reunion.util.NotificationUtil
 import com.example.reunion.view_model.HomeViewModel
 import com.example.reunion.view_model.MessageViewModel
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 
 class HomeActivity : BaseActivity() {
@@ -43,6 +32,7 @@ class HomeActivity : BaseActivity() {
     private lateinit var mBinding:ActivityHomeBinding
     private lateinit var fragments:Array<Fragment>
     private var lastFragmentIndex = 0
+    lateinit var mReceiver:MessageReceiver
     override fun create(savedInstanceState: Bundle?) {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_home)
         mBinding.lifecycleOwner = this
@@ -283,13 +273,18 @@ class HomeActivity : BaseActivity() {
 
     fun initMessageReceiver(){
         val viewModel = setViewModel(this,MessageViewModel::class.java)
-        val mReceiver = ClearReceiver{
-            viewModel.clearMessage.value = it
+        mReceiver = MessageReceiver{
+            viewModel.updateMessage.value = it
         }
         val intentFilter = IntentFilter()
         intentFilter.addAction("reunion.message.im.clear")
         intentFilter.addAction("reunion.message.sys.clear")
+        intentFilter.addAction("reunion.im.update.message")
         registerReceiver(mReceiver,intentFilter)
     }
 
+    override fun onDestroy() {
+        unregisterReceiver(mReceiver)
+        super.onDestroy()
+    }
 }

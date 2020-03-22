@@ -74,4 +74,7 @@
 
     <color name="im_message_mine_0">#40C4FF</color>
     <color name="im_message_mine_1">#00B0FF</color>
+
+    <color name="take_picture_normal">#ffffffff</color>
+    <color name="take_picture_pressed">#969696</color>
 </resources>

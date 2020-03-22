@@ -1,6 +1,8 @@
 package com.example.reunion.repostory.remote_resource
 
+import android.util.Log
 import com.example.reunion.base.BaseRemoteResource
+import com.example.reunion.repostory.bean.TopicBean
 import com.example.reunion.repostory.bean.User
 import com.google.gson.Gson
 import okhttp3.RequestBody

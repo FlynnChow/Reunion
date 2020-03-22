@@ -2,6 +2,7 @@ package com.example.reunion.repostory.bean
 
 import android.os.Parcel
 import android.os.Parcelable
+import android.util.Log
 import android.view.View
 import java.text.SimpleDateFormat
 import java.util.*
@@ -55,7 +56,7 @@ class CommunityBean() :Parcelable {
     }
 
     fun getCommentContent(index:Int):String{
-        if (comments == null || comments!!.size < index){
+        if (comments == null || comments!!.size <= index){
             return ""
         }else{
             var toName = comments!![index].toName
@@ -68,7 +69,7 @@ class CommunityBean() :Parcelable {
     }
 
     fun getCommentVisible(index:Int):Int{
-        return if (comments == null || comments!!.size < index){
+        return if (comments == null || comments!!.size <= index){
             View.GONE
         }else
             View.VISIBLE
@@ -148,11 +149,11 @@ class CommunityBean() :Parcelable {
         var floor:Int = 1 //评论的楼层 从 1 开始计数
 
         fun formatComment():String{
-            if (toName == null)
-                toName = ""
+            val name = if (toName == null)
+                ""
             else
-                toName = "@${toName}: "
-            return "${toName}${comment}"
+                "@${toName}: "
+            return "${name}${comment}"
         }
 
         fun getFormatTime():String{

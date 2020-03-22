@@ -2,6 +2,7 @@ package com.example.reunion.view
 
 import android.app.Activity
 import android.content.Intent
+import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.transition.ChangeBounds
@@ -20,6 +21,7 @@ import com.example.reunion.databinding.ActivityTopicSearchListBinding
 import com.example.reunion.util.ViewUtil
 import com.example.reunion.view.adapter.TopicItemAdapter
 import com.example.reunion.view_model.SearchViewModel
+import com.example.reunion.view_model.TopicFragViewModel
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
 
 class TopicSearchListActivity : BaseActivity() {
@@ -43,7 +45,22 @@ class TopicSearchListActivity : BaseActivity() {
         mViewModel.keyword.value = keyword
         mViewModel.onSearch()
 
+        createReceiver()
         initView()
+    }
+
+    private fun createReceiver(){
+        mViewModel.receiver = TopicFragViewModel.Receiver {
+            mViewModel.deleteData.value = it
+        }
+        val intentFilter = IntentFilter()
+        intentFilter.addAction("reunion.delete.topic")
+        registerReceiver(mViewModel.receiver,intentFilter)
+    }
+
+    override fun onDestroy() {
+        unregisterReceiver(mViewModel.receiver)
+        super.onDestroy()
     }
 
     private fun initIntoAnim(){
@@ -81,6 +98,17 @@ class TopicSearchListActivity : BaseActivity() {
             for (item in it){
                 adapter.list.add(item)
                 adapter.notifyItemInserted(adapter.list.size - 1)
+            }
+        })
+
+        mViewModel.deleteData.observe(this, androidx.lifecycle.Observer {
+            for (index in 0 until adapter.list.size){
+                val id = adapter.list[index].sId
+                if (id == it){
+                    adapter.list.remove(adapter.list[index])
+                    adapter.notifyItemRemoved(index)
+                    break
+                }
             }
         })
     }

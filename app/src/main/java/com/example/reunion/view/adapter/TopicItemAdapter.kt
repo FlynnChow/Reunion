@@ -35,9 +35,10 @@ class TopicItemAdapter(private val listener:((TopicBean)->Unit)? = null):Recycle
 
     override fun onBindViewHolder(holder: BaseViewHolder<ItemHomeBinding>, position: Int) {
         val mBinding = holder.mBinding
-        mBinding.bean = list[position]
+        val bean = list[position]
+        mBinding.bean = bean
         mBinding.root.setOnClickListener {
-            listener?.invoke(list[position])
+            listener?.invoke(bean)
         }
         mBinding.executePendingBindings()
     }

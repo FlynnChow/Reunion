@@ -1,5 +1,6 @@
 package com.example.reunion.view_model
 
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.View
@@ -19,6 +20,7 @@ import com.example.reunion.repostory.server.WebSocketServer
 import java.lang.Exception
 
 class ImViewModel:BaseViewModel() {
+
     var imId:String = ""
 
     val editContent = MutableLiveData("")
@@ -184,7 +186,6 @@ class ImViewModel:BaseViewModel() {
                 imId = this@ImViewModel.imId
                 targetUid = uId
             }
-
             //先存数据库
             editContent.value = ""
             indexLocal.insertIndex(ImMessageIndex(newMsg.imId?:"",
@@ -193,6 +194,7 @@ class ImViewModel:BaseViewModel() {
                 toUser.value?.uHeadPortrait?:"",toUser.value?.uName?:""))
             local.insertMessage(newMsg)
             newMessage.value = newMsg
+
             launch ({
                 //进行网络逻辑 发送
                 val bean = MessageBean()
@@ -207,6 +209,8 @@ class ImViewModel:BaseViewModel() {
                 updateMessage.value = newMsg
                 local.setMessageSendFail(newMsg.imId!!,user.value?.uId?:"",newMsg.time?:0L)
             })
+            //更新消息列表
+            MyApplication.app.sendBroadcast(Intent("reunion.im.update.message"))
         }
     }
 

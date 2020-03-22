@@ -1,17 +1,12 @@
 package com.example.reunion.view_model
 
-import android.content.IntentFilter
 import android.util.Log
-import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.example.reunion.base.BaseViewModel
 import com.example.reunion.repostory.bean.ImMessageIndex
 import com.example.reunion.repostory.bean.SystemMessageBean
-import com.example.reunion.repostory.bean.User
 import com.example.reunion.repostory.local_resource.AppDataBase
-import com.example.reunion.repostory.local_resource.ClearReceiver
 import com.example.reunion.repostory.local_resource.UserHelper
-import com.example.reunion.repostory.local_resource.WebSocketReceiver
 import java.lang.Exception
 
 class MessageViewModel:BaseViewModel() {
@@ -23,7 +18,7 @@ class MessageViewModel:BaseViewModel() {
 
     var deleteIndex :ImMessageIndex? = null
 
-    var clearMessage = MutableLiveData<Int>()
+    var updateMessage = MutableLiveData<Int>()
 
     val imMessages = MutableLiveData<List<ImMessageIndex>>()
 

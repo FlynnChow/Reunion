@@ -12,9 +12,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
+import com.example.reunion.view.FindFragment
 
 abstract class BaseFragment:Fragment() {
-
 
     private var isFirstLoad = true
 
@@ -27,12 +27,12 @@ abstract class BaseFragment:Fragment() {
     }
 
     @Suppress("UNCHECKED_CAST")
-    protected fun <T : BaseViewModel> setViewModel(owner: BaseFragment, modelClass: Class<T>):T{
-        val mViewModel = ViewModelProvider(owner).get(modelClass)
-        mViewModel.error.observe(owner, Observer {
+    protected fun <T : BaseViewModel> setViewModel(modelClass: Class<T>,key:String):T{
+        val mViewModel = ViewModelProvider(requireActivity()).get(key,modelClass)
+        mViewModel.error.observe(this, Observer {
             toast(it.message)
         })
-        mViewModel.toast.observe(owner, Observer {
+        mViewModel.toast.observe(this, Observer {
             toast(it)
         })
         return mViewModel

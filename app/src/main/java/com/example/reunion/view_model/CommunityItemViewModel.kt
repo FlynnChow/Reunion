@@ -1,7 +1,10 @@
 package com.example.reunion.view_model
 
+import android.content.BroadcastReceiver
+import android.content.IntentFilter
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.example.reunion.MyApplication
 import com.example.reunion.base.BaseViewModel
 import com.example.reunion.repostory.bean.CommunityBean
 import com.example.reunion.repostory.local_resource.UserHelper
@@ -16,6 +19,8 @@ class CommunityItemViewModel:BaseViewModel() {
      val loading = MutableLiveData<Boolean>()
 
      val communityData = MutableLiveData<ArrayList<CommunityBean>>()
+
+     val deleteData = MutableLiveData<String>()
 
      private var nextPage = 1
 
@@ -52,6 +57,15 @@ class CommunityItemViewModel:BaseViewModel() {
                loading.value = false
                refreshing.value = false
           })
+     }
+
+     private fun initReceiver(){
+          val receiver = Receiver{
+               deleteData.value = it
+          }
+          val intentFilter = IntentFilter()
+          intentFilter.addAction("reunion.delete.community")
+          MyApplication.app.registerReceiver(receiver,intentFilter)
      }
 
      private fun onLoadRecommend(first:Boolean){
@@ -118,6 +132,9 @@ class CommunityItemViewModel:BaseViewModel() {
      }
 
      fun onLoadCommunity(type:String,first:Boolean = false){
+          if (first){
+               initReceiver()
+          }
           when(type){
                "follow"->{
                     onLoadFollow(first)
@@ -137,5 +154,16 @@ class CommunityItemViewModel:BaseViewModel() {
           refreshing.value = true
           nextPage = 1
           onLoadCommunity(type)
+     }
+
+     class Receiver(private val listener:(String)->Unit): BroadcastReceiver(){
+          override fun onReceive(context: android.content.Context?, intent: android.content.Intent?) {
+               val id = intent?.getStringExtra("id")?:""
+               when(intent?.action){
+                    "reunion.delete.community" ->{
+                         listener.invoke(id)
+                    }
+               }
+          }
      }
 }

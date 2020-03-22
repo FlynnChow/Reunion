@@ -1,6 +1,7 @@
 package com.example.reunion.view
 
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -21,8 +22,17 @@ import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
 import kotlinx.android.synthetic.main.view_recycler_view.*
 
 
-class TopicItemFragment(private val type:String = ""):BaseFragment() {
-    constructor():this(""){
+class TopicItemFragment():BaseFragment() {
+    private var type  = ""
+    companion object{
+        @JvmStatic
+        fun getInstance(arg:String):TopicItemFragment{
+            val fragment = TopicItemFragment()
+            val args = Bundle()
+            args.putString("type",arg)
+            fragment.arguments = args
+            return fragment
+        }
 
     }
     private lateinit var mBinding: FragmentHomeTopicBinding
@@ -31,7 +41,7 @@ class TopicItemFragment(private val type:String = ""):BaseFragment() {
             putExtra("data",it)
         })
     }
-    private val mViewModel by lazy { setViewModel(this,TopicFragViewModel::class.java) }
+    private lateinit var mViewModel:TopicFragViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,21 +50,41 @@ class TopicItemFragment(private val type:String = ""):BaseFragment() {
     ): View? {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_topic,container,false)
         mBinding.lifecycleOwner = this
+        type = arguments?.getString("type").toString()
+        mViewModel = setViewModel(TopicFragViewModel::class.java,type)
+        createReceiver()
         return mBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initView()
+        initViewModel()
+        if (type == "nearby"){
+            initLocate()
+        }else{
+            mViewModel.updateItems(type,true)
+        }
+        super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun createReceiver(){
+        mViewModel.receiver = TopicFragViewModel.Receiver {
+            mViewModel.deleteData.value = it
+        }
+        val intentFilter = IntentFilter()
+        intentFilter.addAction("reunion.delete.topic")
+        activity?.registerReceiver(mViewModel.receiver,intentFilter)
+    }
+
+    override fun onDestroy() {
+        activity?.unregisterReceiver(mViewModel.receiver)
+        super.onDestroy()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         mBinding.recyclerView
         mBinding.viewModel = mViewModel
-        initView()
-        initViewModel()
-
-        if (type == "nearby"){
-            initLocate()
-        }else{
-            mViewModel.updateItems(type,true)
-        }
     }
 
     private fun initView(){
@@ -67,8 +97,21 @@ class TopicItemFragment(private val type:String = ""):BaseFragment() {
 
     private fun initViewModel(){
         mViewModel.newData.observe(this, Observer {
-            adapter.list.addAll(it)
-            adapter.notifyDataSetChanged()
+            if (it != null){
+                adapter.list.addAll(it)
+                mViewModel.newData.value = null
+                adapter.notifyDataSetChanged()
+            }
+        })
+        mViewModel.deleteData.observe(this, androidx.lifecycle.Observer {
+            for (index in 0 until adapter.list.size){
+                val id = adapter.list[index].sId
+                if (id == it){
+                    adapter.list.remove(adapter.list[index])
+                    adapter.notifyItemRemoved(index)
+                    break
+                }
+            }
         })
     }
 
@@ -151,4 +194,6 @@ class TopicItemFragment(private val type:String = ""):BaseFragment() {
         (footView.findViewById<View>(R.id.moreLoadOk)).visibility = if (state == 1) View.VISIBLE else View.GONE
         (footView.findViewById<View>(R.id.moreLoadStart)).visibility = if (state == 2) View.VISIBLE else View.GONE
     }
+
+
 }

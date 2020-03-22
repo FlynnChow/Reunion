@@ -37,9 +37,9 @@ class CommunityFragment:BaseFragment() {
 
     private fun initView(){
         val adapter = MyTopicAdapter(activity!!,arrayListOf(
-            CommunityRecyFragment("follow"),
-            CommunityRecyFragment("community"),
-            CommunityRecyFragment("mine")
+            CommunityRecyFragment.getInstance("follow"),
+            CommunityRecyFragment.getInstance("community"),
+            CommunityRecyFragment.getInstance("mine")
         ))
         mBinding.mViewpager.adapter = adapter
 

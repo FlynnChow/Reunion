@@ -56,6 +56,9 @@ class NewsActivity : BaseActivity() {
                     showReplyComment()
                     mViewModel.getReplyComment(true)
                 }
+                NewsCommentAdapter.SHOW_USER->{
+                    MyTopicActivity.startActivity(this,comment?.uId)
+                }
             }
         }
         newsRecyclerView.layoutManager = manager
@@ -109,7 +112,8 @@ class NewsActivity : BaseActivity() {
     }
 
     private fun initReplyComment(){
-        replyFragment = CommentFragment{
+        replyFragment = CommentFragment()
+        replyFragment.listener = {
             when(it){
                 CommentFragment.MODE_CLOSE->{
                     hideReplyComment()

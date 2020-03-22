@@ -39,6 +39,13 @@ object NormalUtil {
             .skipMemoryCache(!skipMemoryCache)
             .diskCacheStrategy(if (diskCacheStrategy) DiskCacheStrategy.AUTOMATIC else DiskCacheStrategy.NONE)
 
+    //默认使用三级缓存
+    fun getGlideOptionNoLoad(skipMemoryCache:Boolean = true,diskCacheStrategy:Boolean = true) =
+        RequestOptions()
+            .error(R.drawable.load_error)//加载错误图
+            .skipMemoryCache(!skipMemoryCache)
+            .diskCacheStrategy(if (diskCacheStrategy) DiskCacheStrategy.AUTOMATIC else DiskCacheStrategy.NONE)
+
     fun getGlideHeaderOption(skipMemoryCache:Boolean = true,diskCacheStrategy:Boolean = true) =
         RequestOptions()
             .error(R.drawable.user)//加载错误图

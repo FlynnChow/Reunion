@@ -24,7 +24,7 @@ object DataBindingAdapter {
     @BindingAdapter("image")
     fun loadImageViewCanNull(imageView:ImageView,url:String?){
         if (url!=null){
-            Glide.with(imageView).load(url).apply(NormalUtil.getGlideOption()).into(imageView)
+            Glide.with(imageView).load(url).apply(NormalUtil.getGlideOptionNoLoad()).into(imageView)
         }
     }
 

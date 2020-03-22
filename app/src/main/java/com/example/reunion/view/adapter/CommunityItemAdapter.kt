@@ -18,9 +18,10 @@ import com.example.reunion.databinding.ItemSearchUserBinding
 import com.example.reunion.repostory.bean.CommunityBean
 import com.example.reunion.repostory.bean.NewsBean
 import com.example.reunion.repostory.bean.User
+import com.example.reunion.view.MyTopicActivity
 import com.example.reunion.view.NewsActivity
 
-class CommunityItemAdapter:RecyclerView.Adapter<BaseViewHolder<ItemCommunityBinding>>() {
+class CommunityItemAdapter(private val listener:(CommunityBean)->Unit):RecyclerView.Adapter<BaseViewHolder<ItemCommunityBinding>>() {
 
     val datas:ArrayList<CommunityBean> = ArrayList()
     override fun onCreateViewHolder(
@@ -39,6 +40,13 @@ class CommunityItemAdapter:RecyclerView.Adapter<BaseViewHolder<ItemCommunityBind
     override fun onBindViewHolder(holder: BaseViewHolder<ItemCommunityBinding>, position: Int) {
         val mBinding = holder.mBinding
         mBinding.data = datas[position]
+        mBinding.root.setOnClickListener {
+            listener.invoke(datas[position])
+        }
+        mBinding.header.setOnClickListener {
+            MyTopicActivity.startActivity(mBinding.header.context,datas[position].uId)
+        }
+
         mBinding.executePendingBindings()
     }
 }

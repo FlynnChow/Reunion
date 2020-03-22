@@ -27,6 +27,7 @@ class NewsCommentAdapter(private val listener:(Int,CommentBean.Comment?)->Unit):
     companion object{
         const val LOAD_COMMENT = 0
         const val LOAD_REPLY = 1
+        const val SHOW_USER = 2
         private const val TYPE_COMMENT = 1
         private const val TYPE_COMMENT_MARGIN = 2
         private const val TYPE_LOADING = 0
@@ -80,6 +81,10 @@ class NewsCommentAdapter(private val listener:(Int,CommentBean.Comment?)->Unit):
                 mBinding.root.setOnClickListener {
                     listener.invoke(LOAD_REPLY,comments[position])
                 }
+                mBinding.header.setOnClickListener {
+                    listener.invoke(SHOW_USER,comments[position])
+                }
+
                 when (position) {
                     comments.size -1 -> {
                         mBinding.itemView.setBackgroundResource(R.drawable.ripple_rect_comment_bottom)
@@ -97,6 +102,11 @@ class NewsCommentAdapter(private val listener:(Int,CommentBean.Comment?)->Unit):
                 mBinding.root.setOnClickListener {
                     listener.invoke(LOAD_REPLY,comments[position])
                 }
+
+                mBinding.header.setOnClickListener {
+                    listener.invoke(SHOW_USER,comments[position])
+                }
+
                 when {
                     comments.size == 1 -> {
                         mBinding.itemView.setBackgroundResource(R.drawable.ripple_rect_comment_round)

@@ -126,10 +126,12 @@ class ImMessageFragment():BaseFragment() {
             }
         })
 
-        mViewModel.clearMessage.observe(this, Observer {
+        mViewModel.updateMessage.observe(this, Observer {
             if (it == 0){
                 adapter.list.clear()
                 adapter.notifyDataSetChanged()
+            }else if (it == 3){
+                mViewModel.onRefreshMessageIndex()
             }
         })
 

@@ -1,7 +1,9 @@
 package com.example.reunion.view
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
@@ -26,9 +28,20 @@ import com.example.reunion.repostory.local_resource.UserHelper
 import com.example.reunion.view.adapter.MyTopicAdapter
 import com.example.reunion.view.adapter.TopicItemAdapter
 import com.example.reunion.view_model.MyTopicViewModel
+import com.example.reunion.view_model.TopicFragViewModel
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
 
 class MyTopicActivity : BaseActivity() {
+    companion object{
+        fun startActivity(context: Context, uid:String?){
+            if (uid != null&&uid.isNotEmpty()){
+                context.startActivity(Intent(context,MyTopicActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                    putExtra("uid",uid)
+                })
+            }
+        }
+    }
 
     private lateinit var mBinding:ActivityMyTopicBinding
     private lateinit var mDialogBinding:DialogMyTopicBinding
@@ -40,8 +53,8 @@ class MyTopicActivity : BaseActivity() {
         initDialog()
     }
 
-    private val peopleFragment = MyTopicRecyFragment("people")
-    private val bodyFragment = MyTopicRecyFragment("body")
+    private val peopleFragment = MyTopicRecyFragment.getInstance("people")
+    private val bodyFragment = MyTopicRecyFragment.getInstance("body")
 
     override fun create(savedInstanceState: Bundle?) {
         mBinding = DataBindingUtil.setContentView(this,R.layout.activity_my_topic)
@@ -54,8 +67,23 @@ class MyTopicActivity : BaseActivity() {
         mDialogBinding.viewModel = mViewModel
         mDialogBinding.lifecycleOwner = this
 
+        createReceiver()
         initView()
         initData()
+    }
+
+    private fun createReceiver(){
+        mViewModel.receiver = TopicFragViewModel.Receiver {
+            mViewModel.deleteData.value = it
+        }
+        val intentFilter = IntentFilter()
+        intentFilter.addAction("reunion.delete.topic")
+        registerReceiver(mViewModel.receiver,intentFilter)
+    }
+
+    override fun onDestroy() {
+        unregisterReceiver(mViewModel.receiver)
+        super.onDestroy()
     }
 
     private fun initData(){

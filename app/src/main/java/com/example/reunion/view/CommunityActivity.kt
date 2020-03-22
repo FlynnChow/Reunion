@@ -34,6 +34,9 @@ class CommunityActivity : BaseActivity() {
                 CommunityCommentAdapter.LOAD_COMMENT -> {
                     mViewModel.onLoadingComment()
                 }
+                CommunityCommentAdapter.SHOW_USER->{
+                    MyTopicActivity.startActivity(this,comment?.uId)
+                }
             }
         }
     }
@@ -115,6 +118,9 @@ class CommunityActivity : BaseActivity() {
         mViewModel.comment.observe(this, Observer {
             adapter.comments.add(it)
             adapter.notifyItemInserted(adapter.comments.size - 1)
+            for (index in 0 until adapter.comments.size-1){
+                adapter.notifyItemChanged(index)
+            }
             mBinding.recyclerView.smoothScrollToPosition(adapter.itemCount)
             ViewUtil.hideInput(this)
         })
@@ -135,6 +141,10 @@ class CommunityActivity : BaseActivity() {
     fun onDeleteCommunity(view: View){
         dialog.dismiss()
         deleteDialog.show()
+    }
+
+    fun onStartUserTopic(view: View){
+        MyTopicActivity.startActivity(this,mViewModel.data.value?.uId)
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {

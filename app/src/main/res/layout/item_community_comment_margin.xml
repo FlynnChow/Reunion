@@ -35,6 +35,7 @@
                 android:layout_height="36dp">
 
                 <ImageView
+                    android:id="@+id/header"
                     app:head="@{bean.header}"
                     android:scaleType="centerCrop"
                     android:layout_width="match_parent"

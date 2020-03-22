@@ -144,7 +144,7 @@ class SystemMessageFragment:BaseFragment() {
             }
         })
 
-        mViewModel.clearMessage.observe(this, Observer {
+        mViewModel.updateMessage.observe(this, Observer {
             if (it == 1){
                 adapter.list.clear()
                 adapter.notifyDataSetChanged()

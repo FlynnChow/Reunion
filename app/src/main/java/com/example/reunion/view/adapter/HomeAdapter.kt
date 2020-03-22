@@ -15,6 +15,8 @@ class HomeAdapter(activity: Fragment,private val fragments:ArrayList<Fragment>):
         return ids!!.size
     }
 
+
+
     val titleList by lazy { ArrayList<String>().apply {
         add(MyApplication.resource().getString(R.string.home_follow))
         add(MyApplication.resource().getString(R.string.home_recommend))

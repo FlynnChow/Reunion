@@ -14,8 +14,8 @@ import kotlinx.android.synthetic.main.activity_follow.view.*
 class FollowActivity : BaseActivity() {
     private lateinit var mBinding:ActivityFollowBinding
     private val mViewModel by lazy { setViewModel(this,UserViewModel::class.java) }
-    private val followFragment by lazy { UserFragment("follow") }
-    private val fansFragment by lazy { UserFragment("fans") }
+    private val followFragment by lazy { UserFragment.getInstance("follow") }
+    private val fansFragment by lazy { UserFragment.getInstance("fans") }
 
     override fun create(savedInstanceState: Bundle?) {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_follow)

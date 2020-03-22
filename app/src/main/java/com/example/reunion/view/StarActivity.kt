@@ -1,6 +1,7 @@
 package com.example.reunion.view
 
 import android.content.Intent
+import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -13,6 +14,7 @@ import com.example.reunion.base.BaseActivity
 import com.example.reunion.databinding.ActivityStarBinding
 import com.example.reunion.view.adapter.TopicItemAdapter
 import com.example.reunion.view_model.StarViewModel
+import com.example.reunion.view_model.TopicFragViewModel
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
 
 class StarActivity : BaseActivity() {
@@ -33,6 +35,22 @@ class StarActivity : BaseActivity() {
         mBinding.lifecycleOwner = this
 
         initView()
+        createReceiver()
+        mViewModel.onRefresh(true)
+    }
+
+    private fun createReceiver(){
+        mViewModel.receiver = TopicFragViewModel.Receiver {
+            mViewModel.deleteData.value = it
+        }
+        val intentFilter = IntentFilter()
+        intentFilter.addAction("reunion.delete.topic")
+        registerReceiver(mViewModel.receiver,intentFilter)
+    }
+
+    override fun onDestroy() {
+        unregisterReceiver(mViewModel.receiver)
+        super.onDestroy()
     }
 
     fun onBack(view: View) = onBackPressed()
@@ -101,6 +119,17 @@ class StarActivity : BaseActivity() {
             if (!it){
                 mBinding.newsRefresh.setLoadMore(false)
                 setFootViewState(3,footView)
+            }
+        })
+
+        mViewModel.deleteData.observe(this, androidx.lifecycle.Observer {
+            for (index in 0 until adapter.list.size){
+                val id = adapter.list[index].sId
+                if (id == it){
+                    adapter.list.remove(adapter.list[index])
+                    adapter.notifyItemRemoved(index)
+                    break
+                }
             }
         })
     }

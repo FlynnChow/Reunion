@@ -37,8 +37,8 @@ class SystemMessageAdapter(private val listener:(Int,SystemMessageBean)->Unit):R
         mBinding.data = list[position]
         mBinding.content.text = Html.fromHtml(list[position].content)
         mBinding.root.setOnClickListener {
+            listener.invoke(0,list[position])
             if (!list[position].isRead){
-                listener.invoke(0,list[position])
                 list[position].isRead = true
                 notifyItemChanged(position)
             }

@@ -1,5 +1,6 @@
 package com.example.reunion.view.adapter
 
+import android.os.Parcelable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
@@ -14,5 +15,9 @@ class NewsAdapter(manager:FragmentManager,private val fragments:Array<Fragment>,
 
     override fun getPageTitle(position: Int): CharSequence? {
         return titles[position]
+    }
+
+    override fun saveState(): Parcelable? {
+        return null
     }
 }

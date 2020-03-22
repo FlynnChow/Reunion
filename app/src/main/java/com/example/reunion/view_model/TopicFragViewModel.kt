@@ -1,7 +1,10 @@
 package com.example.reunion.view_model
 
+import android.content.BroadcastReceiver
+import android.content.IntentFilter
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.example.reunion.MyApplication
 import com.example.reunion.base.BaseViewModel
 import com.example.reunion.repostory.bean.FaceBean
 import com.example.reunion.repostory.bean.TopicBean
@@ -9,6 +12,8 @@ import com.example.reunion.repostory.local_resource.UserHelper
 import com.example.reunion.repostory.remote_resource.HomeRemoteModel
 
 class TopicFragViewModel:BaseViewModel() {
+    lateinit var receiver:TopicFragViewModel.Receiver
+
     private val remote = HomeRemoteModel()
     // 寻人和寻物
     var type = MutableLiveData(0)
@@ -22,10 +27,13 @@ class TopicFragViewModel:BaseViewModel() {
     var time = MutableLiveData("")
     var area = MutableLiveData<String>()
 
+
     var timeSelected = false
 
     // 普通混杂的
-    val newData = MutableLiveData<ArrayList<TopicBean>>()
+    val newData = MutableLiveData<ArrayList<TopicBean>?>()
+
+    val deleteData = MutableLiveData<Int>()
 
     val refreshing = MutableLiveData<Boolean>()
     val loading = MutableLiveData<Boolean>()
@@ -48,8 +56,7 @@ class TopicFragViewModel:BaseViewModel() {
             toast.value = it.message
         },{
             loading.value = false
-            if (refreshing.value == true)
-                refreshing.value = false
+            refreshing.value = false
         })
     }
 
@@ -119,7 +126,7 @@ class TopicFragViewModel:BaseViewModel() {
             nextPage,
             if (time.value != null&&time.value != ""&&timeSelected) time.value else null,
             if (age.value != null&&age.value != "") age.value else null,
-            if (province.value != null&&province.value != "") city.value else null,
+            if (province.value != null&&province.value != "") province.value else null,
             if (city.value != null&&city.value != "") city.value else null,
             if (district.value != null&&district.value != "") district.value else null
         )
@@ -144,7 +151,7 @@ class TopicFragViewModel:BaseViewModel() {
         val bean = remote.obtainBodyTopic(
             nextPage,
             if (time.value != null&&time.value != ""&&timeSelected) time.value else null,
-            if (province.value != null&&province.value != "") city.value else null,
+            if (province.value != null&&province.value != "") province.value else null,
             if (city.value != null&&city.value != "") city.value else null,
             if (district.value != null&&district.value != "") district.value else null
         )
@@ -161,6 +168,17 @@ class TopicFragViewModel:BaseViewModel() {
             }
             400 ->{
                 toast.value = "UID异常"
+            }
+        }
+    }
+
+    class Receiver(private val listener:(Int)->Unit):BroadcastReceiver(){
+        override fun onReceive(context: android.content.Context?, intent: android.content.Intent?) {
+            val id = intent?.getIntExtra("id",-1)?:-1
+            when(intent?.action){
+                "reunion.delete.topic" ->{
+                    listener.invoke(id)
+                }
             }
         }
     }

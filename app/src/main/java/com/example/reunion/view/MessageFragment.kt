@@ -60,7 +60,7 @@ class MessageFragment:BaseFragment() {
         val adapter = MyTopicAdapter(activity!!,arrayListOf(
             SystemMessageFragment(),
             ImMessageFragment(),
-            UserFragment("friend")
+            UserFragment.getInstance("friend")
         ))
         mBinding.mViewpager.adapter = adapter
 

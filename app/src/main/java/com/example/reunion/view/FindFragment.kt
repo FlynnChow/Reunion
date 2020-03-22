@@ -2,7 +2,9 @@ package com.example.reunion.view
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +34,21 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class FindFragment(private val type:String = ""):BaseFragment() {
+class FindFragment():BaseFragment() {
+    private var type = ""
+
+    companion object{
+        @JvmStatic
+        fun getInstance(arg:String):FindFragment{
+            val fragment = FindFragment()
+            val args = Bundle()
+            args.putString("type",arg)
+            fragment.arguments = args
+            return fragment
+        }
+
+    }
+
     private val mCityPicker by lazy { CityPickerView() }
     private lateinit var mAgePicker: OptionsPickerView<*>
     private lateinit var mTimePicker: TimePickerView
@@ -43,7 +59,7 @@ class FindFragment(private val type:String = ""):BaseFragment() {
             putExtra("data",it)
         })
     }
-    private val mViewModel by lazy { setViewModel(this,TopicFragViewModel::class.java) }
+    private lateinit var mViewModel:TopicFragViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,7 +69,24 @@ class FindFragment(private val type:String = ""):BaseFragment() {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_find,container,false)
         mBinding.lifecycleOwner = this
         mBinding.fragment = this
+        type = arguments?.getString("type").toString()
+        mViewModel = setViewModel(TopicFragViewModel::class.java,type)
+        createReceiver()
         return mBinding.root
+    }
+
+    private fun createReceiver(){
+        mViewModel.receiver = TopicFragViewModel.Receiver {
+            mViewModel.deleteData.value = it
+        }
+        val intentFilter = IntentFilter()
+        intentFilter.addAction("reunion.delete.topic")
+        activity?.registerReceiver(mViewModel.receiver,intentFilter)
+    }
+
+    override fun onDestroy() {
+        activity?.unregisterReceiver(mViewModel.receiver)
+        super.onDestroy()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -89,8 +122,21 @@ class FindFragment(private val type:String = ""):BaseFragment() {
 
     private fun initViewModel(){
         mViewModel.newData.observe(this, androidx.lifecycle.Observer {
-            adapter.list.addAll(it)
-            adapter.notifyDataSetChanged()
+            if (it != null){
+                adapter.list.addAll(it)
+                mViewModel.newData.value = null
+                adapter.notifyDataSetChanged()
+            }
+        })
+        mViewModel.deleteData.observe(this, androidx.lifecycle.Observer {
+            for (index in 0 until adapter.list.size){
+                val id = adapter.list[index].sId
+                if (id == it){
+                    adapter.list.remove(adapter.list[index])
+                    adapter.notifyItemRemoved(index)
+                    break
+                }
+            }
         })
     }
 

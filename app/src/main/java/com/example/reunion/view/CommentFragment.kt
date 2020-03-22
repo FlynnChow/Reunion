@@ -25,8 +25,8 @@ import com.example.reunion.view_model.NewsActivityViewModel
 import kotlinx.android.synthetic.main.activity_news.*
 import kotlinx.android.synthetic.main.view_comment_dialog.*
 
-class CommentFragment(private val listener:(Int)->Unit):BaseFragment() {
-    constructor():this({})
+class CommentFragment():BaseFragment() {
+    var listener:((Int)->Unit)? = null
 
     companion object{
         val MODE_CLOSE = 0
@@ -70,7 +70,7 @@ class CommentFragment(private val listener:(Int)->Unit):BaseFragment() {
         }
         mView.setDispatchListener {
             if (it?.y!! < editView.top){
-                listener.invoke(MODE_HIDE_INPUT)
+                listener?.invoke(MODE_HIDE_INPUT)
                 replySend.clearFocus()
             }
         }
@@ -88,6 +88,9 @@ class CommentFragment(private val listener:(Int)->Unit):BaseFragment() {
                     viewModel.sendBean = comment
                     viewModel.replyFloor.value = comment?.rFloor!! + 1
                     ViewUtil.showInput(activity!!,replySend)
+                }
+                NewsReplyAdapter.SHOW_USER->{
+                    MyTopicActivity.startActivity(activity?:return@NewsReplyAdapter,comment?.fromUid)
                 }
             }
         }
@@ -142,7 +145,7 @@ class CommentFragment(private val listener:(Int)->Unit):BaseFragment() {
             override fun onAnimationCancel(animation: Animator?) {}
             override fun onAnimationStart(animation: Animator?) {}
             override fun onAnimationEnd(animation: Animator?) {
-                listener.invoke(MODE_CLOSE)
+                listener?.invoke(MODE_CLOSE)
             }
         })
         animation.start()
@@ -160,5 +163,9 @@ class CommentFragment(private val listener:(Int)->Unit):BaseFragment() {
             }
         })
         animation.start()
+    }
+
+    fun onStartUserTopic(view: View?){
+        MyTopicActivity.startActivity(activity?:return,mBinding.viewModel!!.replyBean.value?.uId)
     }
 }

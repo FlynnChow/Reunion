@@ -22,15 +22,17 @@ class HomeViewModel:BaseViewModel() {
 
     val user: MutableLiveData<User.Data> = MutableLiveData<User.Data>()
 
+    val people = "people"
+
 
     //以下为homePager的adapter所有
     val isHomeUpdate = MutableLiveData(false)
-    val followFragment = TopicItemFragment("follow")
-    val recommendFragment = TopicItemFragment("recommend")
-    val nearbyFragment = TopicItemFragment("nearby")
-    val findFragment = FindFragment("people")
+    val followFragment = TopicItemFragment.getInstance("follow")
+    val recommendFragment = TopicItemFragment.getInstance("recommend")
+    val nearbyFragment = TopicItemFragment.getInstance("nearby")
+    val findFragment = FindFragment.getInstance("people")
     val newsFragment = NewsFragment()
-    val claimFragment = FindFragment("body")
+    val claimFragment = FindFragment.getInstance("body")
     val fragmentList by lazy { ArrayList<Fragment>().apply {
         add(followFragment)
         add(recommendFragment)
@@ -38,6 +40,7 @@ class HomeViewModel:BaseViewModel() {
         add(findFragment)
         add(claimFragment)
         add(newsFragment)
+        findFragment.arguments
     }}
     var ids:ArrayList<Long> = ArrayList()
     //以下为homePager的adapter所有 ids：用于改变viewpager

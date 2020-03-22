@@ -1,5 +1,6 @@
 package com.example.reunion.view_model
 
+import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.util.SparseArray
@@ -271,6 +272,9 @@ class TopicViewModel: BaseViewModel() {
             val bean = remoteModel.topicDelete(UserHelper.getUser()?.uId?:throw Exception("uid异常"),id)
             when(bean.code){
                 200 ->{
+                    MyApplication.app.sendBroadcast(Intent("reunion.delete.topic").apply {
+                        putExtra("id",id.toInt())
+                    })
                     toast.value = "删除成功"
                     deleteResult.value = true
                 }
