@@ -9,6 +9,7 @@ import android.transition.TransitionSet
 import android.view.View
 import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.example.reunion.R
 import com.example.reunion.base.BaseActivity
 import com.example.reunion.databinding.ActivityMoreMessageBinding
@@ -25,6 +26,13 @@ class MoreMessageActivity : BaseActivity() {
 
         val bean: User.Data = intent.getParcelableExtra("userBean")?:return
         mBinding.viewModel!!.initUser(bean)
+
+        mBinding.viewModel!!.header.observe(this, Observer {
+            val path = it
+            mBinding.header.setOnClickListener {
+                ImageActivity.onShowImage(this,mBinding.header,path)
+            }
+        })
     }
 
     fun onBack(view: View) = onBackPressed()

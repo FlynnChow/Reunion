@@ -26,8 +26,8 @@
         android:theme="@style/AppTheme"
         tools:ignore="LockedOrientationActivity"
         tools:targetApi="n">
-        <activity android:name=".view.CommunityActivity">
-        </activity>
+        <activity android:name=".view.ImageActivity"></activity>
+        <activity android:name=".view.CommunityActivity"></activity>
         <activity android:name=".view.CommunitySendActivity" />
 
         <service

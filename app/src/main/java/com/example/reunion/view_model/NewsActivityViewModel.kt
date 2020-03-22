@@ -29,7 +29,7 @@ class NewsActivityViewModel:BaseViewModel() {
     val commentContent = MutableLiveData("")
     val comments = MutableLiveData<ArrayList<CommentBean.Comment>>()
     val comment = MutableLiveData<CommentBean.Comment>()
-    val imageUrl = MutableLiveData("")
+    val imageUrl = MutableLiveData<String>()
     val newsBean = MutableLiveData<NewsBean.News>()
     val content =  MutableLiveData("")
 

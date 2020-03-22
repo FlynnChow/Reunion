@@ -49,6 +49,7 @@ class TopicActivity : BaseActivity() {
         initView()
         initReplyComment()
         mViewModel.initData(intent.getParcelableExtra("data"))
+        initImage()
 
         mViewModel.getNewsComment()
     }
@@ -76,6 +77,7 @@ class TopicActivity : BaseActivity() {
                 }
             }
         }
+
 
         mViewModel.commentLoadType.observe(this, Observer {
             if (it != adapter.type){
@@ -121,6 +123,46 @@ class TopicActivity : BaseActivity() {
             },{
                 deleteDialog.dismiss()
             })
+    }
+
+    private fun initImage(){
+        val arrayUrl = mViewModel.beanData.value?.pictures?:return
+        mBinding.image0.setOnClickListener {
+            val target = 0
+            ImageActivity.onShowImage(this,mBinding.image0,arrayUrl,target)
+        }
+        mBinding.image1.setOnClickListener {
+            val target = 1
+            ImageActivity.onShowImage(this,mBinding.image1,arrayUrl,target)
+        }
+        mBinding.image2.setOnClickListener {
+            val target = 2
+            ImageActivity.onShowImage(this,mBinding.image2,arrayUrl,target)
+        }
+        mBinding.image3.setOnClickListener {
+            val target = 3
+            ImageActivity.onShowImage(this,mBinding.image3,arrayUrl,target)
+        }
+        mBinding.image4.setOnClickListener {
+            val target = 4
+            ImageActivity.onShowImage(this,mBinding.image4,arrayUrl,target)
+        }
+        mBinding.image5.setOnClickListener {
+            val target = 5
+            ImageActivity.onShowImage(this,mBinding.image5,arrayUrl,target)
+        }
+        mBinding.image6.setOnClickListener {
+            val target = 6
+            ImageActivity.onShowImage(this,mBinding.image6,arrayUrl,target)
+        }
+        mBinding.image7.setOnClickListener {
+            val target = 7
+            ImageActivity.onShowImage(this,mBinding.image7,arrayUrl,target)
+        }
+        mBinding.image8.setOnClickListener {
+            val target = 8
+            ImageActivity.onShowImage(this,mBinding.image8,arrayUrl,target)
+        }
     }
 
     private fun initDialog(): Dialog {

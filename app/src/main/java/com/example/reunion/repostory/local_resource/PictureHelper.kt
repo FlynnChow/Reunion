@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.os.Environment
+import android.util.Log
 import androidx.fragment.app.Fragment
 import com.example.reunion.MyApplication
 import com.example.reunion.R
@@ -144,18 +145,27 @@ class PictureHelper {
         return result.uri
     }
 
-    suspend fun compressImage(activity: Activity,source:String?,name:String? = "cache",size:Int = 150):String{
-        val cachePath = MyApplication.app.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.absolutePath+File.separator+name
+    fun compressImage(activity: Activity,source:String?,name:String? = "cache",size:Int = 150):String{
+        val cachePath = MyApplication.app.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.absolutePath+File.separator+name+File.separator
+        if (!File(cachePath).exists()){
+            File(cachePath).mkdirs()
+        }
         return Luban.with(activity).load(source).ignoreBy(size).setTargetDir(cachePath).get()[0].absolutePath
     }
 
     suspend fun compressImage(app: Application,source:String?,name:String? = "cache",size:Int = 150):String{
-        val cachePath = MyApplication.app.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.absolutePath+File.separator+name
+        val cachePath = MyApplication.app.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.absolutePath+File.separator+name+File.separator
+        if (!File(cachePath).exists()){
+            File(cachePath).mkdirs()
+        }
         return Luban.with(app).load(source).ignoreBy(size).setTargetDir(cachePath).get()[0].absolutePath
     }
 
     suspend fun compressImages(activity: Activity,sources:ArrayList<File>,name:String = "cache",size:Int = 150):ArrayList<String>{
-        val cachePath = MyApplication.app.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.absolutePath+File.separator+name
+        val cachePath = MyApplication.app.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.absolutePath+File.separator+name+File.separator
+        if (!File(cachePath).exists()){
+            File(cachePath).mkdirs()
+        }
         val list = Luban.with(activity).load(sources).ignoreBy(size).setTargetDir(cachePath).get()
         val paths = ArrayList<String>()
         for (file in list){
@@ -165,7 +175,10 @@ class PictureHelper {
     }
 
     suspend fun compressImageFromUri(activity: Activity,source:Uri?,name:String? = "cache",size:Int = 150):String{
-        val cachePath = MyApplication.app.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.absolutePath+File.separator+name
+        val cachePath = MyApplication.app.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.absolutePath+File.separator+name+File.separator
+        if (!File(cachePath).exists()){
+            File(cachePath).mkdirs()
+        }
         return Luban.with(activity).load(source).ignoreBy(size).setTargetDir(cachePath).get()[0].absolutePath
     }
 
@@ -180,7 +193,10 @@ class PictureHelper {
     }
 
     suspend fun compressImagesFromPaths(activity: Activity,sources:ArrayList<String>,name:String = "cache",size:Int = 150):ArrayList<String>{
-        val cachePath = MyApplication.app.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.absolutePath+File.separator+name
+        val cachePath = MyApplication.app.getExternalFilesDir(Environment.DIRECTORY_PICTURES)?.absolutePath+File.separator+name+File.separator
+        if (!File(cachePath).exists()){
+            File(cachePath).mkdirs()
+        }
         val list = Luban.with(activity).load(sources).ignoreBy(size).setTargetDir(cachePath).get()
         val paths = ArrayList<String>()
         for (file in list){

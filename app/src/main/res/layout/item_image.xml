@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="isBigImage"
+            type="Boolean" />
+        <import type="android.view.View"/>
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/normalImage"
+            android:visibility="@{isBigImage?View.GONE:View.VISIBLE}"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <androidx.core.widget.NestedScrollView
+            android:visibility="@{isBigImage?View.VISIBLE:View.GONE}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/bigImage"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </androidx.core.widget.NestedScrollView>
+    </FrameLayout>
+</layout>

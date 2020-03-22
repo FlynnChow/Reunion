@@ -138,7 +138,7 @@
     <string name="dialog_use_photo">使用相册</string>
     <string name="dialog_cancel">取消</string>
 
-    <string name="send_find_body">发布认领启示</string>
+    <string name="send_find_body">发布认领启事</string>
     <string name="send_find_body_content">快来认领丢失的东西</string>
     <string name="send_find_people">发布寻人</string>
     <string name="send_find_people_content">让大家一起帮助你寻人</string>
@@ -163,7 +163,7 @@
     <string name="send_find_people_area">失联地点</string>
     <string name="send_find_people_age">失联人年龄</string>
 
-    <string name="send_find_body_title">发布认领启示</string>
+    <string name="send_find_body_title">发布认领启事</string>
     <string name="send_find_body_time">时间</string>
     <string name="send_find_body_area">地点</string>
     <string name="send_find_body_age">年龄</string>
@@ -215,4 +215,5 @@
     <string name="community_send_hint">分享你的喜悦</string>
     <string name="community_send_loading">正在发布到重逢圈..</string>
     <string name="community_reply">回复</string>
+    <string name="image_save">保存</string>
 </resources>

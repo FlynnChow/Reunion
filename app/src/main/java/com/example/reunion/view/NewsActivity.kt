@@ -93,6 +93,12 @@ class NewsActivity : BaseActivity() {
                adapter.notifyDataSetChanged()
            }
         })
+        mViewModel.imageUrl.observe(this, Observer {
+            val path = it
+            mBinding.image.setOnClickListener {
+                ImageActivity.onShowImage(this,mBinding.image,path)
+            }
+        })
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {

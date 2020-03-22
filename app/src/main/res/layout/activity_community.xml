@@ -106,6 +106,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                             <ImageView
+                                android:id="@+id/image0"
                                 app:image="@{viewModel.data.getImageFromIndex(0)}"
                                 android:scaleType="fitStart"
                                 android:layout_width="match_parent"
@@ -119,6 +120,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                             <ImageView
+                                android:id="@+id/image1"
                                 app:image="@{viewModel.data.getImageFromIndex(1)}"
                                 android:scaleType="fitStart"
                                 android:layout_width="match_parent"
@@ -132,6 +134,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                             <ImageView
+                                android:id="@+id/image2"
                                 app:image="@{viewModel.data.getImageFromIndex(2)}"
                                 android:scaleType="fitStart"
                                 android:layout_width="match_parent"
@@ -145,6 +148,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                             <ImageView
+                                android:id="@+id/image3"
                                 app:image="@{viewModel.data.getImageFromIndex(3)}"
                                 android:scaleType="fitStart"
                                 android:layout_width="match_parent"
@@ -158,6 +162,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                             <ImageView
+                                android:id="@+id/image4"
                                 app:image="@{viewModel.data.getImageFromIndex(4)}"
                                 android:scaleType="fitStart"
                                 android:layout_width="match_parent"
@@ -171,6 +176,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                             <ImageView
+                                android:id="@+id/image5"
                                 app:image="@{viewModel.data.getImageFromIndex(5)}"
                                 android:scaleType="fitStart"
                                 android:layout_width="match_parent"
@@ -184,6 +190,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                             <ImageView
+                                android:id="@+id/image6"
                                 app:image="@{viewModel.data.getImageFromIndex(6)}"
                                 android:scaleType="fitStart"
                                 android:layout_width="match_parent"
@@ -197,6 +204,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                             <ImageView
+                                android:id="@+id/image7"
                                 app:image="@{viewModel.data.getImageFromIndex(7)}"
                                 android:scaleType="fitStart"
                                 android:layout_width="match_parent"
@@ -210,6 +218,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                             <ImageView
+                                android:id="@+id/image8"
                                 app:image="@{viewModel.data.getImageFromIndex(8)}"
                                 android:scaleType="fitStart"
                                 android:layout_width="match_parent"

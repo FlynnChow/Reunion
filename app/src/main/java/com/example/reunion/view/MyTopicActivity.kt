@@ -16,6 +16,7 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.reunion.R
 import com.example.reunion.base.BaseActivity
@@ -135,6 +136,12 @@ class MyTopicActivity : BaseActivity() {
                 tab?.customView = null
             }
             override fun onTabReselected(var1: TabLayout.Tab?) {}
+        })
+        mViewModel.header.observe(this, Observer {
+            val path = it
+            mBinding.header.setOnClickListener {
+                ImageActivity.onShowImage(this,mBinding.header,path)
+            }
         })
     }
 

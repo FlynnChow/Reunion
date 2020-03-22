@@ -31,6 +31,7 @@ class MyTopicViewModel:BaseViewModel() {
 
     var user:User.Data? = null
 
+
     val header = MutableLiveData<String>()
 
     val nickName = MutableLiveData<String>()
@@ -55,7 +56,6 @@ class MyTopicViewModel:BaseViewModel() {
                     header.value = user?.uHeadPortrait
                     nickName.value = user?.uName
                     signature.value = user?.uSignature
-
                     initFollowState()
                     loadPeopleData()
                     loadBodyData()

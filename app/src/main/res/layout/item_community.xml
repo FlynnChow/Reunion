@@ -67,6 +67,7 @@
                     />
                 <ImageView
                     app:image="@{data.getFirstImage()}"
+                    android:visibility="@{data.getImageVisible(0)}"
                     android:layout_marginEnd="12dp"
                     android:layout_marginTop="8dp"
                     android:scaleType="fitStart"
