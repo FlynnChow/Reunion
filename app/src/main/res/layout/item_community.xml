@@ -6,133 +6,148 @@
         <variable
             name="data"
             type="com.example.reunion.repostory.bean.CommunityBean" />
+        <import type="android.view.View"/>
+        <variable
+            name="show"
+            type="Boolean" />
     </data>
 
-    <androidx.cardview.widget.CardView
-        android:background="@color/color_white"
-        android:foreground="@drawable/ripple_rect_borderless"
-        android:focusable="true"
-        android:clickable="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginStart="13dp"
-        android:layout_marginEnd="13dp"
-        app:cardCornerRadius="15dp"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <LinearLayout
-            android:orientation="horizontal"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:visibility="@{show?View.GONE:View.VISIBLE}"
+            android:background="@color/color_white"
+            android:foreground="@drawable/ripple_rect_borderless"
+            android:focusable="true"
+            android:clickable="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="13dp"
+            android:layout_marginEnd="13dp"
+            app:cardCornerRadius="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <androidx.cardview.widget.CardView
-                    android:layout_marginTop="11dp"
-                    android:layout_marginStart="25dp"
-                    app:cardCornerRadius="3dp"
-                    app:cardElevation="0dp"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp">
-                    <ImageView
-                        android:id="@+id/header"
-                        app:head="@{data.header}"
-                        android:scaleType="centerCrop"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
-                </androidx.cardview.widget.CardView>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_marginEnd="20dp"
-                android:layout_marginStart="7dp"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <TextView
-                    android:layout_marginTop="11dp"
+
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{data.nickName}"
-                    android:textColor="@color/comment_text_name"
-                    android:textSize="12sp"
-                    />
-                <TextView
-                    android:layout_marginTop="3dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{data.content}"
-                    android:textColor="@color/comment_text_color"
-                    android:textSize="14sp"
-                    />
-                <ImageView
-                    app:image="@{data.getFirstImage()}"
-                    android:visibility="@{data.getImageVisible(0)}"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginTop="8dp"
-                    android:scaleType="fitStart"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-                <FrameLayout
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="9dp"
+                    android:layout_height="wrap_content">
+                    <androidx.cardview.widget.CardView
+                        android:layout_marginTop="11dp"
+                        android:layout_marginStart="25dp"
+                        app:cardCornerRadius="3dp"
+                        app:cardElevation="0dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp">
+                        <ImageView
+                            android:id="@+id/header"
+                            app:head="@{data.header}"
+                            android:scaleType="centerCrop"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="7dp"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <TextView
+                        android:layout_marginTop="11dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@{data.formatTime}"
+                        android:text="@{data.nickName}"
                         android:textColor="@color/comment_text_name"
                         android:textSize="12sp"
                         />
+                    <TextView
+                        android:layout_marginTop="3dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{data.content}"
+                        android:textColor="@color/comment_text_color"
+                        android:textSize="14sp"
+                        />
                     <ImageView
-                        android:layout_gravity="end|center"
-                        android:src="@drawable/pinglun"
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"/>
-                </FrameLayout>
-                <TextView
-                    android:visibility="@{data.getCommentVisible(0)}"
-                    android:background="@drawable/comment_shapple"
-                    android:padding="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{data.getCommentContent(0)}"
-                    android:textColor="@color/comment_text_color"
-                    android:textSize="10sp"
-                    />
-                <TextView
-                    android:visibility="@{data.getCommentVisible(1)}"
-                    android:background="@drawable/comment_shapple"
-                    android:padding="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{data.getCommentContent(1)}"
-                    android:textColor="@color/comment_text_color"
-                    android:textSize="10sp"
-                    />
-                <TextView
-                    android:visibility="@{data.getCommentVisible(2)}"
-                    android:background="@drawable/comment_shapple"
-                    android:padding="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@{data.getCommentContent(2)}"
-                    android:textColor="@color/comment_text_color"
-                    android:textSize="10sp"
-                    />
-                <TextView
-                    android:layout_marginBottom="20dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{data.getFormatCommentNum()}"
-                    android:textColor="@color/comment_text_name"
-                    android:textSize="10sp"
-                    />
+                        app:image="@{data.getFirstImage()}"
+                        android:visibility="@{data.getImageVisible(0)}"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginTop="8dp"
+                        android:scaleType="fitStart"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                    <FrameLayout
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="9dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{data.formatTime}"
+                            android:textColor="@color/comment_text_name"
+                            android:textSize="12sp"
+                            />
+                        <ImageView
+                            android:layout_gravity="end|center"
+                            android:src="@drawable/pinglun"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"/>
+                    </FrameLayout>
+                    <TextView
+                        android:visibility="@{data.getCommentVisible(0)}"
+                        android:background="@drawable/comment_shapple"
+                        android:padding="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{data.getCommentContent(0)}"
+                        android:textColor="@color/comment_text_color"
+                        android:textSize="10sp"
+                        />
+                    <TextView
+                        android:visibility="@{data.getCommentVisible(1)}"
+                        android:background="@drawable/comment_shapple"
+                        android:padding="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{data.getCommentContent(1)}"
+                        android:textColor="@color/comment_text_color"
+                        android:textSize="10sp"
+                        />
+                    <TextView
+                        android:visibility="@{data.getCommentVisible(2)}"
+                        android:background="@drawable/comment_shapple"
+                        android:padding="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@{data.getCommentContent(2)}"
+                        android:textColor="@color/comment_text_color"
+                        android:textSize="10sp"
+                        />
+                    <TextView
+                        android:layout_marginBottom="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{data.getFormatCommentNum()}"
+                        android:textColor="@color/comment_text_name"
+                        android:textSize="10sp"
+                        />
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
+        <View
+            android:visibility="@{show?View.VISIBLE:View.GONE}"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"/>
+    </LinearLayout>
 </layout>

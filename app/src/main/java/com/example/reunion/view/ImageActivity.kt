@@ -41,6 +41,7 @@ import kotlin.math.sqrt
 
 
 class ImageActivity : BaseActivity() {
+    private var isLife = true
     companion object{
         @JvmStatic
         fun onShowImage(activity: Activity, view:ImageView,urls:ArrayList<String>,target: Int){
@@ -63,6 +64,7 @@ class ImageActivity : BaseActivity() {
     private val adapter = ImageAdapter()
 
     override fun create(savedInstanceState: Bundle?) {
+        isLife = true
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         mBinding = DataBindingUtil.setContentView(this,R.layout.activity_image)
 
@@ -78,16 +80,16 @@ class ImageActivity : BaseActivity() {
         windowManager.defaultDisplay.getMetrics(metric)
         val width = metric.widthPixels
         val height = metric.heightPixels
-        val hToW = (height*4f/5f)/width.toFloat()
+        val hToW = (height*7f/8f)/width.toFloat()
         scaleWidth = width*4f/5f
         displayWidth = width.toFloat()
         displayHeight = height.toFloat()
         GlobalScope.launch {
             launch {
-                initImage(urls[target],hToW,target)
+                initImage(urls[target],hToW)
                 for (index in 0 until urls.size){
-                    if (index != target)
-                        initImage(urls[index],hToW,null)
+                    if (index != target&&isLife)
+                        initImage(urls[index],hToW)
                 }
             }
         }
@@ -163,7 +165,7 @@ class ImageActivity : BaseActivity() {
         window.sharedElementExitTransition = set
     }
 
-    suspend fun initImage(url:String,hToW:Float,target:Int? = null){
+        suspend fun initImage(url:String,hToW:Float){
         Glide.with(this@ImageActivity).asBitmap().load(url).into(object :
             SimpleTarget<Bitmap>() {
             override fun onResourceReady(
@@ -186,11 +188,10 @@ class ImageActivity : BaseActivity() {
                         resource
                     }
                 }
-                adapter.images.add(image)
-                if (target!=null){
-                    mBinding.viewPager.currentItem = target
+                if (isLife){
+                    adapter.images.add(image)
+                    adapter.notifyDataSetChanged()
                 }
-                adapter.notifyDataSetChanged()
             }
         })
     }
@@ -305,5 +306,8 @@ class ImageActivity : BaseActivity() {
         }
     }
 
-
+    override fun onDestroy() {
+        isLife = false
+        super.onDestroy()
+    }
 }

@@ -128,40 +128,31 @@ class TopicActivity : BaseActivity() {
     private fun initImage(){
         val arrayUrl = mViewModel.beanData.value?.pictures?:return
         mBinding.image0.setOnClickListener {
-            val target = 0
-            ImageActivity.onShowImage(this,mBinding.image0,arrayUrl,target)
+            ImageActivity.onShowImage(this,mBinding.image0,arrayUrl,0)
         }
         mBinding.image1.setOnClickListener {
-            val target = 1
-            ImageActivity.onShowImage(this,mBinding.image1,arrayUrl,target)
+            ImageActivity.onShowImage(this,mBinding.image1,arrayUrl,1)
         }
         mBinding.image2.setOnClickListener {
-            val target = 2
-            ImageActivity.onShowImage(this,mBinding.image2,arrayUrl,target)
+            ImageActivity.onShowImage(this,mBinding.image2,arrayUrl,2)
         }
         mBinding.image3.setOnClickListener {
-            val target = 3
-            ImageActivity.onShowImage(this,mBinding.image3,arrayUrl,target)
+            ImageActivity.onShowImage(this,mBinding.image3,arrayUrl,3)
         }
         mBinding.image4.setOnClickListener {
-            val target = 4
-            ImageActivity.onShowImage(this,mBinding.image4,arrayUrl,target)
+            ImageActivity.onShowImage(this,mBinding.image4,arrayUrl,4)
         }
         mBinding.image5.setOnClickListener {
-            val target = 5
-            ImageActivity.onShowImage(this,mBinding.image5,arrayUrl,target)
+            ImageActivity.onShowImage(this,mBinding.image5,arrayUrl,5)
         }
         mBinding.image6.setOnClickListener {
-            val target = 6
-            ImageActivity.onShowImage(this,mBinding.image6,arrayUrl,target)
+            ImageActivity.onShowImage(this,mBinding.image6,arrayUrl,6)
         }
         mBinding.image7.setOnClickListener {
-            val target = 7
-            ImageActivity.onShowImage(this,mBinding.image7,arrayUrl,target)
+            ImageActivity.onShowImage(this,mBinding.image7,arrayUrl,7)
         }
         mBinding.image8.setOnClickListener {
-            val target = 8
-            ImageActivity.onShowImage(this,mBinding.image8,arrayUrl,target)
+            ImageActivity.onShowImage(this,mBinding.image8,arrayUrl,8)
         }
     }
 

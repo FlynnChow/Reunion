@@ -34,17 +34,23 @@ class CommunityItemAdapter(private val listener:(CommunityBean)->Unit):RecyclerV
     }
 
     override fun getItemCount(): Int {
-        return datas.size
+        return datas.size + 1
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<ItemCommunityBinding>, position: Int) {
         val mBinding = holder.mBinding
-        mBinding.data = datas[position]
-        mBinding.root.setOnClickListener {
-            listener.invoke(datas[position])
-        }
-        mBinding.header.setOnClickListener {
-            MyTopicActivity.startActivity(mBinding.header.context,datas[position].uId)
+        if(position < datas.size){
+            mBinding.show = false
+            val data = datas[position]
+            mBinding.data = data
+            mBinding.cardView.setOnClickListener {
+                listener.invoke(datas[position])
+            }
+            mBinding.header.setOnClickListener {
+                MyTopicActivity.startActivity(mBinding.header.context,data.uId)
+            }
+        }else{
+            mBinding.show = true
         }
 
         mBinding.executePendingBindings()

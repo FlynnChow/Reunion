@@ -15,6 +15,9 @@ import com.example.reunion.databinding.ViewRecyclerView2Binding
 import com.example.reunion.view.adapter.CommunityItemAdapter
 import com.example.reunion.view_model.CommunityItemViewModel
 import com.github.nuptboyzhb.lib.SuperSwipeRefreshLayout
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class CommunityRecyFragment():BaseFragment() {
     private var type = ""
