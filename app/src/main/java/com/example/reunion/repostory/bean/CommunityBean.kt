@@ -4,6 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import android.util.Log
 import android.view.View
+import com.example.reunion.util.NotificationUtil
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -95,11 +96,12 @@ class CommunityBean() :Parcelable {
         val format: SimpleDateFormat
         var time = this.time?:0
         val nowTime = System.currentTimeMillis()
-        if (nowTime - time <= 1000 * 60 * 60 * 24){
+        val lTime = NotificationUtil.getDayTime(time)
+        if (nowTime - lTime <= 1000 * 60 * 60 * 24){
             format = SimpleDateFormat("今天HH:mm")
-        }else if (nowTime - time <= 1000 * 60 * 60 * 24 * 2){
+        }else if (nowTime - lTime <= 1000 * 60 * 60 * 24 * 2){
             format = SimpleDateFormat("昨天HH:mm")
-        }else if (nowTime - time <= 1000 * 60 * 60 * 24 * 3){
+        }else if (nowTime - lTime <= 1000 * 60 * 60 * 24 * 3){
             format = SimpleDateFormat("前天HH:mm")
         }else{
             format = SimpleDateFormat("yyyy年MM月dd日HH:mm")
@@ -160,14 +162,15 @@ class CommunityBean() :Parcelable {
             val format: SimpleDateFormat
             var time = this.time?:0
             val nowTime = System.currentTimeMillis()
-            if (nowTime - time <= 1000 * 60 * 60 * 24){
+            val lTime = NotificationUtil.getDayTime(time)
+            if (nowTime - lTime <= 1000 * 60 * 60 * 24){
                 format = SimpleDateFormat("今天HH:mm")
-            }else if (nowTime - time <= 1000 * 60 * 60 * 24 * 2){
+            }else if (nowTime - lTime <= 1000 * 60 * 60 * 24 * 2){
                 format = SimpleDateFormat("昨天HH:mm")
-            }else if (nowTime - time <= 1000 * 60 * 60 * 24 * 3){
+            }else if (nowTime - lTime <= 1000 * 60 * 60 * 24 * 3){
                 format = SimpleDateFormat("前天HH:mm")
             }else{
-                format = SimpleDateFormat("yyyy-MM-dd HH:mm")
+                format = SimpleDateFormat("yyyy年MM月dd日HH:mm")
             }
             val date = Date(time)
 

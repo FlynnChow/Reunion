@@ -488,34 +488,36 @@ class CameraHelper(private val activity:BaseActivity,private val textureView: My
     private var fingerSpacing = 0f
     var zoomLevel = 1
     fun onTouch(event:MotionEvent,listener:((Float)->Unit)? = null){
-        if (!textureView.isAvailable||mCameraDevice==null){
-            return
-        }
-        val maxZoom = (mCameraCharacteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM)?:1f)*10
-        val currentZoom = mCameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE)
-        val currentFingerSpacing:Float
-        if (event.pointerCount >1){
-            currentFingerSpacing = getSpacing(event)
-            if (fingerSpacing != 0f){
-                if (currentFingerSpacing - fingerSpacing > 10)
-                    zoomLevel ++
-                else if (currentFingerSpacing - fingerSpacing< -10)
-                    zoomLevel --
-                if (zoomLevel <=0) zoomLevel = 0
-                else if (zoomLevel >= maxZoom/2) zoomLevel = (maxZoom).toInt()/2
-                listener?.invoke(zoomLevel / (maxZoom/2))
-                val zoom = getNewZoom(currentZoom!!,maxZoom,zoomLevel)
-                mCameraCaptureSession?.stopRepeating()
-                mCameraCaptureSession?.abortCaptures()
-                val requestCaptureBuilder = getRestoreRepeating()
-                requestCaptureBuilder?.apply {
-                    set(CaptureRequest.CONTROL_AE_MODE,CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH)
-                    set(CaptureRequest.CONTROL_AF_MODE,CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE)
-                    requestCaptureBuilder.set(CaptureRequest.SCALER_CROP_REGION,zoom)
-                    mCameraCaptureSession?.setRepeatingRequest(requestCaptureBuilder.build(),mRepeatingCallback,mCameraHandler)
-                }
+        if (android.os.Build.MANUFACTURER == "samsung"||android.os.Build.MODEL == "SM-N9760"||true){
+            if (!textureView.isAvailable||mCameraDevice==null){
+                return
             }
-            fingerSpacing = currentFingerSpacing
+            val maxZoom = (mCameraCharacteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM)?:1f)*10
+            val currentZoom = mCameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE)
+            val currentFingerSpacing:Float
+            if (event.pointerCount >1){
+                currentFingerSpacing = getSpacing(event)
+                if (fingerSpacing != 0f){
+                    if (currentFingerSpacing - fingerSpacing > 10)
+                        zoomLevel ++
+                    else if (currentFingerSpacing - fingerSpacing< -10)
+                        zoomLevel --
+                    if (zoomLevel <=0) zoomLevel = 0
+                    else if (zoomLevel >= maxZoom/2) zoomLevel = (maxZoom).toInt()/2
+                    listener?.invoke(zoomLevel / (maxZoom/2))
+                    val zoom = getNewZoom(currentZoom!!,maxZoom,zoomLevel)
+                    mCameraCaptureSession?.stopRepeating()
+                    mCameraCaptureSession?.abortCaptures()
+                    val requestCaptureBuilder = getRestoreRepeating()
+                    requestCaptureBuilder?.apply {
+                        set(CaptureRequest.CONTROL_AE_MODE,CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH)
+                        set(CaptureRequest.CONTROL_AF_MODE,CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE)
+                        requestCaptureBuilder.set(CaptureRequest.SCALER_CROP_REGION,zoom)
+                        mCameraCaptureSession?.setRepeatingRequest(requestCaptureBuilder.build(),mRepeatingCallback,mCameraHandler)
+                    }
+                }
+                fingerSpacing = currentFingerSpacing
+            }
         }
     }
 
@@ -531,32 +533,35 @@ class CameraHelper(private val activity:BaseActivity,private val textureView: My
         mCameraCaptureSession?.abortCaptures()
         val requestCaptureBuilder = getRestoreRepeating()
         if (requestCaptureBuilder !=null){
-            requestCaptureBuilder.set(CaptureRequest.SCALER_CROP_REGION,zoom)
+            if (android.os.Build.MANUFACTURER == "samsung"||android.os.Build.MODEL == "SM-N9760"||true)
+                requestCaptureBuilder.set(CaptureRequest.SCALER_CROP_REGION,zoom)
             mCameraCaptureSession?.setRepeatingRequest(requestCaptureBuilder.build(),mRepeatingCallback,mCameraHandler)
         }
     }
 
     fun changeZoom(target:Int,listener:((Float)->Unit)? = null){
-        if (!textureView.isAvailable||mCameraDevice==null) return
-        val maxZoom = (mCameraCharacteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM)?:1f)*10
-        val currentZoom = mCameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE)
-        val maxbugZoom = maxZoom / 2
-        val changeNum = maxbugZoom.toInt()/20
-        if(target ==1){
-            zoomLevel += changeNum
-            if (zoomLevel >= maxbugZoom) zoomLevel = maxbugZoom.toInt()
-        }else{
-            zoomLevel -= changeNum
-            if (zoomLevel <= 1) zoomLevel = 1
-        }
-        listener?.invoke(zoomLevel / (maxZoom/2))
-        val zoom = getNewZoom(currentZoom!!,maxZoom,zoomLevel)
-        mCameraCaptureSession?.stopRepeating()
-        mCameraCaptureSession?.abortCaptures()
-        val requestCaptureBuilder = getRestoreRepeating()
-        if (requestCaptureBuilder != null){
-            requestCaptureBuilder.set(CaptureRequest.SCALER_CROP_REGION,zoom)
-            mCameraCaptureSession?.setRepeatingRequest(requestCaptureBuilder.build(),mRepeatingCallback,mCameraHandler)
+        if (android.os.Build.MANUFACTURER == "samsung"||android.os.Build.MODEL == "SM-N9760"||true){
+            if (!textureView.isAvailable||mCameraDevice==null) return
+            val maxZoom = (mCameraCharacteristics.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM)?:1f)*10
+            val currentZoom = mCameraCharacteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE)
+            val maxbugZoom = maxZoom / 2
+            val changeNum = maxbugZoom.toInt()/20
+            if(target ==1){
+                zoomLevel += changeNum
+                if (zoomLevel >= maxbugZoom) zoomLevel = maxbugZoom.toInt()
+            }else{
+                zoomLevel -= changeNum
+                if (zoomLevel <= 1) zoomLevel = 1
+            }
+            listener?.invoke(zoomLevel / (maxZoom/2))
+            val zoom = getNewZoom(currentZoom!!,maxZoom,zoomLevel)
+            mCameraCaptureSession?.stopRepeating()
+            mCameraCaptureSession?.abortCaptures()
+            val requestCaptureBuilder = getRestoreRepeating()
+            if (requestCaptureBuilder != null){
+                requestCaptureBuilder.set(CaptureRequest.SCALER_CROP_REGION,zoom)
+                mCameraCaptureSession?.setRepeatingRequest(requestCaptureBuilder.build(),mRepeatingCallback,mCameraHandler)
+            }
         }
     }
 

@@ -47,7 +47,9 @@ class CameraActivity : BaseActivity() {
 
         cameraSeekBar?.setOnSeekBarChangeListener(object :SeekBar.OnSeekBarChangeListener{
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                cameraHelper.setZoom(progress/100f)
+                if (android.os.Build.MANUFACTURER == "samsung"||android.os.Build.MODEL == "SM-N9760"||true){
+                    cameraHelper.setZoom(progress/100f)
+                }
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}

@@ -53,10 +53,8 @@ class CommunityRecyFragment():BaseFragment() {
 
     private fun initViewModel(){
         mViewModel.communityData.observe(this, Observer {
-            for (item in it){
-                mAdapter.datas.add(item)
-                mAdapter.notifyItemInserted(mAdapter.datas.size - 1)
-            }
+            mAdapter.datas.addAll(it)
+            mAdapter.notifyDataSetChanged()
         })
     }
 

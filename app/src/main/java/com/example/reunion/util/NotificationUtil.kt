@@ -1,3 +1,5 @@
+@file:Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+
 package com.example.reunion.util
 
 import android.app.Notification
@@ -20,6 +22,7 @@ import com.example.reunion.view.ImActivity
 import com.example.reunion.view.TopicActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 
 
 object NotificationUtil {
@@ -130,6 +133,12 @@ object NotificationUtil {
         val pi = PendingIntent.getActivity(context,0,intent,0)
         builder.setContentIntent(pi)
         return builder.build()
+    }
+
+    fun getDayTime(time: Long):Long{
+        val format = SimpleDateFormat("yyyy-MM-dd")
+        val formatTime = format.format(time)
+        return format.parse(formatTime).time
     }
 
 }

@@ -8,6 +8,7 @@ import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import com.example.reunion.util.NotificationUtil
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -72,19 +73,15 @@ data class ImMessageBean(
         val format: SimpleDateFormat
         val time = this.time?:0L
         val nowTime = System.currentTimeMillis()
-        format = when {
-            nowTime - time <= 1000 * 60 * 60 * 24 -> {
-                SimpleDateFormat("今天HH:mm")
-            }
-            nowTime - time <= 1000 * 60 * 60 * 24 * 2 -> {
-                SimpleDateFormat("昨天HH:mm")
-            }
-            nowTime - time <= 1000 * 60 * 60 * 24 * 3 -> {
-                SimpleDateFormat("前天HH:mm")
-            }
-            else -> {
-                SimpleDateFormat("yyyy年MM月dd日HH:mm")
-            }
+        val lTime = NotificationUtil.getDayTime(time)
+        if (nowTime - lTime <= 1000 * 60 * 60 * 24){
+            format = SimpleDateFormat("今天HH:mm")
+        }else if (nowTime - lTime <= 1000 * 60 * 60 * 24 * 2){
+            format = SimpleDateFormat("昨天HH:mm")
+        }else if (nowTime - lTime <= 1000 * 60 * 60 * 24 * 3){
+            format = SimpleDateFormat("前天HH:mm")
+        }else{
+            format = SimpleDateFormat("yyyy年MM月dd日HH:mm")
         }
         val date = Date(time)
 

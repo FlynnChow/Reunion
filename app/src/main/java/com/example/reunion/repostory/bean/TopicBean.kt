@@ -102,8 +102,8 @@ class TopicBean() :Parcelable {
 
     fun getReadString(num:Int):String{
         if (num >= 1000){
-            val formatNum = num / 100
-            return "${num/10f}万人看过"
+            val formatNum = num / 1000
+            return "${formatNum/10f}万人看过"
         }
         return "${num}人看过"
     }

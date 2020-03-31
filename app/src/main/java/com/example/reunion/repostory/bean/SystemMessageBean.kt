@@ -5,6 +5,8 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.example.reunion.R
+import com.example.reunion.util.NormalUtil
+import com.example.reunion.util.NotificationUtil
 import com.example.reunion.util.StringDealerUtil
 import java.text.SimpleDateFormat
 import java.util.*
@@ -54,11 +56,12 @@ data class SystemMessageBean(
         val format: SimpleDateFormat
         var time = this.time?:0
         val nowTime = System.currentTimeMillis()
-        if (nowTime - time <= 1000 * 60 * 60 * 24){
+        val lTime = NotificationUtil.getDayTime(time)
+        if (nowTime - lTime <= 1000 * 60 * 60 * 24){
             format = SimpleDateFormat("今天HH:mm")
-        }else if (nowTime - time <= 1000 * 60 * 60 * 24 * 2){
+        }else if (nowTime - lTime <= 1000 * 60 * 60 * 24 * 2){
             format = SimpleDateFormat("昨天HH:mm")
-        }else if (nowTime - time <= 1000 * 60 * 60 * 24 * 3){
+        }else if (nowTime - lTime <= 1000 * 60 * 60 * 24 * 3){
             format = SimpleDateFormat("前天HH:mm")
         }else{
             format = SimpleDateFormat("yyyy年MM月dd日HH:mm")
