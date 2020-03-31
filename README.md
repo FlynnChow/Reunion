@@ -5,7 +5,7 @@
 
 **Author : [Lin](https://github.com/CappuccinoZero)**
 
-**我在Hut与商学院，经贸学院，机械学院的同学合作开发的一款基于C/S架构的移动端应用**
+**我在湖工大与商学院，经贸学院，机械学院的同学合作开发的一款基于C/S架构的移动端应用**
 ## 简介
 本项目为一款面向社会各类群体、以公益性为目的、以“重逢”为主题，帮助用户寻找失散多年的知己故友、找回被拐儿童妇女等类的公益类社交APP。
 致力于打造一个服务社会群众、信息真实且有保障的公益社交寻人平台，打破以往常规的网络寻人启事，采用人脸智能识别的方法，按匹配相似度的高低进行筛选，并保障基本的隐私信息。
@@ -32,7 +32,7 @@
 * LiveData
 * ViewModel
 * Lifecycle
-* Kotlon Coroutine
+* Kotlin Coroutines
 
 **Remote Model**
 * Retrofit2
@@ -41,13 +41,14 @@
 
 **Local Model**
 * Room
-* SharePrence
+* SharePreferences
 
 **Camera**
 * Camera2
 * CameraX(alpha10)
 
 **Other**
+* WorkManager
 * Glide3.7
 * Matisse
 * GaussianBlur
@@ -73,7 +74,7 @@
 * 首次开发结束
 ## 还未解决的问题
 * Camera还存在机型兼容问题
-* 还有未知的Bug
+* 还存在未知Bug
 ****
 # 关于项目
 ## 目的
@@ -83,6 +84,6 @@
                     GNU GENERAL PUBLIC LICENSE
                        Version 2, June 1991
   Everyone is permitted to copy and distribute verbatim copies
-of this license document, but changing it is not allowed.
+    of this license document, but changing it is not allowed.
 ```
 
