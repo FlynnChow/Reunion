@@ -12,6 +12,7 @@
 ## 下载
 [开发版-2020-3-30](https://reunion.yulinzero.xyz/download/reunion.apk)
 ## 视频展示
+* 暂无
 ## 图片展示
 ![](https://github.com/CappuccinoZero/Reunion/blob/master/image/image1.jpg)
 
@@ -37,11 +38,11 @@
 **Remote Model**
 * Retrofit2
 * OkHttp3 and WebSocket
-* FireBase ML kit
 
 **Local Model**
 * Room
 * SharePreferences
+* FireBase ML Kit
 
 **Camera**
 * Camera2
