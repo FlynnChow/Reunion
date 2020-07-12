@@ -3,7 +3,7 @@
 
 **Create by : 2020-01-09**
 
-**Author : [Lin](https://github.com/CappuccinoZero)**
+**Author : [FlynnChow](https://github.com/CappuccinoZero)**
 
 **我与商学院，经贸学院，机械学院的同学合作开发的基于C/S架构的移动端应用**
 ## 简介
@@ -82,7 +82,7 @@
 * 原作者允许代码修改和代码再共享，同时保留著作权
 * 在延伸的代码中需要带有原代码中的协议，专利声明等原作者规定的说明。
 ```
-Copyright 2020 Lin(CappuccinoZero)
+Copyright 2020 FlynnChow
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
