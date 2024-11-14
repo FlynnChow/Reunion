@@ -1,5 +1,5 @@
 # 重逢(Reunion)
-![](https://github.com/CappuccinoZero/Reunion/blob/master/app/src/main/res/mipmap-xxxhdpi/logo_r.png)
+![](https://github.com/CappuccinoZero/Reunion/blob/master/app/src/main/res/mipmap-xxxhdpi/logo_r.png)https://github.com/FlynnChow/Reunion/blob/master/README.md
 
 **Create by : 2020-01-09**
 
@@ -78,9 +78,6 @@
 * 还存在未知Bug
 ****
 # License
-* 此项目遵循**Apache Licence 2.0**开源协议
-* 原作者允许代码修改和代码再共享，同时保留著作权
-* 在延伸的代码中需要带有原代码中的协议，专利声明等原作者规定的说明。
 ```
 Copyright 2020 FlynnChow
 
